@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <queries>
+        <package android:name="com.snapchat.android" />
+    </queries>
+    <application
+        android:allowBackup="true"
+        tools:replace="android:allowBackup"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.livestreaming.main.activity.IntroActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.livestreaming.main.activity.LoginInvalidActivity"
+            android:theme="@style/dialog2" />
+        <activity
+            android:name="com.livestreaming.main.activity.LoginActivity"
+            android:screenOrientation="portrait" />
+
+        <meta-data android:name="com.snap.kit.clientId" android:value="a1db723c-f65c-44f5-80a6-e884ffa1ac" />
+        <meta-data android:name="com.snap.kit.redirectUrl" android:value="dona://snap-kit/oauth2" />
+        <meta-data android:name="com.snap.kit.scopes" android:resource="@array/snap_connect_scopes" /> <!-- This should be a string array of scopes !-->
+        <activity
+            android:name="com.snap.corekit.SnapKitActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="snap-kit"
+                    android:path="/oauth2"
+                    android:scheme="mylive" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.livestreaming.main.activity.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:exported="true"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name="com.livestreaming.main.activity.UserHomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.FollowActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.FansActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.EditProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.EditSexActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.EditNameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.EditSignActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.MyImpressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.MyCoinActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.MyVideoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.MyProfitActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.CashActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.LiveClassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.ModifyPwdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.FindPwdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.RecommendActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.ThreeDistributActivity"
+            android:hardwareAccelerated="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.ActivePubActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.MyActiveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.ActiveVideoPlayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.ActiveReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.ActiveDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name="com.livestreaming.main.activity.ActiveVideoRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.CancelAccountActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.CancelConditionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.RankActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.MallClassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.MallSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.DailyTaskActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.ActiveAllTopicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.ActiveChooseTopicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.ActiveTopicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.ActiveSearchTopicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.LiveRecommendActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.ChooseCountryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.AuthActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.FamilyApplyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.FamilyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.GoodsShareFriendActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.LiveFollowActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.AllLiveClassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.TeenagerTipActivity"
+            android:theme="@style/dialog" />
+        <activity
+            android:name="com.livestreaming.main.activity.TeenagerPwdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.TeenagerModifyPwdActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.main.activity.TeenagerActivity"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

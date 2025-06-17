@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:id="@+id/root"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    >
+    <TextView
+        android:id="@+id/contributors_rank_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contributor_ranking"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        />
+    <ImageView
+        android:id="@+id/btn_close"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="12dp"
+        android:src="@mipmap/icon_video_close"
+        app:tint="@color/black"
+
+        />
+
+    <com.livestreaming.common.custom.CommonRefreshView
+        android:id="@+id/refreshView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contributors_rank_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:crv_loadMoreEnable="false"
+        app:crv_refreshEnable="false" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

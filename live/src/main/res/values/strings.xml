@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="request_guest_enabled">Requests Enabled</string>
+    <string name="request_guest_disabled">Requests Disabled</string>
+</resources>

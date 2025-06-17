@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true">
+
+    <!-- Alpha animation from 1 (opaque) to 0 (transparent) -->
+    <alpha
+        android:duration="1000"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.0" />
+
+    <!-- Translate animation from bottom to top -->
+    <translate
+        android:duration="1000"
+        android:fromYDelta="0%"
+        android:toYDelta="-100%" /> <!-- Move above the view -->
+
+</set>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Live</string>
+
+    <string name="facebook_app_id">566055852675030</string>
+    <string name="fb_login_protocol_scheme">fb566055852675030</string>
+    <string name="facebook_client_token">940412860cb389174c88e50606cba40c</string>
+
+</resources>

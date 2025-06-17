@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content">
+
+    <TextureView
+        android:id="@+id/item_texture"
+        android:layout_width="100dp"
+        android:layout_height="105dp" />
+
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_width="100dp"
+        android:layout_height="105dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <FrameLayout
+        android:id="@+id/cointainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+
+        tools:visibility="visible">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            app:riv_border_color="@color/white"
+            app:riv_border_width="1dp"
+            app:riv_oval="true" />
+
+        <ImageView
+            android:id="@+id/im_frame"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:scaleType="fitXY" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginHorizontal="2dp">
+
+        <TextView
+            android:id="@+id/guest_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:ellipsize="end"
+            android:lines="1"
+            android:gravity="center"
+            android:maxLength="6"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            tools:text="King%%%%%%%%%%%%%%%%%" />
+
+        <ImageView
+            android:id="@+id/img_mute"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="5dp"
+            android:src="@mipmap/ic_live_voice_2"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/speak_iv"
+        android:layout_width="100dp"
+        android:layout_height="105dp"
+        android:layout_gravity="center"
+        android:src="@drawable/bg_border_speaker"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/icon_close"
+        android:layout_width="15dp"
+        android:layout_height="20dp"
+        android:layout_gravity="end"
+        android:src="@mipmap/icon_live_close" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/bg_add_impress"
+        android:backgroundTint="#7A252525"
+        android:paddingHorizontal="4dp">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/reward"
+            android:layout_marginHorizontal="2dp"
+            />
+
+        <TextView
+            android:id="@+id/guest_income_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            android:maxLength="10"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            tools:text="10" />
+    </LinearLayout>
+
+</FrameLayout>

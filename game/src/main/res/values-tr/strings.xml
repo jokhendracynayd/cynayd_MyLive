@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_zjh">Üç kartlı poker</string>
+    <string name="game_zp">Çarkıfelek</string>
+    <string name="game_choose_game">Oyun seç</string>
+    <string name="game_wait_start">Yakında başlıyoruz, lütfen bekleyin</string>
+    <string name="game_charge">Yeniden şarj et</string>
+    <string name="game_win">Kazanıldı</string>
+    <string name="game_wait_end">Lütfen oyunun bitmesini bekleyin</string>
+    <string name="game_wan">W</string>
+    <string name="game_zjh_role_name_1">DaQiaox2</string>
+    <string name="game_zjh_role_name_2">DiaoChanx2</string>
+    <string name="game_zjh_role_name_3">XiaoQiaox2</string>
+    <string name="game_start_support">Desteklemeye başlayın</string>
+    <string name="game_show_result">Sonucu göster</string>
+    <string name="game_lose_tip">Zafer ya da yenilgi standart bir konudur</string>
+</resources>

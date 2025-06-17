@@ -1,0 +1,96 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION"/>
+    <application
+        android:allowBackup="true"
+        tools:replace="android:allowBackup"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.livestreaming.live.activity.LiveAnchorActivity"
+            android:configChanges="screenLayout|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name="com.livestreaming.live.activity.LiveAudienceActivity"
+            android:configChanges="screenLayout|orientation|screenSize|keyboard|keyboardHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name="com.livestreaming.live.activity.LiveChooseClassActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.LiveChatWebView"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.LiveReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.LiveAddImpressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.LiveContributeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.LiveGuardListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.LiveRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.LiveRecordPlayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.RoomManageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.RoomManageDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.LiveAdminListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.LiveShutUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.LiveBlackActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.LiveGoodsAddActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.floatwindow.FloatPermissionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.LuckPanRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.livestreaming.live.activity.UserHomeBgActivity"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name="com.livestreaming.live.activity.ScreenRecordService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection"
+            android:permission="android.permission.FOREGROUND_SERVICE">
+            <intent-filter>
+                <action android:name="android.media.projection.MediaProjection" />
+            </intent-filter>
+        </service>
+        <activity
+            android:name="com.tencent.rtmp.video.TXScreenCapture$TXScreenCaptureAssistantActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            tools:replace="android:theme"
+            />
+
+    </application>
+
+</manifest>

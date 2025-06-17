@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="country_region">Country/region</string>
+    <string name="choose_country">Choose Country</string>
+    <string name="contact_information">Contact information</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="address">Address</string>
+    <string name="zipcode">ZipCode</string>
+    <string name="zip_code">zip Code</string>
+    <string name="house_number">House Number</string>
+    <string name="house_number_">House number*</string>
+    <string name="address_additional_fields">Address Additional Fields</string>
+    <string name="full_address">Full Address</string>
+    <string name="city">City</string>
+    <string name="enter_city">Enter city</string>
+    <string name="street_amp_apartment"><![CDATA[Street & apartment]]></string>
+    <string name="street_apartment"><![CDATA[Street & apartment]]></string>
+    <string name="set_as_default_shipping_address">Set as default shipping address</string>
+    <string name="save">Save</string>
+</resources>

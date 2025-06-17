@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="country_region">البلد/المنطقة</string>
+    <string name="choose_country">اختر البلد</string>
+    <string name="contact_information">معلومات الاتصال</string>
+    <string name="first_name">الاسم الأول</string>
+    <string name="last_name">الاسم الأخير</string>
+    <string name="phone_number">رقم الهاتف</string>
+    <string name="address">العنوان</string>
+    <string name="zipcode">الرمز البريدي</string>
+    <string name="zip_code">الرمز البريدي</string>
+    <string name="house_number">رقم المنزل</string>
+    <string name="house_number_">رقم المنزل*</string>
+    <string name="address_additional_fields">حقول العنوان الإضافية</string>
+    <string name="full_address">العنوان الكامل</string>
+    <string name="city">المدينة</string>
+    <string name="enter_city">أدخل المدينة</string>
+    <string name="street_amp_apartment"><![CDATA[Street & apartment]]></string>
+    <string name="street_apartment"><![CDATA[Street & apartment]]></string>
+    <string name="set_as_default_shipping_address">تعيين كعنوان شحن افتراضي</string>
+    <string name="save">حفظ</string>
+</resources>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginHorizontal="30dp"
+    android:padding="8dp"
+    app:cardCornerRadius="25dp">
+    <LinearLayout
+        android:id="@+id/language_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="30dp">
+
+        <TextView
+            android:id="@+id/languageText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:padding="15dp"
+            android:text="@string/language"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <RadioGroup
+            android:id="@+id/group_lang"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RadioButton
+                android:id="@+id/rbtnEnglish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:layoutDirection="ltr"
+                android:paddingEnd="4dp"
+                android:text="English"
+                android:textAlignment="gravity"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/rbtnArabic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layoutDirection="ltr"
+                android:paddingEnd="4dp"
+                android:text="العربية"
+                android:textAlignment="gravity"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/rbtnDeutsch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:layoutDirection="ltr"
+                android:paddingEnd="4dp"
+                android:text="Deutsch"
+                android:textAlignment="gravity"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/rbtnFrench"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:layoutDirection="ltr"
+                android:paddingEnd="4dp"
+                android:text="Français"
+                android:textAlignment="gravity"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/rbtnkurdisch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:layoutDirection="ltr"
+                android:paddingEnd="4dp"
+                android:text="kurdisch"
+                android:textAlignment="gravity"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/rbtnTurky"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:layoutDirection="ltr"
+                android:paddingEnd="4dp"
+                android:text="Türkisch"
+                android:textAlignment="gravity"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+            <RadioButton
+                android:id="@+id/rbtnSpanish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:layoutDirection="ltr"
+                android:paddingEnd="4dp"
+                android:text="Español"
+                android:textAlignment="gravity"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+            <RadioButton
+                android:id="@+id/rbtnItaliano"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:layoutDirection="ltr"
+                android:paddingEnd="4dp"
+                android:text="Italiano"
+                android:textAlignment="gravity"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+            <RadioButton
+                android:id="@+id/rbtnRomainion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:layoutDirection="ltr"
+                android:paddingEnd="4dp"
+                android:text="română"
+                android:textAlignment="gravity"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnDonee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/login_btn"
+            android:text="@string/done"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

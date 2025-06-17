@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="_1m">accesso effettuato per 1 giorno consecutivo</string>
+    <string name="connect_with_google">Accedi con Google</string>
+    <string name="connect_with_SnapChat">Accedi con SnapChat</string>
+
+    <string name="facebook_app_id">1234</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">56789</string>
+    <string name="continue_with_facebook">Continua con facebook</string>
+    <string name="or">O</string>
+    <string name="welcome_to">Benvenuto a</string>
+    <string name="more_login_methods">Altri metodi di accesso</string>
+    <string name="top_rank">Classifica Top</string>
+    <string name="background_notification">Notifica in background</string>
+    <string name="box_notification">Notifica Box</string>
+    <string name="party">Party</string>
+    <string name="please_edit_name_and_image">Please Edit Name And Image</string>
+    <string name="hourly">Hourly</string>
+    <string name="team_host">Team Host</string>
+    <string name="team_party">Team Party</string>
+    <string name="team_pk">Team PK</string>
+    <string name="no_pio_yet">No Bio Yet</string>
+</resources>

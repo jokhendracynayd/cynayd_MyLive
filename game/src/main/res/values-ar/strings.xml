@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="game_zjh">لعبة البوكر ذات الثلاث أوراق</string>
+    <string name="game_zp">عجلة الحظ</string>
+    <string name="game_choose_game">اختر اللعبة</string>
+    <string name="game_wait_start">سيبدأ قريبًا، يرجى الانتظار</string>
+    <string name="game_charge">إعادة الشحن</string>
+    <string name="game_win">فاز</string>
+    <string name="game_wait_end">يُرجى الانتظار حتى تنتهي اللعبة</string>
+    <string name="game_wan">W</string>
+    <string name="game_zjh_role_name_1">دا كوكس 1</string>
+    <string name="game_zjh_role_name_2">دوول شانكس 2</string>
+    <string name="game_zjh_role_name_3">شاو كوكس2</string>
+    <string name="game_start_support">بدء الدعم</string>
+    <string name="game_show_result">اكشف النتيجة</string>
+    <string name="game_lose_tip">النصر أو الهزيمة هي مسألة قياسية</string>
+</resources>

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layoutDirection="ltr">
+
+    <ImageView
+        android:id="@+id/bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@mipmap/icon_live_voice_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/bg"
+        android:layout_alignBottom="@id/bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="5dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/thumb"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius="12dp" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="7dp"
+                android:layout_marginBottom="7dp"
+                android:src="@mipmap/icon_main_voice_gif" />
+
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:textColor="@color/textColor"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:scrollHorizontally="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:scaleType="centerCrop"
+                    android:elevation="8dp"
+                    app:riv_oval="true" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:textColor="#A1A1A1"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.8"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:singleLine="true"
+                    android:scrollHorizontally="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    />
+
+
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@mipmap/icon_live_voice_user" />
+
+                <TextView
+                    android:id="@+id/num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:textColor="#A1A1A1"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/layout_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.11"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.livestreaming.main.views.CircleImageView
+                    android:id="@+id/image_0"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/ic_avatar_test"
+                    app:civ_border_color="#FFFFFF"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:civ_border_width="1dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.livestreaming.main.views.CircleImageView
+                    android:id="@+id/image_1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="-10dp"
+                    android:src="@mipmap/ic_avatar_test"
+                    app:civ_border_color="#FFFFFF"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:civ_border_width="1dp"
+                    app:layout_constraintStart_toEndOf="@+id/image_0"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.livestreaming.main.views.CircleImageView
+                    android:id="@+id/image_2"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="-10dp"
+                    android:src="@mipmap/ic_avatar_test"
+                    app:civ_border_color="#FFFFFF"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:civ_border_width="1dp"
+                    app:layout_constraintStart_toEndOf="@+id/image_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.livestreaming.main.views.CircleImageView
+                    android:id="@+id/image_3"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="-10dp"
+                    android:src="@mipmap/ic_avatar_test"
+                    app:civ_border_color="#FFFFFF"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:civ_border_width="1dp"
+                    app:layout_constraintStart_toEndOf="@+id/image_2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.livestreaming.main.views.CircleImageView
+                    android:id="@+id/image_4"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="-10dp"
+                    android:src="@mipmap/ic_avatar_test"
+                    app:civ_border_color="#FFFFFF"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:civ_border_width="1dp"
+                    app:layout_constraintStart_toEndOf="@+id/image_3"
+                    app:layout_constraintTop_toTopOf="parent" />
+                
+                <com.livestreaming.main.views.CircleImageView
+                    android:id="@+id/image_5"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/ic_avatar_test"
+                    app:civ_border_color="#FFFFFF"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:civ_border_width="1dp"
+                    android:layout_marginStart="-10dp"
+                    app:layout_constraintStart_toEndOf="@+id/image_4"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.livestreaming.main.views.CircleImageView
+                    android:id="@+id/image_6"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="-10dp"
+                    android:src="@mipmap/ic_avatar_test"
+                    app:civ_border_color="#FFFFFF"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:civ_border_width="1dp"
+                    app:layout_constraintStart_toEndOf="@+id/image_5"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.livestreaming.main.views.CircleImageView
+                    android:id="@+id/image_7"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="-10dp"
+                    android:src="@mipmap/ic_avatar_test"
+                    app:civ_border_color="#FFFFFF"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:civ_border_width="1dp"
+                    app:layout_constraintStart_toEndOf="@+id/image_6"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.livestreaming.main.views.CircleImageView
+                    android:id="@+id/image_8"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="-10dp"
+                    android:src="@mipmap/ic_avatar_test"
+                    app:civ_border_color="#FFFFFF"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:civ_border_width="1dp"
+                    app:layout_constraintStart_toEndOf="@+id/image_7"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.livestreaming.main.views.CircleImageView
+                    android:id="@+id/image_9"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="-10dp"
+                    android:src="@mipmap/ic_avatar_test"
+                    app:civ_border_color="#FFFFFF"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:civ_border_width="1dp"
+                    app:layout_constraintStart_toEndOf="@+id/image_8"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <com.livestreaming.main.views.CircleImageView
+                    android:id="@+id/image_10"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="-10dp"
+                    android:src="@mipmap/ic_avatar_test"
+                    app:civ_border_color="#FFFFFF"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:civ_border_width="1dp"
+                    app:layout_constraintStart_toEndOf="@+id/image_9"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.livestreaming.main.views.CircleImageView
+                    android:id="@+id/image_11"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="-10dp"
+                    android:src="@mipmap/ic_avatar_test"
+                    app:civ_border_color="#FFFFFF"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:civ_border_width="1dp"
+                    app:layout_constraintStart_toEndOf="@+id/image_10"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

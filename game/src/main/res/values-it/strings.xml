@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_zjh">Poker a tre carte</string>
+    <string name="game_zp">Ruota della fortuna</string>
+    <string name="game_choose_game">Seleziona gioco</string>
+    <string name="game_wait_start">Inizio a breve, attendi</string>
+    <string name="game_charge">Ricarica</string>
+    <string name="game_win">Vinto</string>
+    <string name="game_wait_end">Attendi la fine del gioco</string>
+    <string name="game_wan">W</string>
+    <string name="game_zjh_role_name_1">DaQiaox2</string>
+    <string name="game_zjh_role_name_2">DiaoChanx2</string>
+    <string name="game_zjh_role_name_3">XiaoQiaox2</string>
+    <string name="game_start_support">Inizia a supportare</string>
+    <string name="game_show_result">Rivela il risultato</string>
+    <string name="game_lose_tip">La vittoria o la sconfitta sono questioni standard</string>
+</resources>

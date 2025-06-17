@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="_1m">signed in for 1 consecutive day</string>
+    <string name="connect_with_google">Login With Google</string>
+    <string name="connect_with_SnapChat">Login With SnapChat</string>
+    <string name="server_client_id">1068173777695-cv3oi658tn6lutib0en7k72p6l05pd4k.apps.googleusercontent.com</string>
+
+    <string name="facebook_app_id">1234</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">56789</string>
+    <string name="continue_with_facebook">Continue with facebook</string>
+    <string name="or">OR</string>
+    <string name="welcome_to">Welcome To</string>
+    <string name="more_login_methods">More login methods</string>
+    <string name="top_rank">Top Rank</string>
+    <string name="background_notification">Background Notification</string>
+    <string name="box_notification">Box Notification</string>
+    <string-array name="snap_connect_scopes">
+        <item>https://auth.snapchat.com/oauth2/api/user.display_name</item>
+        <item>https://auth.snapchat.com/oauth2/api/user.external_id</item>
+    </string-array>
+    <string name="intr_u_test_id" translatable="false">ca-app-pub-3940256099942544/1044960115</string>
+    <string name="party">Party</string>
+    <string name="please_edit_name_and_image">Please Edit Name And Image</string>
+    <string name="hourly">Hourly</string>
+    <string name="r_u_id">ca-app-pub-2787632649328212/1969219062</string>
+    <string name="team_host">Team Host</string>
+    <string name="team_party">Team Party</string>
+    <string name="team_pk">Team PK</string>
+    <string name="no_pio_yet">No Bio Yet</string>
+
+</resources>

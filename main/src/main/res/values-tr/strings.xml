@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="_1m">1 gün boyunca giriş yaptım</string>
+    <string name="connect_with_google">Google ile oturum açın</string>
+    <string name="connect_with_SnapChat">SnapChat ile oturum açın</string>
+    <string name="continue_with_facebook">Continue with facebook</string>
+    <string name="or">VEYA</string>
+    <string name="welcome_to">Hoş Geldiniz</string>
+    <string name="more_login_methods">Daha fazla giriş yöntemi</string>
+    <string name="top_rank">En İyi Sıralama</string>
+    <string name="background_notification">Arka Plan Bildirimi</string>
+    <string name="box_notification">Kutu Bildirimi</string>
+    <string name="party">Party</string>
+    <string name="please_edit_name_and_image">Please Edit Name And Image</string>
+    <string name="hourly">Hourly</string>
+    <string name="team_host">Team Host</string>
+    <string name="team_party">Team Party</string>
+    <string name="team_pk">Team PK</string>
+    <string name="no_pio_yet">No Bio Yet</string>
+</resources>

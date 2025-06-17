@@ -1,0 +1,56 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <application
+        android:allowBackup="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup"
+        >
+
+        <activity
+            android:name="com.livestreaming.im.activity.ChatActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name="com.livestreaming.im.activity.ImMsgNotifyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
+            android:name="com.livestreaming.im.activity.SystemMessageActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name="com.livestreaming.im.activity.ChatRoomActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            />
+        <activity
+            android:name="com.livestreaming.im.activity.LocationActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name="com.livestreaming.im.activity.ChatChooseImageActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name="com.livestreaming.im.activity.ImMsgAtActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name="com.livestreaming.im.activity.ImMsgLikeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name="com.livestreaming.im.activity.ImMsgCommentActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name="com.livestreaming.im.activity.ImMsgConcatActivity"
+            android:screenOrientation="portrait"
+            />
+
+    </application>
+</manifest>

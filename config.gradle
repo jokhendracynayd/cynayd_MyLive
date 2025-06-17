@@ -1,0 +1,57 @@
+ext {
+    android = [
+            compileSdkVersion: 34,
+            minSdkVersion    : 26,
+            targetSdkVersion : 34,
+            versionCode      : 2024011291,
+            versionName      : "8.0.02.23"
+    ]
+
+    manifestPlaceholders = [
+            serverHost       : "https://donalive.net",
+
+            //腾讯IM appId
+//            TxIMAppId        : "1520012998",
+//            TxIMAppId        : "20009456",
+            TxIMAppId        : "1400796023",
+            //腾讯tpns推送
+//            XG_ACCESS_ID     : "1520012998",
+            XG_ACCESS_ID     : "1500041291",
+//            XG_ACCESS_KEY    : "AQC4GKWWEW6X",
+            XG_ACCESS_KEY    : "AZSIPS28LGH2",
+            //tpns推送接入点的域名
+            XG_SERVER_SUFFIX : "tpns.tencent.com",
+//            XG_SERVER_SUFFIX : "tpns.sh.tencent.com",
+            //广州：tpns.tencent.com
+            //上海：tpns.sh.tencent.com
+            //新加坡：tpns.sgp.tencent.com
+            //中国香港：tpns.hk.tencent.com
+
+            //腾讯地图，用于定位，地图，逆地址解析
+            txMapAppKey      : "GPIBZ-Y2FWX-4RMJ",
+            txMapAppSecret   : "wvdMRbPT37Xtc5",
+
+            //百度语音识别
+            baiduAppId       : "2615",
+            baiduAppKey      : "wHwXNtW26hU",
+            baiduAppSecretKey: "Bky1IR1skRGLTHR",
+
+
+            //openinstall，app带参数安装,用于建立上下级邀请关系
+            openinstallAppKey: "po5",
+
+            //Mob登录分享服务
+            MobAppKey        : "2ad",
+            MobAppSecret     : "e57996c8f3edb54b",
+
+            //QQ互联，QQ登录分享
+            QQAppId          : "10122",
+            QQAppKey         : "075999fa87f51e73b80",
+
+            //微信开放平台，微信登录分享支付
+            WxAppId          : "wxe1d29ca4",
+            WxAppSecret      : "c208e5e91104",
+
+    ]
+
+}

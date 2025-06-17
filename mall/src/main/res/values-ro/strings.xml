@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="country_region">Țara/regiune</string>
+    <string name="choose_country">Alegeți țara</string>
+    <string name="contact_information">Informații de contact</string>
+    <string name="first_name">Prenumele</string>
+    <string name="last_name">Nume</string>
+    <string name="phone_number">Număr de telefon</string>
+    <string name="address">Adresă</string>
+    <string name="zipcode">ZipCode</string>
+    <string name="zip_code">Codul poștal</string>
+    <string name="house_number">Număr de casă</string>
+    <string name="house_number_">Numărul casei*</string>
+    <string name="address_additional_fields">Adresă câmpuri suplimentare</string>
+    <string name="full_address">Adresă completă</string>
+    <string name="city">Oraș</string>
+    <string name="enter_city">Introduceți orașul</string>
+    <string name="set_as_default_shipping_address">Setați ca adresă de livrare prestabilită</string>
+    <string name="save">Salvați</string>
+</resources>

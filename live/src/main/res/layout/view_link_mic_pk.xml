@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="270dp"
+    android:layoutDirection="ltr"
+    >
+
+    <com.livestreaming.live.custom.FrameImageView
+        android:id="@+id/frame_img"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true"
+        android:scaleType="fitXY"
+        android:translationY="-20dp"
+        app:fiv_ratio="0.213" />
+
+    <com.livestreaming.live.custom.PkProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible"
+        app:ppb_left_color="@color/pk_blue"
+        app:ppb_left_color_stroke="@color/pk_blue"
+        app:ppb_minWidth="75dp"
+        app:ppb_rate="0.5"
+        app:ppb_right_color="@color/pk_red"
+        app:ppb_right_color_stroke="@color/pk_red" />
+
+
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/progressbar"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <FrameLayout
+            android:id="@+id/left_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/live_pk_blue"
+            >
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="8dp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            tools:text="10"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/right_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/live_pk_red"
+            >
+        <TextView
+            android:id="@+id/right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="8dp"
+            android:layout_gravity="center_vertical|end"
+            android:textStyle="bold"
+            tools:text="10"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+        </FrameLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/time_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pk_time_image"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/progressbar"
+        android:paddingHorizontal="12dp"
+        android:gravity="center"
+        >
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_pk_d"
+            />
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingHorizontal="2dp"
+            android:paddingVertical="4dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            tools:text="12:12" />
+    </LinearLayout>
+    <com.opensource.svgaplayer.SVGAImageView
+        android:id="@+id/svgaImageView"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:visibility="invisible"
+        android:layout_alignTop="@+id/progressbar"
+        />
+
+
+
+    <com.opensource.svgaplayer.SVGAImageView
+        android:id="@+id/result"
+        android:layout_width="75dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        />
+
+    <com.opensource.svgaplayer.SVGAImageView
+        android:id="@+id/mStartmageView"
+        android:layout_width="75dp"
+        android:layout_height="60dp"
+        android:layout_alignStart="@+id/time_layout"
+        android:layout_alignEnd="@id/time_layout"
+        android:layout_below="@id/time_layout"
+        android:layout_marginTop="120dp"
+        />
+    <com.opensource.svgaplayer.SVGAImageView
+        android:id="@+id/mSDrawImageView"
+        android:layout_width="75dp"
+        android:layout_height="60dp"
+        android:layout_alignStart="@+id/time_layout"
+        android:layout_alignEnd="@id/time_layout"
+        android:layout_below="@id/time_layout"
+        android:layout_marginTop="120dp"
+        />
+
+
+    <com.opensource.svgaplayer.SVGAImageView
+        android:id="@+id/result_lose"
+        android:layout_width="75dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true" />
+
+    <com.livestreaming.live.custom.ProgressTextView
+        android:id="@+id/pk_wait_progress"
+        android:layout_width="70dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="10"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:ptv_bg_color="@color/pk_blue"
+        app:ptv_fg_color="@color/pk_red"
+        app:ptv_progress="10"
+        app:ptv_stroke_width="6dp"
+        tools:visibility="visible"
+        />
+
+</RelativeLayout>

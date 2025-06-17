@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "119261425451",
+    "project_id": "my-live-b3b49",
+    "storage_bucket": "my-live-b3b49.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119261425451:android:0afec8ec166cf8a00d9f6e",
+        "android_client_info": {
+          "package_name": "com.livestreaming.mylive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119261425451-vtm0g13kri6hgh0n2u7j4o1qa58son42.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.livestreaming.mylive",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "119261425451-4dsthkpbo4u0a2rabtftnb6p5np9os3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkgkc-dcuQgTsGPEvxmMu6135Ua9zWh5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119261425451-0virjmnr29eq6qquf5kd13qovcalp9i2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

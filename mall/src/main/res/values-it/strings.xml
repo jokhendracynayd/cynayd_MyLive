@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="country_region">Paese/regione</string>
+    <string name="choose_country">Scegli Paese</string>
+    <string name="contact_information">Informazioni di contatto</string>
+    <string name="first_name">Nome</string>
+    <string name="last_name">Cognome</string>
+    <string name="phone_number">Numero di telefono</string>
+    <string name="address">Indirizzo</string>
+    <string name="zipcode">Codice postale</string>
+    <string name="zip_code">codice postale</string>
+    <string name="house_number">Numero civico</string>
+    <string name="house_number_">Numero civico*</string>
+    <string name="address_additional_fields">Campi aggiuntivi dell\'indirizzo</string>
+    <string name="full_address">Indirizzo completo</string>
+    <string name="city">Città</string>
+    <string name="enter_city">Inserisci città</string>
+    <string name="set_as_default_shipping_address">Imposta come indirizzo di spedizione predefinito</string>
+    <string name="save">Salva</string>
+
+
+</resources>

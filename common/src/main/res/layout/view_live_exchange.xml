@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/transparent"
+    android:orientation="vertical"
+    android:paddingTop="10dp">
+
+    <ImageView
+        android:id="@+id/iv_back_from_exchange"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginBottom="8dp"
+        android:layoutDirection="ltr"
+        app:srcCompat="@drawable/ic_arrow_right_gray"
+        />
+    <LinearLayout
+        android:id="@+id/ll_useable_ticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#70888888"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:minHeight="30dp"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_marginVertical="4dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/account_balance_"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_useable_ticket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lv_exchange_rule"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginVertical="4dp"
+        android:background="@color/transparent"
+        android:divider="@null"
+        android:listSelector="#00000000"
+        android:visibility="visible"/>
+
+
+    <LinearLayout
+        android:id="@+id/ll_other_ticket_exchange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_border_notif"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/other_amount"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_money"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:inputType="number"
+                android:maxLength="9"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/tv_unit_and_equals"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="3dp"
+                android:gravity="center_vertical"
+                android:text=" ="
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/tv_money_to_diamonds"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="0"
+                android:background="@color/transparent"
+                android:textColor="@color/white"
+                android:textSize="13sp"/>
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_diamond"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_do_exchange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:enabled="false"
+            android:gravity="center"
+            android:minWidth="50dp"
+            android:minHeight="30dp"
+            android:text="@string/exchange"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="game_zjh">Poker cu trei cărți</string>
+    <string name="game_zp">Roata Norocului</string>
+    <string name="game_choose_game">Selectați jocul</string>
+    <string name="game_wait_start">Începe în curând, așteptați</string>
+    <string name="game_charge">Reîncărcați</string>
+    <string name="game_win">Câștigat</string>
+    <string name="game_wait_end">Vă rugăm să așteptați ca jocul să se încheie</string>
+    <string name="game_wan">W</string>
+    <string name="game_zjh_role_name_1">DaQiaox2</string>
+    <string name="game_zjh_role_name_2">DiaoChanx2</string>
+    <string name="game_zjh_role_name_3">XiaoQiaox2</string>
+    <string name="game_start_support">Începeți asistența</string>
+    <string name="game_show_result">Afișează rezultatul</string>
+    <string name="game_lose_tip">Victoria sau înfrângerea este o problemă standard</string>
+</resources>

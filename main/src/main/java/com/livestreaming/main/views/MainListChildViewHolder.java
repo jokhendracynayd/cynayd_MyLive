@@ -27,7 +27,9 @@ import com.livestreaming.common.utils.RouteUtil;
 import com.livestreaming.common.utils.StringUtil;
 import com.livestreaming.common.utils.WordUtil;
 import com.livestreaming.main.R;
+import com.livestreaming.main.adapter.AgencyListAdapter;
 import com.livestreaming.main.adapter.MainListAdapter;
+import com.livestreaming.main.bean.AgencyListBean;
 import com.livestreaming.main.bean.ListBean;
 import com.livestreaming.main.http.MainHttpConsts;
 import com.livestreaming.main.http.MainHttpUtil;
@@ -42,6 +44,7 @@ import java.util.List;
 public class MainListChildViewHolder extends AbsMainViewHolder implements View.OnClickListener {
     public static final int TYPE_PROFIT = 1;//收益榜
     public static final int TYPE_CONTRIBUTE = 0;//贡献榜
+    public static final int TYPE_AGENCY = 2;//机构榜
     private int mType;
     private static final String DAY = "day";
     private static final String WEEK = "week";
@@ -66,7 +69,7 @@ public class MainListChildViewHolder extends AbsMainViewHolder implements View.O
     private View mDataGroup3;
     private RecyclerView mRecyclerView;
     private View mNoDataTip;
-    protected MainListAdapter mAdapter;
+    protected RecyclerView.Adapter mAdapter;
     private String mCoinName;
     private String mFollow;
     private String mFollowing;
@@ -80,7 +83,11 @@ public class MainListChildViewHolder extends AbsMainViewHolder implements View.O
 
     @Override
     protected int getLayoutId() {
-        return R.layout.view_main_list_page;
+        if (mType == TYPE_AGENCY) {
+            return R.layout.view_main_agency_list_page;
+        } else {
+            return R.layout.view_main_list_page;
+        }
     }
 
     @Override
@@ -115,12 +122,14 @@ public class MainListChildViewHolder extends AbsMainViewHolder implements View.O
         mVotes1 = (TextView) findViewById(R.id.votes_1);
         mVotes2 = (TextView) findViewById(R.id.votes_2);
         mVotes3 = (TextView) findViewById(R.id.votes_3);
-        mBtnFollow1 = (MyRadioButton) findViewById(R.id.btn_follow_1);
-        mBtnFollow2 = (MyRadioButton) findViewById(R.id.btn_follow_2);
-        mBtnFollow3 = (MyRadioButton) findViewById(R.id.btn_follow_3);
-        mBtnFollow1.setOnClickListener(this);
-        mBtnFollow2.setOnClickListener(this);
-        mBtnFollow3.setOnClickListener(this);
+        if (mType != TYPE_AGENCY) {
+            mBtnFollow1 = (MyRadioButton) findViewById(R.id.btn_follow_1);
+            mBtnFollow2 = (MyRadioButton) findViewById(R.id.btn_follow_2);
+            mBtnFollow3 = (MyRadioButton) findViewById(R.id.btn_follow_3);
+            mBtnFollow1.setOnClickListener(this);
+            mBtnFollow2.setOnClickListener(this);
+            mBtnFollow3.setOnClickListener(this);
+        }
         if(mType == TYPE_PROFIT){
             ((RadioButton)findViewById(R.id.btn_day)).setChecked(false);
             ((RadioButton)findViewById(R.id.btn_hourly)).setChecked(true);
@@ -139,7 +148,11 @@ public class MainListChildViewHolder extends AbsMainViewHolder implements View.O
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         CommonAppConfig appConfig = CommonAppConfig.getInstance();
         mCoinName = mType == TYPE_PROFIT ? appConfig.getVotesName() : appConfig.getCoinName();
-        mAdapter = new MainListAdapter(mContext, mCoinName);
+        if (mType == TYPE_AGENCY) {
+            mAdapter = new AgencyListAdapter(mContext, mCoinName);
+        } else {
+            mAdapter = new MainListAdapter(mContext, mCoinName);
+        }
         mRecyclerView.setAdapter(mAdapter);
         mFollow = WordUtil.getString(com.livestreaming.common.R.string.follow);
         mFollowing = WordUtil.getString(com.livestreaming.common.R.string.following);
@@ -159,7 +172,7 @@ public class MainListChildViewHolder extends AbsMainViewHolder implements View.O
             if (mVotes1 != null) {
                 mVotes1.setText(StringUtil.contact(mTop1.getTotalCoinFormat(), " ", mCoinName));
             }
-            if (mBtnFollow1 != null) {
+            if (mType != TYPE_AGENCY && mBtnFollow1 != null) {
                 if (mTop1.getAttention() == 1) {
                     mBtnFollow1.doChecked(true);
                     mBtnFollow1.setText(mFollowing);
@@ -186,7 +199,7 @@ public class MainListChildViewHolder extends AbsMainViewHolder implements View.O
             if (mVotes2 != null) {
                 mVotes2.setText(StringUtil.contact(mTop2.getTotalCoinFormat(), " ", mCoinName));
             }
-            if (mBtnFollow2 != null) {
+            if (mType != TYPE_AGENCY && mBtnFollow2 != null) {
                 if (mTop2.getAttention() == 1) {
                     mBtnFollow2.doChecked(true);
                     mBtnFollow2.setText(mFollowing);
@@ -214,7 +227,7 @@ public class MainListChildViewHolder extends AbsMainViewHolder implements View.O
             if (mVotes3 != null) {
                 mVotes3.setText(StringUtil.contact(mTop3.getTotalCoinFormat(), " ", mCoinName));
             }
-            if (mBtnFollow3 != null) {
+            if (mType != TYPE_AGENCY && mBtnFollow3 != null) {
                 if (mTop3.getAttention() == 1) {
                     mBtnFollow3.doChecked(true);
                     mBtnFollow3.setText(mFollowing);
@@ -239,6 +252,107 @@ public class MainListChildViewHolder extends AbsMainViewHolder implements View.O
     }
 
     private void refreshData() {
+        if (mType == TYPE_AGENCY) {
+            refreshAgencyData();
+        } else {
+            refreshListData();
+        }
+    }
+    
+    private void refreshAgencyData() {
+        HttpCallback httpCallback = new HttpCallback() {
+            @Override
+            public void onSuccess(int code, String msg, String[] info) {
+                if (code == 0 && info.length > 0) {
+                    try {
+                        // The info parameter is already the data.info field from the API response
+                        // So we need to parse the "list" field from the info object
+                        com.alibaba.fastjson.JSONObject infoObj = com.alibaba.fastjson.JSON.parseObject(info[0]);
+                        if (infoObj != null) {
+                            List<AgencyListBean> list = com.alibaba.fastjson.JSON.parseArray(infoObj.getString("list"), AgencyListBean.class);
+                            
+                            if (list == null || list.isEmpty()) {
+                                if (mNoDataTip != null && mNoDataTip.getVisibility() != View.VISIBLE) {
+                                    mNoDataTip.setVisibility(View.VISIBLE);
+                                }
+                            } else {
+                                if (mNoDataTip != null && mNoDataTip.getVisibility() != View.INVISIBLE) {
+                                    mNoDataTip.setVisibility(View.INVISIBLE);
+                                }
+                                
+                                // Create ListBean objects for the top 3 items
+                                if (list.size() > 0) {
+                                    AgencyListBean agency = list.get(0);
+                                    ListBean bean = new ListBean();
+                                    bean.setUserNiceName(agency.getUsername());
+                                    bean.setAvatarThumb(agency.getUserProfilePic());
+                                    bean.setTotalCoin(String.valueOf(agency.getTotalRevenue()));
+                                    mTop1 = bean;
+                                } else {
+                                    mTop1 = null;
+                                }
+                                
+                                if (list.size() > 1) {
+                                    AgencyListBean agency = list.get(1);
+                                    ListBean bean = new ListBean();
+                                    bean.setUserNiceName(agency.getUsername());
+                                    bean.setAvatarThumb(agency.getUserProfilePic());
+                                    bean.setTotalCoin(String.valueOf(agency.getTotalRevenue()));
+                                    mTop2 = bean;
+                                } else {
+                                    mTop2 = null;
+                                }
+                                
+                                if (list.size() > 2) {
+                                    AgencyListBean agency = list.get(2);
+                                    ListBean bean = new ListBean();
+                                    bean.setUserNiceName(agency.getUsername());
+                                    bean.setAvatarThumb(agency.getUserProfilePic());
+                                    bean.setTotalCoin(String.valueOf(agency.getTotalRevenue()));
+                                    mTop3 = bean;
+                                } else {
+                                    mTop3 = null;
+                                }
+                                
+                                showTop();
+                                
+                                if (list.size() > 3) {
+                                    List<AgencyListBean> list2 = list.subList(3, list.size());
+                                    if (mAdapter != null) {
+                                        ((AgencyListAdapter) mAdapter).refreshData(list2);
+                                    }
+                                } else {
+                                    if (mAdapter != null) {
+                                        ((AgencyListAdapter) mAdapter).clearData();
+                                    }
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        if (mNoDataTip != null && mNoDataTip.getVisibility() != View.VISIBLE) {
+                            mNoDataTip.setVisibility(View.VISIBLE);
+                        }
+                    }
+                } else {
+                    if (mNoDataTip != null && mNoDataTip.getVisibility() != View.VISIBLE) {
+                        mNoDataTip.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                if (mSmartRefreshLayout != null) {
+                    mSmartRefreshLayout.finishRefresh(true);
+                }
+            }
+        };
+        
+        MainHttpUtil.agencyList(mDataType, 1, httpCallback);
+    }
+    
+    private void refreshListData() {
         HttpCallback httpCallback = new HttpCallback() {
             @Override
             public void onSuccess(int code, String msg, String[] info) {
@@ -273,11 +387,11 @@ public class MainListChildViewHolder extends AbsMainViewHolder implements View.O
                     if (size > 3) {
                         List<ListBean> list2 = list.subList(3, list.size());
                         if (mAdapter != null) {
-                            mAdapter.refreshData(list2);
+                            ((MainListAdapter) mAdapter).refreshData(list2);
                         }
                     } else {
                         if (mAdapter != null) {
-                            mAdapter.clearData();
+                            ((MainListAdapter) mAdapter).clearData();
                         }
                     }
                 }
@@ -290,9 +404,10 @@ public class MainListChildViewHolder extends AbsMainViewHolder implements View.O
                 }
             }
         };
+        
         if (mType == TYPE_PROFIT) {
             MainHttpUtil.profitList(mDataType, 1, httpCallback);
-        } else {
+        } else if (mType == TYPE_CONTRIBUTE) {
             MainHttpUtil.consumeList(mDataType, 1, httpCallback);
         }
     }
@@ -302,6 +417,7 @@ public class MainListChildViewHolder extends AbsMainViewHolder implements View.O
         super.onDestroy();
         MainHttpUtil.cancel(MainHttpConsts.PROFIT_LIST);
         MainHttpUtil.cancel(MainHttpConsts.CONSUME_LIST);
+        MainHttpUtil.cancel(MainHttpConsts.AGENCY_LIST);
         CommonHttpUtil.cancel(CommonHttpConsts.SET_ATTENTION);
     }
 
@@ -335,8 +451,8 @@ public class MainListChildViewHolder extends AbsMainViewHolder implements View.O
         if (isFollowChanged(mTop3, mBtnFollow3, touid, isAttention)) {
             return;
         }
-        if (mAdapter != null) {
-            mAdapter.updateItem(touid, isAttention);
+        if (mAdapter != null && mAdapter instanceof MainListAdapter) {
+            ((MainListAdapter) mAdapter).updateItem(touid, isAttention);
         }
     }
 
@@ -357,12 +473,14 @@ public class MainListChildViewHolder extends AbsMainViewHolder implements View.O
             forwardHome(mTop2);
         } else if (i == R.id.item_3) {
             forwardHome(mTop3);
-        } else if (i == R.id.btn_follow_1) {
-            follow(mTop1);
-        } else if (i == R.id.btn_follow_2) {
-            follow(mTop2);
-        } else if (i == R.id.btn_follow_3) {
-            follow(mTop3);
+        } else if (mType != TYPE_AGENCY) {
+            if (i == R.id.btn_follow_1) {
+                follow(mTop1);
+            } else if (i == R.id.btn_follow_2) {
+                follow(mTop2);
+            } else if (i == R.id.btn_follow_3) {
+                follow(mTop3);
+            }
         }
     }
 

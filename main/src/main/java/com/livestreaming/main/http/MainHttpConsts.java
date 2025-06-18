@@ -20,6 +20,7 @@ public class MainHttpConsts {
     public static final String GET_NEAR = "getNear";
     public static final String PROFIT_LIST = "profitList";
     public static final String CONSUME_LIST = "consumeList";
+    public static final String AGENCY_LIST = "agencyList";
     public static final String GET_BASE_INFO = "getBaseInfo";
     public static final String SET_BLACK = "setBlack";
     public static final String GET_USER_HOME = "getUserHome";

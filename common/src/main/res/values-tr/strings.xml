@@ -228,6 +228,8 @@
     <string name="live_guard">Koruma</string>
     <string name="live_lighted">Aydınlattım</string>
     <string name="live_enter_room">canlı yayına girdi</string>
+    <string name="live_leave_room">canlı yayından ayrıldı</string>
+    <string name="live_enter_room_empty">Lütfen canlı odaya girin</string>
     <string name="live_send_gift">Hediye</string>
     <string name="live_send_gift_4">Sırt çantası</string>
     <string name="live_send_gift_5">Eşyalar</string>

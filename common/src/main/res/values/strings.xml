@@ -26,7 +26,7 @@
     <string name="cash_account_empty">You have not set up a withdrawal account yet</string>
     <string name="cash_add_account">Add withdrawal account</string>
     <string name="cash_account_type">Account type</string>
-    <string name="cash_input_bank_user_name">Please enter the cardholder’s name</string>
+    <string name="cash_input_bank_user_name">Please enter the cardholder\'s name</string>
     <string name="cash_input_bank_account">Please enter the bank card account number</string>
     <string name="cash_input_bank_name">Please enter the bank name</string>
     <string name="cash_input_wx_account">Please enter your paypal account</string>
@@ -80,7 +80,7 @@
     <string name="fans">Fans</string>
     <string name="fans_no_fans">You don\'t have fans yet</string>
     <string name="fans_do_fans">Improving your personal information will allow more people to pay attention to you</string>
-    <string name="fans_no_fans_2">TA doesn’t have any fans yet</string>
+    <string name="fans_no_fans_2">TA doesn\'t have any fans yet</string>
     <string name="find_pwd_forget">Forgot password</string>
     <string name="find_pwd_find">Find now</string>
     <string name="guard_choose_duration">Choose guard duration</string>
@@ -96,7 +96,7 @@
     <string name="guard_tip_1">You are the monthly guardian of the current anchor \n The guardianship date ends at</string>
     <string name="guard_tip_2">You are the annual guardian of the current anchor \n The guardianship date ends at</string>
     <string name="guard_gift_tip">Annual guard exclusive gift</string>
-    <string name="guard_no_data_2">You haven’t guarded yet</string>
+    <string name="guard_no_data_2">You haven\'t guarded yet</string>
     <string name="guard_buy_tip">You are the annual guard of the current anchor \n Cannot activate 7-day/month guard</string>
     <string name="guard_buy_tip_2">You are the monthly guard of the current anchor. Activating annual guard will cover your monthly guard duration. Do you want to activate it? </string>
     <string name="guard_buy_tip_3">You will spend %1$s&#160;%2$s to activate %3$s for the host</string>
@@ -121,7 +121,7 @@
     <string name="im_msg_send_failed">Message sending failed</string>
     <string name="im_send_too_fast">Frequent operations</string>
     <string name="im_you_are_blacked">The other party temporarily refuses to receive your message</string>
-    <string name="im_no_msg">You haven’t received any message yet</string>
+    <string name="im_no_msg">You haven\'t received any message yet</string>
     <string name="im_send_msg">Send message&#8230;</string>
     <string name="im_input_img">Image</string>
     <string name="im_input_camera">Take photo</string>
@@ -135,7 +135,7 @@
     <string name="im_map_not_loaded">Map not loaded</string>
     <string name="im_address_failed">Address not obtained</string>
     <string name="im_get_location_failed">Getting location failed</string>
-    <string name="im_follow_tip">Click to follow and you can see the other party’s updates in time</string>
+    <string name="im_follow_tip">Click to follow and you can see the other party\'s updates in time</string>
     <string name="im_follow_tip_2">Follow the other party successfully</string>
     <string name="im_press_say">Press and hold to speak</string>
     <string name="im_unpress_stop">Unpress end</string>
@@ -227,6 +227,8 @@
     <string name="live_guard">Guard</string>
     <string name="live_lighted">I light up</string>
     <string name="live_enter_room">entered the live room</string>
+    <string name="live_leave_room">left the live room</string>
+    <string name="live_enter_room_empty">Please enter the live room</string>
     <string name="live_send_gift">Gift</string>
     <string name="live_send_gift_4">Backpack</string>
     <string name="live_send_gift_5">Props</string>
@@ -266,7 +268,7 @@
     <string name="live_illegal">The live content is suspected of violating regulations</string>
     <string name="live_user_home_con">Contribution list</string>
     <string name="live_user_home_detail">Data</string>
-    <string name="live_anchor_leave">The anchor leaves for a moment, the excitement will not be interrupted, don’t leave</string>
+    <string name="live_anchor_leave">The anchor leaves for a moment, the excitement will not be interrupted, don\'t leave</string>
     <string name="live_anchor_come_back">The anchor is back! </string>
     <string name="live_push_failed">Push failed</string>
     <string name="live_push_failed_1">Camera failed to open</string>
@@ -335,7 +337,7 @@
     <string name="link_mic_play_game">The other host is in the game</string>
     <string name="live_pk_invite">Invite</string>
     <string name="live_pk_invite_2">Invited</string>
-    <string name="live_pk_search_hint">Please enter the anchor’s nickname or ID</string>
+    <string name="live_pk_search_hint">Please enter the anchor\'s nickname or ID</string>
     <string name="live_no_live_pk">There is currently no host</string>
     <string name="live_no_live_pk_2">No relevant content found</string>
     <string name="live_pk_time_1">time</string>
@@ -353,6 +355,7 @@
     <string name="main_live_type_pwd">Password room</string>
     <string name="main_list_profit">Revenue list</string>
     <string name="main_list_contribute">Contribution list</string>
+    <string name="main_list_agency">Agency list</string>
     <string name="main_list_day">Daily</string>
     <string name="main_list_week">Weekly</string>
     <string name="main_list_month">Monthly</string>
@@ -392,7 +395,7 @@
     <string name="music_no_data">No music</string>
     <string name="music_no_data_collect">You haven\'t collected any music yet</string>
     <string name="music_no_data_class_1">No such music</string>
-    <string name="music_no_data_class_2">Let’s check out other music types</string>
+    <string name="music_no_data_class_2">Let\'s check out other music types</string>
     <string name="money_symbol">$</string>
     <string name="permission_refused">You have denied the permission of %1$s, please go to the settings to modify it</string>
     <string name="permission_storage">File reading and writing</string>
@@ -497,7 +500,7 @@
     <string name="video_record_camera_failed">Camera opening failed</string>
     <string name="video_record_audio_failed">Microphone opening failed</string>
     <string name="video_record_failed">Recording failed</string>
-    <string name="video_record_tip_1">Wait a moment, the screen hasn’t come out yet</string>
+    <string name="video_record_tip_1">Wait a moment, the screen hasn\'t come out yet</string>
     <string name="video_record_tip_2">There are still recording tasks that have not been completed</string>
     <string name="video_record_tip_3">The incoming video path is empty</string>
     <string name="video_record_tip_4">Version too low</string>
@@ -778,7 +781,7 @@
     <string name="mall_032">Return information</string>
     <string name="mall_033">(Leave blank for operator information)</string>
     <string name="mall_034">Consignee</string>
-    <string name="mall_035">Consignee’s mobile phone number</string>
+    <string name="mall_035">Consignee\'s mobile phone number</string>
     <string name="mall_036">Qualification certificate</string>
     <string name="mall_037">Business license</string>
     <string name="mall_038">Other documents</string>
@@ -802,9 +805,9 @@
     <string name="mall_055">Please enter your name</string>
     <string name="mall_056">Please enter your ID number</string>
     <string name="mall_057">Please enter the name of the operator</string>
-    <string name="mall_058">Please enter the operator’s mobile phone number</string>
+    <string name="mall_058">Please enter the operator\'s mobile phone number</string>
     <string name="mall_059">Please enter the region where the operator is located</string>
-    <string name="mall_060">Please enter the operator’s detailed address</string>
+    <string name="mall_060">Please enter the operator\'s detailed address</string>
     <string name="mall_061">Please set up a business license</string>
     <string name="mall_062">Please pay the deposit first</string>
     <string name="mall_063">Information under review&#8230;</string>

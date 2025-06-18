@@ -228,6 +228,7 @@
     <string name="live_guard">Guardia</string>
     <string name="live_lighted">Mi illumino</string>
     <string name="live_enter_room">entrato nella sala live</string>
+    <string name="live_leave_room">uscito dalla sala live</string>
     <string name="live_send_gift">Regalo</string>
     <string name="live_send_gift_4">Zaino</string>
     <string name="live_send_gift_5">Oggetti di scena</string>
@@ -1474,5 +1475,6 @@
     <string name="follow_you">Seguirti</string>
     <string name="box_gift">Scatola regalata</string>
     <string name="trend">Trend</string>
+    <string name="live_enter_room_empty">Si prega di entrare nella sala live</string>
 
 </resources>

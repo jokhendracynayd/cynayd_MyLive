@@ -173,6 +173,7 @@ public class LiveChatAdapter extends RecyclerView.Adapter {
             mTextView = itemView.findViewById(R.id.text);
             itemView.setOnClickListener(mOnClickListener);
             avatar=itemView.findViewById(R.id.avatar);
+            avatar.setVisibility(View.VISIBLE);
             frame=itemView.findViewById(R.id.frame);
         }
 
@@ -183,12 +184,19 @@ public class LiveChatAdapter extends RecyclerView.Adapter {
                 Glide.with(itemView.getContext()).load(bean.frame).into(frame);
             }else{
                 frame.setImageDrawable(null);
+                frame.setVisibility(View.GONE);
             }
-            if(bean.avatar!=null){
-                frame.setVisibility(View.VISIBLE);
-                Glide.with(avatar.getContext()).load(bean.avatar).into(avatar);
+            avatar.setVisibility(View.VISIBLE);
+            if(bean.avatar!=null && !bean.avatar.isEmpty()){
+                // Load the avatar from URL
+                Glide.with(avatar.getContext())
+                     .load(bean.avatar)
+                     .error(R.mipmap.icon_avatar_none) // Use placeholder if loading fails
+                     .placeholder(R.mipmap.icon_avatar_none) // Use placeholder while loading
+                     .into(avatar);
             }else{
-                avatar.setImageDrawable(null);
+                // If no avatar, use placeholder
+                avatar.setImageResource(R.mipmap.icon_avatar_none);
             }
 
             mUserName.setText(bean.getUserNiceName());

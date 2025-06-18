@@ -273,7 +273,7 @@ public class LiveTextRender {
 //                    builder.setSpan(sWhiteColorSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 //                    builder.setSpan(sFontSizeSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 //                    builder.setSpan(sBoldSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    builder.append(bean.getContent());
+                    builder.append(bean.getContent());
                     textView.setText(builder);
                 }
             }

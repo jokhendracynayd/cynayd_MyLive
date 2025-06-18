@@ -330,7 +330,14 @@ public class SocketClient {
                         liang.setName(liangName);
                         u.setLiang(liang);
                         LiveChatBean chatBean = new LiveChatBean();
-                        chatBean.avatar = map.getString("uhead");
+                        String uhead = map.getString("uhead");
+                        // Ensure avatar is not null or empty
+                        if (uhead != null && !uhead.trim().isEmpty()) {
+                            chatBean.avatar = uhead;
+                        } else if (u.getAvatar() != null && !u.getAvatar().trim().isEmpty()) {
+                            // Fallback to user avatar if uhead is empty
+                            chatBean.avatar = u.getAvatar();
+                        }
                         chatBean.frame = map.getString("uframe");
                         chatBean.setType(LiveChatBean.ENTER_ROOM);
                         chatBean.setId(u.getId());
@@ -420,6 +427,30 @@ public class SocketClient {
                     break;
                 case Constants.SOCKET_LEAVE_ROOM://离开房间
                     UserBean u = JSON.parseObject(map.getString("ct"), UserBean.class);
+                    
+                    // Create a chat message for user leaving the room
+                    LiveChatBean leaveChatBean = new LiveChatBean();
+                    String uhead = map.getString("uhead");
+                    // Ensure avatar is not null or empty
+                    if (uhead != null && !uhead.trim().isEmpty()) {
+                        leaveChatBean.avatar = uhead;
+                    } else if (u.getAvatar() != null && !u.getAvatar().trim().isEmpty()) {
+                        // Fallback to user avatar if uhead is empty
+                        leaveChatBean.avatar = u.getAvatar();
+                    }
+                    leaveChatBean.frame = map.getString("uframe");
+                    leaveChatBean.setType(LiveChatBean.ENTER_ROOM); // Reuse ENTER_ROOM type for leave room messages
+                    leaveChatBean.setId(u.getId());
+                    leaveChatBean.setUserNiceName(u.getUserNiceName());
+                    leaveChatBean.setLevel(u.getLevel());
+                    leaveChatBean.setVipType(map.getIntValue("vip_type"));
+                    leaveChatBean.setLiangName(map.getString("liangname"));
+                    leaveChatBean.setManager(map.getIntValue("usertype") == Constants.SOCKET_USER_TYPE_ADMIN);
+                    leaveChatBean.setContent(WordUtil.getString(com.livestreaming.common.R.string.live_leave_room));
+                    leaveChatBean.setGuardType(map.getIntValue("guard_type"));
+                    
+                    // Send both the leave room event and the chat message
+                    mListener.onChat(leaveChatBean);
                     mListener.onLeaveRoom(u);
                     break;
                 case Constants.SOCKET_LIVE_END://主播关闭直播

@@ -228,6 +228,8 @@
     <string name="live_guard">الحارس</string>
     <string name="live_lighted">أنا أضيء</string>
     <string name="live_enter_room">دخل الغرفة الحية</string>
+    <string name="live_leave_room">غادر الغرفة الحية</string>
+    <string name="live_enter_room_empty">يرجى الدخول إلى الغرفة الحية</string>
     <string name="live_send_gift">هدية</string>
     <string name="live_send_gift_4">حقيبة الظهر</string>
     <string name="live_send_gift_5">الدعائم</string>

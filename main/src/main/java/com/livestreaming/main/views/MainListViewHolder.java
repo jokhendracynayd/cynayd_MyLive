@@ -39,7 +39,7 @@ import java.util.List;
  */
 public class MainListViewHolder extends AbsMainViewHolder {
 
-    private static final int PAGE_COUNT = 2;
+    private static final int PAGE_COUNT = 3;
     private List<FrameLayout> mViewList;
     private MainListChildViewHolder[] mViewHolders;
     private MagicIndicator mIndicator;
@@ -85,7 +85,8 @@ public class MainListViewHolder extends AbsMainViewHolder {
         mIndicator = (MagicIndicator) findViewById(R.id.indicator);
         final String[] titles = new String[]{
                 WordUtil.getString(com.livestreaming.common.R.string.main_list_profit),
-                WordUtil.getString(com.livestreaming.common.R.string.main_list_contribute)
+                WordUtil.getString(com.livestreaming.common.R.string.main_list_contribute),
+                WordUtil.getString(com.livestreaming.common.R.string.main_list_agency)
         };
         CommonNavigator commonNavigator = new CommonNavigator(mContext);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
@@ -130,7 +131,7 @@ public class MainListViewHolder extends AbsMainViewHolder {
         titleContainer.setDividerDrawable(new ColorDrawable() {
             @Override
             public int getIntrinsicWidth() {
-                return DpUtil.dp2px(30);
+                return DpUtil.dp2px(10);
             }
         });
         ViewPagerHelper.bind(mIndicator, mViewPager);
@@ -152,7 +153,8 @@ public class MainListViewHolder extends AbsMainViewHolder {
                     vh = new MainListChildViewHolder(mContext, parent, MainListChildViewHolder.TYPE_PROFIT);
                 } else if (position == 1) {
                     vh = new MainListChildViewHolder(mContext, parent, MainListChildViewHolder.TYPE_CONTRIBUTE);
-
+                } else if (position == 2) {
+                    vh = new MainListChildViewHolder(mContext, parent, MainListChildViewHolder.TYPE_AGENCY);
                 }
                 if (vh == null) {
                     return;

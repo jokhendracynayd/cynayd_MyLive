@@ -228,6 +228,8 @@
     <string name="live_guard">Garde</string>
     <string name="live_lighted">J\'allume</string>
     <string name="live_enter_room">a rejoint la chambre en direct</string>
+    <string name="live_leave_room">a quitté la chambre en direct</string>
+    <string name="live_enter_room_empty">Veuillez entrer dans la salle en direct</string>
     <string name="live_send_gift">Offrir un cadeau</string>
     <string name="live_send_gift_4">Sac à dos</string>
     <string name="live_send_gift_5">Accessoires</string>

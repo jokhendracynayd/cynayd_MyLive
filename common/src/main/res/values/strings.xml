@@ -207,6 +207,7 @@
     <string name="live_mirror_0">You have turned off mirroring</string>
     <string name="live_red_pack">Red envelope</string>
     <string name="live_link_mic">Link mic</string>
+    <string name="mp3_play" translatable="false">Mp3</string>
     <string name="live_link_mic_close">Disconnect mic</string>
     <string name="live_open_flash">Only the rear camera can turn on the flash</string>
     <string name="live_open_flash_error">Failed to open flash</string>

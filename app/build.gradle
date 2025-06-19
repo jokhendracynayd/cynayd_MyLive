@@ -65,7 +65,7 @@ android {
         checkReleaseBuilds false
     }
     android.applicationVariants.all { variant ->
-        def appName = "Dona Live"
+        def appName = "MyLive Live"
         def fileName = appName
         variant.outputs.each { output ->
             def curFileName = output.outputFileName.toString()

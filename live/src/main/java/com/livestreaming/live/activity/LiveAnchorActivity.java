@@ -77,6 +77,7 @@ import com.livestreaming.live.socket.SocketChatUtil;
 import com.livestreaming.live.socket.SocketClient;
 import com.livestreaming.live.socket.SocketLinkMicUtil;
 import com.livestreaming.live.socket.SocketVoiceRoomUtil;
+import com.livestreaming.live.utils.LiveStorge;
 import com.livestreaming.live.views.AbsLiveChatRoomPushViewHolder;
 import com.livestreaming.live.views.AbsLivePushViewHolder;
 import com.livestreaming.live.views.LiveAnchorViewHolder;
@@ -167,10 +168,13 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
     @Override
     protected void main() {
         super.main();
-        getWindow().setFlags(
-                android.view.WindowManager.LayoutParams.FLAG_SECURE,
-                android.view.WindowManager.LayoutParams.FLAG_SECURE
-        );
+        if (LiveStorge.isSecure()){
+            getWindow().setFlags(
+                    android.view.WindowManager.LayoutParams.FLAG_SECURE,
+                    android.view.WindowManager.LayoutParams.FLAG_SECURE
+            );
+        }
+
         Intent intent = getIntent();
         mLiveSDK = intent.getIntExtra(Constants.LIVE_SDK, Constants.LIVE_SDK_TX);
         mLiveConfigBean = intent.getParcelableExtra(Constants.LIVE_CONFIG);
@@ -356,6 +360,9 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
     @Override
     public void onClick(int functionID) {
         switch (functionID) {
+            case Constants.LIVE_MP3_PLAYER:
+                Log.i("54564654", "onClick: kjsdkjfksdjfsdfsdf");
+                break;
             case Constants.LIVE_FUNC_BEAUTY://美颜
                 beauty();
                 break;

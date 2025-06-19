@@ -452,6 +452,7 @@ public class SocketClient {
                     // Send both the leave room event and the chat message
                     mListener.onChat(leaveChatBean);
                     mListener.onLeaveRoom(u);
+
                     break;
                 case Constants.SOCKET_LIVE_END://主播关闭直播
                     int action = map.getIntValue("action");

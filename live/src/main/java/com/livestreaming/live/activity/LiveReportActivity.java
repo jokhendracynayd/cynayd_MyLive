@@ -18,6 +18,7 @@ import com.livestreaming.live.adapter.LiveReportAdapter;
 import com.livestreaming.live.bean.LiveReportBean;
 import com.livestreaming.live.http.LiveHttpConsts;
 import com.livestreaming.live.http.LiveHttpUtil;
+import com.livestreaming.live.utils.LiveStorge;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,10 +48,12 @@ public class LiveReportActivity extends AbsActivity implements LiveReportAdapter
 
     @Override
     protected void main() {
-        getWindow().setFlags(
-                android.view.WindowManager.LayoutParams.FLAG_SECURE,
-                android.view.WindowManager.LayoutParams.FLAG_SECURE
-        );
+        if (LiveStorge.isSecure()){
+            getWindow().setFlags(
+                    android.view.WindowManager.LayoutParams.FLAG_SECURE,
+                    android.view.WindowManager.LayoutParams.FLAG_SECURE
+            );
+        }
         setTitle(WordUtil.getString(com.livestreaming.common.R.string.report));
         mToUid = getIntent().getStringExtra(Constants.TO_UID);
         mRecyclerView = findViewById(R.id.recyclerView);

@@ -106,6 +106,7 @@ public class Constants {
     public static final int LIVE_TYPE_PAY = 2;//收费房间
     public static final int LIVE_TYPE_TIME = 3;//计时房间
     //主播直播间功能
+    public static final int LIVE_MP3_PLAYER = 20032;//美颜
     public static final int LIVE_FUNC_BEAUTY = 2001;//美颜
     public static final int LIVE_FUNC_CAMERA = 2002;//切换摄像头
     public static final int LIVE_FUNC_FLASH = 2003;//闪光灯

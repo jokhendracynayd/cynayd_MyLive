@@ -84,6 +84,7 @@ public class LiveFunctionAdapter extends RecyclerView.Adapter<LiveFunctionAdapte
                     mList.add(new LiveFunctionBean(Constants.LIVE_FUNC_FLASH, openFlash ? R.mipmap.icon_live_func_flash : R.mipmap.icon_live_func_flash_1, com.livestreaming.common.R.string.live_flash));
                 }
                 mList.add(new LiveFunctionBean(Constants.LIVE_FUNC_MUSIC, R.mipmap.icon_live_func_music, com.livestreaming.common.R.string.live_music));
+                mList.add(new LiveFunctionBean(Constants.LIVE_MP3_PLAYER, R.mipmap.icon_gift_draw_01, com.livestreaming.common.R.string.mp3_play));
                 mList.add(new LiveFunctionBean(Constants.LIVE_FUNC_SHARE, R.mipmap.icon_live_func_share, com.livestreaming.common.R.string.live_share));
                 mList.add(new LiveFunctionBean(Constants.LIVE_FUNC_LINK_MIC_AUD, isLinkMic ? R.mipmap.icon_live_func_linkmic_anc_1
                         : R.mipmap.icon_live_func_linkmic_anc_0, com.livestreaming.common.R.string.用户连麦));

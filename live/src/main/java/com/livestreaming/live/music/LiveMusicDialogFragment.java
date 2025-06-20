@@ -117,6 +117,7 @@ public class LiveMusicDialogFragment extends AbsDialogFragment implements View.O
         mRootView.findViewById(R.id.btn_search).setOnClickListener(this);
         mRootView.findViewById(R.id.btn_close).setOnClickListener(this);
         queryDownloadMusic();
+
     }
 
     @Override

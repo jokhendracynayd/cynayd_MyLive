@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.firebase.FirebaseApp;
+import com.livestreaming.live.utils.PrefsManager;
 import com.livestreaming.mylive.BuildConfig;
 import com.livestreaming.common.CommonAppConfig;
 import com.livestreaming.common.CommonAppContext;
@@ -50,6 +51,8 @@ public class AppContext extends CommonAppContext {
         });
         L.setDeBug(deBug);
         Lingver.init(this);
+        PrefsManager.init(this);
+
 
 //        FacebookSdk.sdkInitialize(getApplicationContext());
 //        AppEventsLogger.activateApp(this);

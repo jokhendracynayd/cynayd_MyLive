@@ -459,6 +459,7 @@ public class MainActivity extends AbsVideoPlayActivity implements MainAppBarLayo
     @Override
     protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
+        setIntent(intent);
         sendFirebaseToken();
         if (mTabButtonGroup != null) {
             mTabButtonGroup.btnPerformClick(0);

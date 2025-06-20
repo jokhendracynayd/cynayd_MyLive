@@ -77,6 +77,7 @@ import io.agora.base.TextureBufferHelper;
 import io.agora.base.VideoFrame;
 import io.agora.rtc2.ChannelMediaOptions;
 import io.agora.rtc2.DataStreamConfig;
+import io.agora.rtc2.IAudioEffectManager;
 import io.agora.rtc2.IRtcEngineEventHandler;
 import io.agora.rtc2.RtcEngine;
 import io.agora.rtc2.RtcEngineConfig;
@@ -410,6 +411,7 @@ public class LivePushAgoraViewHolder extends AbsLivePushViewHolder {
                 config.mEventHandler = engineEventHandler;
                 try {
                     mEngine = (RtcEngineEx) RtcEngine.create(config);
+
                     if (mHandler != null) {
                         mHandler.post(onSuccess);
                     }

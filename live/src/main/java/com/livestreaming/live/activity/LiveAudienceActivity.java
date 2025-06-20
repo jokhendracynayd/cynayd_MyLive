@@ -314,10 +314,12 @@ public class LiveAudienceActivity extends LiveActivity implements LiveFunctionCl
 
     @Override
     protected void main() {
-        getWindow().setFlags(
-                android.view.WindowManager.LayoutParams.FLAG_SECURE,
-                android.view.WindowManager.LayoutParams.FLAG_SECURE
-        );
+        if (LiveStorge.isSecure()){
+            getWindow().setFlags(
+                    android.view.WindowManager.LayoutParams.FLAG_SECURE,
+                    android.view.WindowManager.LayoutParams.FLAG_SECURE
+            );
+        }
         instance = this;
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         if (isUseScroll()) {

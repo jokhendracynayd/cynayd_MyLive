@@ -14,6 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 import com.livestreaming.common.R
+import com.livestreaming.live.utils.PrefsManager
 
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
@@ -184,6 +185,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun getIntent(dataObject: Map<String, String>): Intent {
+        PrefsManager.saveNotificationObject(Gson().toJson(dataObject))
         val intent = Intent(this, LauncherActivity::class.java)
         intent.putExtra("notification_object", Gson().toJson(dataObject))
         return intent

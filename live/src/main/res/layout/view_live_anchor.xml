@@ -51,6 +51,7 @@
 <!--            android:padding="5dp"-->
 <!--            android:src="@mipmap/icon_live_close" -->
 <!--            />-->
+
         <ImageView
             android:id="@+id/btn_function"
             android:layout_width="40dp"

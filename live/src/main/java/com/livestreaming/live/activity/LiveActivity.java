@@ -101,6 +101,7 @@ import com.livestreaming.live.socket.SocketLinkMicPkUtil;
 import com.livestreaming.live.socket.SocketLinkMicUtil;
 import com.livestreaming.live.socket.SocketMessageListener;
 import com.livestreaming.live.socket.SocketVoiceRoomUtil;
+import com.livestreaming.live.utils.LiveStorge;
 import com.livestreaming.live.views.AbsLiveChatRoomLinkMicViewHolder;
 import com.livestreaming.live.views.AbsLiveViewHolder;
 import com.livestreaming.live.views.LiveAddImpressViewHolder;
@@ -175,10 +176,12 @@ public abstract class LiveActivity extends AbsActivity implements SocketMessageL
     @Override
     protected void main() {
         CommonAppConfig.getInstance().setTopActivityType(Constants.PUSH_TYPE_LIVE);
-//        getWindow().setFlags(
-//                android.view.WindowManager.LayoutParams.FLAG_SECURE,
-//                android.view.WindowManager.LayoutParams.FLAG_SECURE
-//        );
+        if (LiveStorge.isSecure()){
+            getWindow().setFlags(
+                    android.view.WindowManager.LayoutParams.FLAG_SECURE,
+                    android.view.WindowManager.LayoutParams.FLAG_SECURE
+            );
+        }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mCoinName = CommonAppConfig.getInstance().getCoinName();
         mIsAnchor = this instanceof LiveAnchorActivity;

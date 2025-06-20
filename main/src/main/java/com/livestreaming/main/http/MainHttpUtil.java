@@ -196,7 +196,16 @@ public class MainHttpUtil {
                 .params("type", type)
                 .params("p", p)
                 .execute(callback);
+    }
 
+    //排行榜  机构榜
+    public static void agencyList(String type, int p, HttpCallback callback) {
+        HttpClient.getInstance().get("Agency.topAgencyList", MainHttpConsts.AGENCY_LIST)
+                .params("uid", CommonAppConfig.getInstance().getUid())
+                .params("token", CommonAppConfig.getInstance().getToken())
+                .params("p", p)
+                .params("size", 100)
+                .execute(callback);
     }
 
 

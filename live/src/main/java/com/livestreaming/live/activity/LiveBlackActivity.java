@@ -21,6 +21,7 @@ import com.livestreaming.live.adapter.LiveBlackAdapter;
 import com.livestreaming.live.bean.LiveShutUpBean;
 import com.livestreaming.live.http.LiveHttpConsts;
 import com.livestreaming.live.http.LiveHttpUtil;
+import com.livestreaming.live.utils.LiveStorge;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,10 +51,14 @@ public class LiveBlackActivity extends AbsActivity implements OnItemClickListene
 
     @Override
     protected void main() {
-        getWindow().setFlags(
-                android.view.WindowManager.LayoutParams.FLAG_SECURE,
-                android.view.WindowManager.LayoutParams.FLAG_SECURE
-        );
+        if (LiveStorge.isSecure()){
+            if (LiveStorge.isSecure()){
+                getWindow().setFlags(
+                        android.view.WindowManager.LayoutParams.FLAG_SECURE,
+                        android.view.WindowManager.LayoutParams.FLAG_SECURE
+                );
+            }
+        }
         setTitle(WordUtil.getString(com.livestreaming.common.R.string.live_user_black_list));
         mLiveUid = getIntent().getStringExtra(Constants.LIVE_UID);
         if (TextUtils.isEmpty(mLiveUid)) {

@@ -228,6 +228,8 @@
     <string name="live_guard">Wächter</string>
     <string name="live_lighted">Ich habe es erleuchtet</string>
     <string name="live_enter_room">ist dem Live-Raum beigetreten</string>
+    <string name="live_leave_room">hat den Live-Raum verlassen</string>
+    <string name="live_enter_room_empty">Bitte betreten Sie den Live-Raum</string>
     <string name="live_send_gift">Geschenk senden</string>
     <string name="live_send_gift_4">Rucksack</string>
     <string name="live_send_gift_5">Requisiten</string>
@@ -1128,7 +1130,7 @@
     <string name="minute">Minute</string>
     <string name="cancel_account_0">Konto abmelden</string>
     <string name="cancel_account_1">Abmeldung bestätigen</string>
-    <string name="cancel_account_2">Nach dem Klicken auf „Bestätigen“ wird das Konto sofort abgemeldet.</string>
+    <string name="cancel_account_2">Nach dem Klicken auf „Bestätigen" wird das Konto sofort abgemeldet.</string>
     <string name="phone_msg_tip">* Die SMS-Verifizierung gewährleistet die Kontosicherheit und die SMS-Gebühr wird von der Plattform übernommen</string>
     <string name="cancel_account_3">Nur wenn die folgenden Bedingungen erfüllt sind, kann das aktuelle Konto abgemeldet werden</string>
     <string name="cancel_account_4">Abmeldungsbedingung</string>
@@ -1288,10 +1290,10 @@
     <string name="a_082">Produkte teilen</string>
     <string name="a_083">Möchten Sie die ausgewählte Sammlung wirklich löschen?</string>
     <string name="login_tip_001">Dienstleistungsvereinbarung und Datenschutzrichtlinie</string>
-    <string name="login_tip_002">Bitte lesen Sie sorgfältig und verstehen Sie die Bedingungen des Dienstleistungsvertrags und der Datenschutzrichtlinie, einschließlich, aber nicht beschränkt auf, um Ihnen Sofortnachrichten, Inhaltsteilung und andere Dienstleistungen zu bieten, müssen wir Ihre Geräteinformationen und persönlichen Informationen sammeln. Sie können Ihre Autorisierung in den Einstellungen anzeigen und verwalten. Ausführliche Informationen finden Sie in der „Datenschutzrichtlinie“ und den „Dienstleistungsvereinbarungen“. Wenn Sie zustimmen, klicken Sie bitte, um unseren Service zu akzeptieren.</string>
-    <string name="login_tip_003">Anmeldung bedeutet Zustimmung zur „Datenschutzrichtlinie“ und „Dienstleistungsvereinbarung“</string>
-    <string name="login_tip_004">„Datenschutzrichtlinie“</string>
-    <string name="login_tip_005">„Dienstleistungsvereinbarung“</string>
+    <string name="login_tip_002">Bitte lesen Sie sorgfältig und verstehen Sie die Bedingungen des Dienstleistungsvertrags und der Datenschutzrichtlinie, einschließlich, aber nicht beschränkt auf, um Ihnen Sofortnachrichten, Inhaltsteilung und andere Dienstleistungen zu bieten, müssen wir Ihre Geräteinformationen und persönlichen Informationen sammeln. Sie können Ihre Autorisierung in den Einstellungen anzeigen und verwalten. Ausführliche Informationen finden Sie in der „Datenschutzrichtlinie" und den „Dienstleistungsvereinbarungen". Wenn Sie zustimmen, klicken Sie bitte, um unseren Service zu akzeptieren.</string>
+    <string name="login_tip_003">Anmeldung bedeutet Zustimmung zur „Datenschutzrichtlinie" und „Dienstleistungsvereinbarung"</string>
+    <string name="login_tip_004">„Datenschutzrichtlinie"</string>
+    <string name="login_tip_005">„Dienstleistungsvereinbarung"</string>
     <string name="a_084">\@Freunde</string>
     <string name="video_at_tip_1">Sie haben ihn bereits @ erwähnt</string>
     <string name="video_at_tip_2">Bereits @ Menschen mit demselben Spitznamen</string>

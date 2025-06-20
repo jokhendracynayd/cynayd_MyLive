@@ -60,4 +60,8 @@ public class LiveStorge {
         }
     }
 
+    public static boolean isSecure() {
+        return false;
+    }
+
 }

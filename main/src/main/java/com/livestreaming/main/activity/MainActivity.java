@@ -73,6 +73,7 @@ import com.livestreaming.live.floatwindow.FloatWindowUtil;
 import com.livestreaming.live.http.LiveHttpConsts;
 import com.livestreaming.live.http.LiveHttpUtil;
 import com.livestreaming.live.utils.LiveStorge;
+import com.livestreaming.live.utils.PrefsManager;
 import com.livestreaming.live.views.LiveChatRoomPlayUtil;
 import com.livestreaming.main.R;
 import com.livestreaming.main.bean.BonusBean;
@@ -163,6 +164,13 @@ public class MainActivity extends AbsVideoPlayActivity implements MainAppBarLayo
     protected void main() {
         super.main();
         Intent intent = getIntent();
+//        String retrievedJson = PrefsManager.getNotificationObject();
+//        Log.i("36545634", "main: "+retrievedJson);
+//        if (retrievedJson != null) {
+//            handleNotificationS(retrievedJson);
+//        }
+
+// Convert back from JSON to object (optional)
         if (intent != null) {
             Bundle extras = intent.getExtras();
             if (extras != null) {
@@ -329,6 +337,7 @@ public class MainActivity extends AbsVideoPlayActivity implements MainAppBarLayo
     }
 
     private void handleNotificationS(String notificationObject) {
+        Log.d("6656+6+46", "handleNotificationS: ;ljddsdf");
         if(checkLogin()) {
             JSONObject object = JSONObject.parseObject(notificationObject);
             if (object.getString("type") != null) {

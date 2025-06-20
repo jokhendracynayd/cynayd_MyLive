@@ -107,7 +107,7 @@
     <string name="guard_list">Lista de gardieni</string>
     <string name="guard_buy_msg">%1$s a păzit ancora</string>
     <string name="home_page">Acasă</string>
-    <string name="home_page_share_1">„%1$s” este și în %2$s,~Faceți clic pentru a vedea povestea lui</string>
+    <string name="home_page_share_1">„%1$s" este și în %2$s,~Faceți clic pentru a vedea povestea lui</string>
     <string name="home_page_share_2">Are %1$s fani, vino să urmărești! </string>
     <string name="im_live_anchor_msg">Bună, eu sunt ancora, vino să discutăm cu mine. </string>
     <string name="im_type_image">[imagine]</string>
@@ -228,6 +228,7 @@
     <string name="live_guard">Gard</string>
     <string name="live_lighted">Mă aprind</string>
     <string name="live_enter_room">a intrat în camera live</string>
+    <string name="live_leave_room">a părăsit camera live</string>
     <string name="live_send_gift">Cadou</string>
     <string name="live_send_gift_4">Rucsac</string>
     <string name="live_send_gift_5">Recozite</string>
@@ -440,7 +441,7 @@
     <string name="red_pack_15">Felicitări!</string>
     <string name="red_pack_16">Am luat %2$s plic roșu distribuit de %1$s</string>
     <string name="red_pack_17">Plic roșu de %1$s</string>
-    <string name="red_pack_18">Depus în „%1$s-ul meu”</string>
+    <string name="red_pack_18">Depus în „%1$s-ul meu" </string>
     <string name="red_pack_19">A primit %1$s, total %2$s%3$s</string>
     <string name="red_pack_20">Nu a fost preluat</string>
     <string name="red_pack_21">Îl puteți lua după numărătoarea inversă</string>
@@ -632,7 +633,7 @@
     <string name="wallet_tip_1">Selectați metoda de plată</string>
     <string name="wallet_expand">Cheltuieli</string>
     <string name="wallet_income">venit</string>
-    <string name="wallet_tip_2"> „Acord de reîncărcare a utilizatorului”</string>
+    <string name="wallet_tip_2"> „Acord de reîncărcare a utilizatorului" </string>
     <string name="wallet_tip_3">Citiți și acceptați</string>
     <string name="wallet_tip_4">Selectați suma</string>
     <string name="wallet_tip_5">Nu a fost selectată nicio metodă de plată</string>
@@ -1293,10 +1294,10 @@
     <string name="a_082">Distribuiți produse</string>
     <string name="a_083">Sunteți sigur că doriți să ștergeți colecția selectată? </string>
     <string name="login_tip_001">Acord de servicii și Politica de confidențialitate</string>
-    <string name="login_tip_002">Asigurați-vă că îl citiți cu atenție și înțelegeți pe deplin termenii acordului de servicii și a politicii de confidențialitate, inclusiv, dar fără a se limita la, pentru a vă oferi mesagerie instantanee, partajare de conținut și alte servicii, noi trebuie să colectați informații despre dispozitiv și informații personale. Vă puteți vizualiza și gestiona autorizarea în setări. Puteți citi „Politica de confidențialitate” și „Acordul de servicii” pentru informații detaliate. Dacă sunteți de acord, faceți clic pentru a accepta serviciile noastre. </string>
-    <string name="login_tip_003">Autentificare înseamnă că sunteți de acord cu „Politica de confidențialitate” și „Acordul de servicii”</string>
-    <string name="login_tip_004">„Politica de confidențialitate”</string>
-    <string name="login_tip_005">„Acord de servicii”</string>
+    <string name="login_tip_002">Asigurați-vă că îl citiți cu atenție și înțelegeți pe deplin termenii acordului de servicii și a politicii de confidențialitate, inclusiv, dar fără a se limita la, pentru a vă oferi mesagerie instantanee, partajare de conținut și alte servicii, noi trebuie să colectați informații despre dispozitiv și informații personale. Vă puteți vizualiza și gestiona autorizarea în setări. Puteți citi „Politica de confidențialitate" și „Acordul de servicii" pentru informații detaliate. Dacă sunteți de acord, faceți clic pentru a accepta serviciile noastre. </string>
+    <string name="login_tip_003">Autentificare înseamnă că sunteți de acord cu „Politica de confidențialitate" și „Acordul de servicii" </string>
+    <string name="login_tip_004">„Politica de confidențialitate" </string>
+    <string name="login_tip_005">„Acord de servicii" </string>
     <string name="a_084">\@Prieteni</string>
     <string name="video_at_tip_1">Ați deja @ el</string>
     <string name="video_at_tip_2">Deja @persoane cu aceeași porecla</string>
@@ -1414,7 +1415,7 @@
     <string name="_game_currency">moneda jocului</string>
     <string name="payment_method">Metodă de plată</string>
     <string name="Price">Preț</string>
-    <string name="Give_100_game_coins">„Oferă 100 de monede de joc”</string>
+    <string name="Give_100_game_coins">„Oferă 100 de monede de joc" </string>
     <string name="Recharge_other_amount">Reîncărcați altă sumă</string>
     <string name="_recharge">Încărcați</string>
     <string name="_exchange">Schimb</string>
@@ -1474,6 +1475,6 @@
     <string name="follow_you">Urmărește-te</string>
     <string name="box_gift">Cutie oferită</string>
     <string name="trend">Trend</string>
-
+    <string name="live_enter_room_empty">Vă rugăm să intrați în camera live</string>
 
 </resources>

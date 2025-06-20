@@ -64,13 +64,35 @@
         <activity
             android:name="com.livestreaming.mylive.activity.LauncherActivity"
             android:exported="true"
-            android:theme="@style/LauncherAppTheme">
+            android:theme="@style/LauncherAppTheme"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- Branch App Links -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+<!--                <data android:scheme="myapp" android:host="open" />-->
+                <data android:scheme="https" android:host="donalive.app.link" android:pathPrefix="/"/>
+                <data android:scheme="https" android:host="donalive-alternate.app.link" android:pathPrefix="/"/>
+            </intent-filter>
         </activity>
+
+        <!-- Branch.io metadata -->
+        <meta-data
+            android:name="io.branch.sdk.BranchKey"
+            android:value="key_live_jqqll46UBQ9t8JsZpn8QuodctvlWHJP2" />
+        <meta-data
+            android:name="io.branch.sdk.BranchKey.test"
+            android:value="key_live_jqqll46UBQ9t8JsZpn8QuodctvlWHJP2" />
+        <meta-data
+            android:name="io.branch.sdk.TestMode"
+            android:value="false" />
+
         <meta-data
             android:name="XG_SERVER_SUFFIX"
             android:value="${XG_SERVER_SUFFIX}" />

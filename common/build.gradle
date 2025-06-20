@@ -167,4 +167,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:21.3.0'
     implementation "com.google.android.gms:play-services-places:17.1.0"
     implementation 'com.google.android.libraries.places:places:3.5.0'
+
+    // Branch.io SDK
+    api 'io.branch.sdk.android:library:5.7.2'
 }

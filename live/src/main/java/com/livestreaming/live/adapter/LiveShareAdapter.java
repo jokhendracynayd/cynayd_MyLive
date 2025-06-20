@@ -75,7 +75,7 @@ public class LiveShareAdapter extends RecyclerView.Adapter<LiveShareAdapter.Vh> 
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mList.size();
     }
 
     class Vh extends RecyclerView.ViewHolder {

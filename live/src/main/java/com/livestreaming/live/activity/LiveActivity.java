@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.livestreaming.common.CommonAppConfig;
 import com.livestreaming.common.Constants;
 import com.livestreaming.common.HtmlConfig;
+import com.livestreaming.common.ShareApplication;
 import com.livestreaming.common.activity.AbsActivity;
 import com.livestreaming.common.activity.WebViewActivity;
 import com.livestreaming.common.bean.ConfigBean;
@@ -39,6 +40,7 @@ import com.livestreaming.common.http.CommonHttpUtil;
 import com.livestreaming.common.http.HttpCallback;
 import com.livestreaming.common.pay.PayCallback;
 import com.livestreaming.common.pay.PayPresenter;
+import com.livestreaming.common.utils.BranchHelper;
 import com.livestreaming.common.utils.KeyBoardUtil;
 import com.livestreaming.common.utils.L;
 import com.livestreaming.common.utils.LanguageUtil;
@@ -1265,7 +1267,10 @@ public abstract class LiveActivity extends AbsActivity implements SocketMessageL
      * 打开分享窗口
      */
     public void openShareWindow() {
-        shareLive("", null);
+//        shareLive("", null);
+        LiveShareDialogFragment fragment = new LiveShareDialogFragment();
+        fragment.setActionListener(this);
+        fragment.show(getSupportFragmentManager(), "LiveShareDialogFragment");
     }
 
     /**
@@ -1339,34 +1344,32 @@ public abstract class LiveActivity extends AbsActivity implements SocketMessageL
     }
 
     public void shareLive(String type, String liveTitle, MobCallback callback) {
-        if(mLiveBean!=null) {
-            FirebaseDynamicLinks.getInstance().createDynamicLink()
-                    .setLink(Uri.parse("https://donalivestr.page.link/live/stream?live_info=" + "12345"))  // Deep link to content
-                    .setDomainUriPrefix("https://donalivestr.page.link")         // Dynamic link domain
-                    .setAndroidParameters(new DynamicLink.AndroidParameters.Builder("com.livestreaming").build()) // Android settings
-                    .buildShortDynamicLink()
-                    .addOnCompleteListener(this, task -> {
-                        if (task.isSuccessful()) {
-                            // Short link created successfully
-                            Uri shortLink = task.getResult().getShortLink();
-                            Uri flowchartLink = task.getResult().getPreviewLink();
+        if (mLiveBean == null) {
+            return;
+        }
 
-                            // Share the short dynamic link
-                            Intent intent = new Intent();
-                            intent.setAction(Intent.ACTION_SEND);
-                            intent.putExtra(Intent.EXTRA_TEXT, "Join my live stream: " + shortLink.toString());
-                            intent.setType("text/plain");
-                            startActivity(Intent.createChooser(intent, "Share Dynamic Link"));
-                        } else {
-                            // Handle error
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                        e.printStackTrace();
-                        }
-                    });
+        if (Constants.LINK.equals(type)) {
+            copyLink();
+            if (callback != null) {
+                callback.onSuccess(null);
+            }
+            return;
+        }
+
+//        String streamId = mLiveBean.getStream();
+        String streamId = JSON.toJSONString(mLiveBean);
+        String title = TextUtils.isEmpty(liveTitle) ? "Join my live stream!" : liveTitle;
+        String description = "Join my live stream on DonaLive!";
+
+        ShareApplication sApplication = ShareApplication.Companion.getFromValue(type);
+        String packageName = (sApplication != null) ? sApplication.getPackageName() : "";
+        if (!packageName.isEmpty()) {
+            BranchHelper.shareToApp(mContext, streamId, packageName);
+        } else {
+            BranchHelper.showShareSheet(this, streamId, title, description);
+        }
+        if (callback != null) {
+            callback.onSuccess(null);
         }
     }
 

@@ -222,6 +222,7 @@ public class Constants {
     public static final String MOB_WX = "wx";
     public static final String MOB_WX_PYQ = "wchat";
     public static final String MOB_FACEBOOK = "facebook";
+    public static final String MOB_WHATSAPP = "whatsapp";
     public static final String MOB_TWITTER = "twitter";
     public static final String MOB_PHONE = "phone";
 

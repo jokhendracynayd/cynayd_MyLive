@@ -384,6 +384,7 @@
     <string name="mob_wx">WeChat</string>
     <string name="mob_wx_pyq">Friends Circle</string>
     <string name="mob_fb">Facebook</string>
+    <string name="mob_wa">WhatsApp</string>
     <string name="mob_tt">Twitter</string>
     <string name="music_search">Search for songs</string>
     <string name="music_no_local_music">No songs to download yet</string>

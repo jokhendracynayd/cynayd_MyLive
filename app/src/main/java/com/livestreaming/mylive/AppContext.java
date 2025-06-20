@@ -25,6 +25,7 @@ import com.tencent.ugc.TXUGCBase;
 import com.yariksoffice.lingver.Lingver;
 
 import cat.ereza.customactivityoncrash.config.CaocConfig;
+import io.branch.referral.Branch;
 
 
 public class AppContext extends CommonAppContext {
@@ -62,6 +63,16 @@ public class AppContext extends CommonAppContext {
         Log.e("curLang", Constants.CUR_LANGUAGE);
         LanguageUtil.getInstance().updateLanguage(Constants.CUR_LANGUAGE);
         Lingver.getInstance().setLocale(getApplicationContext(), Constants.CUR_LANGUAGE);
+
+        // Enable Branch logging in debug mode
+        if (BuildConfig.DEBUG) {
+            Branch.enableLogging();
+            Branch.enableTestMode();
+            Log.d("Branch", "Branch test mode enabled");
+        }
+
+        // Initialize Branch.io SDK
+        Branch.getAutoInstance(this);
     }
 
     public static void initSdk() {

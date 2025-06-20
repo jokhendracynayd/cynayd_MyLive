@@ -131,14 +131,23 @@ public class MobBean {
     public static List<MobBean> getLiveShareTypeList(String[] types) {
         List<MobBean> list = new ArrayList<>();
         MobBean bean1 = new MobBean();
-        bean1.setIcon1(com.livestreaming.common.R.mipmap.icon_share_fb_3);
-        bean1.setName(com.livestreaming.common.R.string.mob_fb);
+        bean1.setType(Constants.MOB_WHATSAPP);
+        bean1.setIcon1(com.livestreaming.common.R.drawable.ic_whatsapp);
+        bean1.setName(com.livestreaming.common.R.string.mob_wa);
+
         MobBean bean2 = new MobBean();
-        bean2.setIcon1(com.livestreaming.common.R.mipmap.icon_share_tt_3);
-        bean2.setName(com.livestreaming.common.R.string.mob_tt);
+        bean2.setType(Constants.MOB_FACEBOOK);
+        bean2.setIcon1(com.livestreaming.common.R.mipmap.icon_share_fb_3);
+        bean2.setName(com.livestreaming.common.R.string.mob_fb);
+
+        MobBean bean3 = new MobBean();
+        bean3.setType(Constants.MOB_TWITTER);
+        bean3.setIcon1(com.livestreaming.common.R.mipmap.icon_share_tt_3);
+        bean3.setName(com.livestreaming.common.R.string.mob_tt);
 
         list.add(bean1);
         list.add(bean2);
+        list.add(bean3);
         return list;
     }
 

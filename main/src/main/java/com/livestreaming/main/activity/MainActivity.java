@@ -377,32 +377,12 @@ public class MainActivity extends AbsVideoPlayActivity implements MainAppBarLayo
     }
 
     private void checkIfComingFromShareLive(Intent intent) {
-        Log.e("testlink", "1");
-        FirebaseDynamicLinks.getInstance()
-                .getDynamicLink(intent)
-                .addOnSuccessListener(this, pendingDynamicLinkData -> {
-                    Log.e("testlink", "2"+ pendingDynamicLinkData);
-                    Uri deepLink = null;
-                    if (pendingDynamicLinkData != null) {
-                        Log.e("testlink", "3");
-                        deepLink = pendingDynamicLinkData.getLink();
-
-                        // Extract any query parameters (e.g., live stream info)
-                        if (deepLink != null) {
-                            Log.e("testlink", "4");
-                            String liveInfo = deepLink.getQueryParameter("live_info");
-
-                            // Handle the deep link in your app, e.g., open the live stream
-                            if (liveInfo != null) {
-                                Log.e("testlink", "5");
-                                enterLiveRoomByPush(liveInfo);
-                                Log.d("DynamicLink", "Live stream info: " + liveInfo);
-                            }
-                        }
-                    }
-                })
-                .addOnFailureListener(this, e -> Log.w("DynamicLink", "getDynamicLink:onFailure", e));
-
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            if (extras.containsKey("stream_id")) {
+                enterLiveRoomByPush(extras.getString("stream_id"));
+            }
+        }
     }
 
     private JSONObject startLiveInfoo;

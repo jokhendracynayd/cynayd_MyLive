@@ -26,6 +26,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -43,6 +44,7 @@ import com.livestreaming.common.http.CommonHttpConsts;
 import com.livestreaming.common.http.CommonHttpUtil;
 import com.livestreaming.common.http.FileDownloadCallback;
 import com.livestreaming.common.interfaces.CommonCallback;
+import com.livestreaming.common.utils.BranchHelper;
 import com.livestreaming.common.utils.DownloadUtil;
 import com.livestreaming.common.utils.L;
 import com.livestreaming.common.utils.LanguageUtil;
@@ -56,6 +58,7 @@ import com.livestreaming.main.http.MainHttpConsts;
 import com.livestreaming.main.http.MainHttpUtil;
 import com.livestreaming.mylive.AppContext;
 import com.livestreaming.mylive.R;
+import com.livestreaming.mylive.callback.BundleCallback;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXVodPlayer;
@@ -66,6 +69,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
 
 public class LauncherActivity extends AppCompatActivity implements View.OnClickListener {
@@ -97,6 +101,8 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
 
     private AlertDialog dialog = null;
     private int isFirstLunch = 1;
+
+    CompletableFuture<Boolean> future = new CompletableFuture<>();
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -401,8 +407,7 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
             startActivity(intent);
         } else {
             releaseVideo();
-            MainActivity.forward(mContext, getIntent().getExtras());
-            finish();
+            future.complete(true);
         }
     }
 
@@ -676,4 +681,57 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
         mPlayer.startVodPlay(videoFile.getAbsolutePath());
         checkHasAdLink(0);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getBranchIoDeeplink(false, callback);
+    }
+
+    @Override
+    protected void onNewIntent(@NonNull Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        getBranchIoDeeplink(true, callback);
+    }
+
+    private void getBranchIoDeeplink(boolean newIntent, BundleCallback callback) {
+        // Process Branch.io deep links
+        BranchHelper.processBranchIoDeepLink(this,getIntent(), newIntent, getIntent().getData(), (referringParams, error) -> {
+            if (error != null) {
+                Log.d("ERRORR--", error.getMessage());
+            }
+            if (referringParams != null) {
+                Log.d("referringParams", referringParams.toString());
+            }
+            if (error == null && referringParams != null) {
+                String streamId = BranchHelper.extractStreamId(referringParams);
+                if (streamId == null) {
+                    callback.getBundle(null);
+                }
+                Bundle bundle = new Bundle();
+                bundle.putString("stream_id", streamId);
+                callback.getBundle(bundle);
+            } else {
+                callback.getBundle(null);
+            }
+        });
+    }
+
+    BundleCallback callback = new BundleCallback() {
+        @Override
+        public void getBundle(@Nullable Bundle bundle) {
+            future.thenAccept(result->{
+                if (result) {
+                    if (bundle == null) {
+                        MainActivity.forward(mContext, getIntent().getExtras());
+                    } else {
+                        Log.d("stream_id", bundle.getString("stream_id"));
+                        MainActivity.forward(mContext, bundle);
+                    }
+                    finish();
+                }
+            });
+        }
+    };
 }

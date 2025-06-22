@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -401,13 +402,27 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
      * 跳转到首页
      */
     private void forwardMainActivity() {
-        if (isFirstLunch == 0) {
-            Intent intent = new Intent(LauncherActivity.this, EditProfileActivity.class);
-            intent.putExtra("isFromFirst", true);
-            startActivity(intent);
-        } else {
-            releaseVideo();
-            future.complete(true);
+        try {
+            releaseVideo(); // Always release video resources
+            
+            if (isFirstLunch == 0) {
+                Intent intent = new Intent(LauncherActivity.this, EditProfileActivity.class);
+                intent.putExtra("isFromFirst", true);
+                startActivity(intent);
+            }
+            
+            // Always complete the future to unblock any waiting processes
+            if (!future.isDone()) {
+                future.complete(true);
+            }
+            
+            Log.d(TAG, "forwardMainActivity completed");
+        } catch (Exception e) {
+            Log.e(TAG, "Error in forwardMainActivity: " + e.getMessage());
+            // Ensure future is completed even if there's an error
+            if (!future.isDone()) {
+                future.complete(true);
+            }
         }
     }
 
@@ -696,42 +711,75 @@ public class LauncherActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void getBranchIoDeeplink(boolean newIntent, BundleCallback callback) {
+        // Log the intent data for debugging
+        Intent intent = getIntent();
+        Uri data = intent.getData();
+        Log.d(TAG, "Processing deep link - Intent action: " + intent.getAction());
+        Log.d(TAG, "Processing deep link - Intent data: " + (data != null ? data.toString() : "null"));
+        
         // Process Branch.io deep links
-        BranchHelper.processBranchIoDeepLink(this,getIntent(), newIntent, getIntent().getData(), (referringParams, error) -> {
+        BranchHelper.processBranchIoDeepLink(this, intent, newIntent, data, (referringParams, error) -> {
             if (error != null) {
-                Log.d("ERRORR--", error.getMessage());
+                Log.e(TAG, "Branch error: " + error.getMessage());
             }
+            
             if (referringParams != null) {
-                Log.d("referringParams", referringParams.toString());
-            }
-            if (error == null && referringParams != null) {
+                Log.d(TAG, "Branch params: " + referringParams.toString());
+                
+                // Extract stream ID from Branch parameters
                 String streamId = BranchHelper.extractStreamId(referringParams);
-                if (streamId == null) {
-                    callback.getBundle(null);
+                
+                if (streamId != null) {
+                    Log.d(TAG, "Found stream ID: " + streamId);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("stream_id", streamId);
+                    callback.getBundle(bundle);
+                    return;
                 }
-                Bundle bundle = new Bundle();
-                bundle.putString("stream_id", streamId);
-                callback.getBundle(bundle);
-            } else {
-                callback.getBundle(null);
             }
+            
+            // Check if we have direct URI parameters (for custom scheme)
+            if (data != null) {
+                String streamId = data.getQueryParameter("stream");
+                if (streamId != null) {
+                    Log.d(TAG, "Found stream ID from URI: " + streamId);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("stream_id", streamId);
+                    callback.getBundle(bundle);
+                    return;
+                }
+            }
+            
+            // No deep link data found
+            callback.getBundle(null);
         });
     }
 
     BundleCallback callback = new BundleCallback() {
         @Override
         public void getBundle(@Nullable Bundle bundle) {
-            future.thenAccept(result->{
-                if (result) {
-                    if (bundle == null) {
-                        MainActivity.forward(mContext, getIntent().getExtras());
-                    } else {
-                        Log.d("stream_id", bundle.getString("stream_id"));
-                        MainActivity.forward(mContext, bundle);
-                    }
+            try {
+                // If future is already completed, don't try to complete it again
+                if (!future.isDone()) {
+                    future.complete(true);
+                }
+                
+                // Handle the bundle directly without waiting for future
+                if (bundle == null) {
+                    MainActivity.forward(mContext, getIntent().getExtras());
+                } else {
+                    Log.d(TAG, "Found stream_id: " + bundle.getString("stream_id"));
+                    MainActivity.forward(mContext, bundle);
+                }
+                finish();
+            } catch (Exception e) {
+                Log.e(TAG, "Error in callback: " + e.getMessage());
+                // Ensure app proceeds even if there's an error
+                if (!isFinishing()) {
+                    MainActivity.forward(mContext, getIntent().getExtras());
                     finish();
                 }
-            });
+            }
         }
     };
 }

@@ -193,7 +193,12 @@ public class LiveRoomViewHolder extends AbsViewHolder implements View.OnClickLis
         mLiveChatAdapter.setOnItemClickListener(new OnItemClickListener<LiveChatBean>() {
             @Override
             public void onItemClick(LiveChatBean bean, int position) {
-                showUserDialog(bean.getId());
+                if (bean.getType() == LiveChatBean.NORMAL || bean.getType() == LiveChatBean.LIGHT) {
+                    // Show reply options for normal chat messages
+                    showChatReplyDialog(bean);
+                } else {
+                    showUserDialog(bean.getId());
+                }
             }
         });
         mChatRecyclerView.setAdapter(mLiveChatAdapter);
@@ -368,6 +373,15 @@ public class LiveRoomViewHolder extends AbsViewHolder implements View.OnClickLis
             } else {
                 mGuardNum.setText(com.livestreaming.common.R.string.main_list_no_data);
             }
+        }
+    }
+
+    /**
+     * 显示回复聊天对话框
+     */
+    private void showChatReplyDialog(LiveChatBean bean) {
+        if (mContext instanceof LiveActivity) {
+            ((LiveActivity) mContext).openChatWindow(null, bean);
         }
     }
 

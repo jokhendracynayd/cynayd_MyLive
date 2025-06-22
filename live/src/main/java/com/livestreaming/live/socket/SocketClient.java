@@ -303,6 +303,22 @@ public class SocketClient {
                         chatBean.setLiangName(map.getString("liangname"));
                         chatBean.setVipType(map.getIntValue("vip_type"));
                         chatBean.setGuardType(map.getIntValue("guard_type"));
+                        
+                        // Handle reply data
+                        if (map.containsKey("message_id")) {
+                            chatBean.setMessageId(map.getString("message_id"));
+                        }
+                        if (map.containsKey("timestamp")) {
+                            chatBean.setTimestamp(map.getLongValue("timestamp"));
+                        }
+                        if (map.containsKey("reply_to_id")) {
+                            chatBean.setReplyToId(map.getString("reply_to_id"));
+                            chatBean.setReplyToUserId(map.getString("reply_to_user_id"));
+                            chatBean.setReplyToUserName(map.getString("reply_to_user_name"));
+                            chatBean.setReplyToContent(map.getString("reply_to_content"));
+                            chatBean.setReplyToAvatar(map.getString("reply_to_avatar"));
+                        }
+                        
                         mListener.onChat(chatBean);
                     } else if ("0".equals(msgtype)) {//用户进入房间
                         JSONObject obj = JSON.parseObject(map.getString("ct"));

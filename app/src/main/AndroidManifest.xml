@@ -71,24 +71,33 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!-- Branch App Links -->
+            <!-- Branch App Links - HTTPS scheme for App Links -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-<!--                <data android:scheme="myapp" android:host="open" />-->
-                <data android:scheme="https" android:host="donalive.app.link" android:pathPrefix="/"/>
-                <data android:scheme="https" android:host="donalive-alternate.app.link" android:pathPrefix="/"/>
+                <data android:scheme="https" android:host="myliveapp.app.link" />
+                <data android:scheme="https" android:host="myliveapp-alternate.app.link" />
+                <data android:scheme="https" android:host="myliveapp.test-app.link" />
+                <data android:scheme="https" android:host="myliveapp-alternate.test-app.link" />
+            </intent-filter>
+            
+            <!-- Custom URI scheme for direct app opening -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="myliveapp" android:host="open" />
             </intent-filter>
         </activity>
 
         <!-- Branch.io metadata -->
         <meta-data
             android:name="io.branch.sdk.BranchKey"
-            android:value="key_live_jqqll46UBQ9t8JsZpn8QuodctvlWHJP2" />
+            android:value="key_live_etvfzrDyDqNrpkAFtYX2rpadvBbh8kSa" />
         <meta-data
             android:name="io.branch.sdk.BranchKey.test"
-            android:value="key_live_jqqll46UBQ9t8JsZpn8QuodctvlWHJP2" />
+            android:value="key_test_dDskxxvuBqKFhpuyB511qacpCvpo8nx4" />
         <meta-data
             android:name="io.branch.sdk.TestMode"
             android:value="false" />

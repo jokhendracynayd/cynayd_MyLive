@@ -66,7 +66,14 @@ public class LivePushTxViewHolder extends AbsLivePushViewHolder implements TxLin
     private boolean mPushSucceed;//是否推流成功
     private boolean mMhBeautyEnable;//是否使用美狐美颜
 
-    public LivePushTxViewHolder(Context context, ViewGroup parentView, LiveConfigBean liveConfigBean) {
+    Select select;
+    public interface Select{
+        void select(int pos);
+    }
+
+
+    public LivePushTxViewHolder(Context context, ViewGroup parentView,
+                                LiveConfigBean liveConfigBean) {
         super(context, parentView, liveConfigBean);
     }
 
@@ -188,11 +195,16 @@ public class LivePushTxViewHolder extends AbsLivePushViewHolder implements TxLin
                                     V2TXLiveDef.V2TXLiveBufferType.V2TXLiveBufferTypeTexture);
                         }
                     } else {
-                        SimpleDataManager.getInstance().create().setMeiYanChangedListener(getMeiYanChangedListener());
+                        SimpleDataManager.getInstance().setMeiYanChangedListener(getMeiYanChangedListener());
                         int meiBai = obj.getIntValue("skin_whiting");
                         int moPi = obj.getIntValue("skin_smooth");
                         int hongRun = obj.getIntValue("skin_tenderness");
-                        SimpleDataManager.getInstance().setData(meiBai, moPi, hongRun);
+                        
+                        // Set individual beauty parameters
+                        SimpleDataManager instance = SimpleDataManager.getInstance();
+                        instance.setMeiBai(meiBai);
+                        instance.setMoPi(moPi);
+                        instance.setHongRun(hongRun);
                     }
                 }
             }
@@ -215,9 +227,145 @@ public class LivePushTxViewHolder extends AbsLivePushViewHolder implements TxLin
                                 txBeautyManager.setBeautyLevel(moPi);
                             }
                             if (hongRunChanged) {
-                                txBeautyManager.setWhitenessLevel(hongRun);
+                                txBeautyManager.setRuddyLevel(hongRun);
                             }
                         }
+                    }
+                    
+                    // Save beauty values to server when they change
+                    if (CommonAppConfig.getInstance().isMhBeautyEnable()) {
+                        MhDataManager.getInstance().saveBeautyValue();
+                    } else {
+                        SimpleDataManager.getInstance().saveBeautyValue();
+                    }
+                }
+            }
+            
+            @Override
+            public void onAdvancedBeautyChanged(String key, int value) {
+                if (mLivePusher != null) {
+                    if (CommonAppConfig.getInstance().isMhBeautyEnable()) {
+                        // Use MhDataManager for advanced beauty features
+                        switch (key) {
+                            case "brightness":
+                                MhDataManager.getInstance().setLiangDu(value);
+                                break;
+                            case "sharpness":
+                                MhDataManager.getInstance().setMoPi(value);
+                                break;
+                            case "face_slim":
+                                MhDataManager.getInstance().setShouLian(value);
+                                break;
+                            case "big_eye":
+                                MhDataManager.getInstance().setDaYan(value);
+                                break;
+                            case "jaw":
+                                MhDataManager.getInstance().setXiaBa(value);
+                                break;
+                            case "eye_distance":
+                                MhDataManager.getInstance().setYanJu(value);
+                                break;
+                            case "face_shape":
+                                MhDataManager.getInstance().setETou(value);
+                                break;
+                            case "eye_brow":
+                                MhDataManager.getInstance().setMeiMao(value);
+                                break;
+                            case "eye_corner":
+                                MhDataManager.getInstance().setYanJiao(value);
+                                break;
+                            case "mouse_lift":
+                                MhDataManager.getInstance().setZuiXing(value);
+                                break;
+                            case "nose_lift":
+                                MhDataManager.getInstance().setShouBi(value);
+                                break;
+                            case "forehead_lift":
+                                MhDataManager.getInstance().setETou(value);
+                                break;
+                            case "lengthen_noseLift":
+                                MhDataManager.getInstance().setChangBi(value);
+                                break;
+                            case "face_shave":
+                                MhDataManager.getInstance().setXueLian(value);
+                                break;
+                            case "eye_alat":
+                                MhDataManager.getInstance().setKaiYanJiao(value);
+                                break;
+                        }
+                        
+                        // Save beauty values to server when they change
+                        MhDataManager.getInstance().saveBeautyValue();
+                    } else {
+                        TXBeautyManager txBeautyManager = mLivePusher.getBeautyManager();
+                        if (txBeautyManager != null) {
+                            switch (key) {
+                                case "brightness":
+                                    // For brightness in this version of SDK, we use the beauty level with style 2
+                                    txBeautyManager.setBeautyStyle(2); // Natural beauty style
+                                    txBeautyManager.setBeautyLevel(value);
+                                    break;
+                                case "sharpness":
+                                    // For sharpness in this version, we can use whiteness level as an approximation
+                                    txBeautyManager.setWhitenessLevel(value);
+                                    break;
+                                case "face_slim":
+                                    // Face slimming feature
+                                    txBeautyManager.setFaceSlimLevel(value);
+                                    break;
+                                case "big_eye":
+                                    // Big eye feature
+                                    txBeautyManager.setEyeScaleLevel(value);
+                                    break;
+                                case "jaw":
+                                    // Jawline adjustment
+                                    txBeautyManager.setChinLevel(value);
+                                    break;
+                                case "eye_distance":
+                                    // Eye distance adjustment
+                                    txBeautyManager.setEyeDistanceLevel(value);
+                                    break;
+                                case "face_shape":
+                                    // Face shape adjustment
+                                    txBeautyManager.setFaceVLevel(value);
+                                    break;
+                                case "eye_brow":
+                                    // Eyebrow adjustment - map to existing feature if possible
+                                    txBeautyManager.setEyeAngleLevel(value);
+                                    break;
+                                case "eye_corner":
+                                    // Eye corner adjustment - map to existing feature if possible
+                                    txBeautyManager.setEyeAngleLevel(value);
+                                    break;
+                                case "mouse_lift":
+                                    // Mouth shape adjustment - map to existing feature if possible
+                                    txBeautyManager.setMouthShapeLevel(value);
+                                    break;
+                                case "nose_lift":
+                                    // Nose adjustment - map to existing feature if possible
+                                    txBeautyManager.setNoseSlimLevel(value);
+                                    break;
+                                case "forehead_lift":
+                                    // Forehead adjustment - map to existing feature if possible
+                                    txBeautyManager.setForeheadLevel(value);
+                                    break;
+                                case "lengthen_noseLift":
+                                    // Long nose adjustment - map to existing feature if possible
+                                    txBeautyManager.setNoseSlimLevel(value);
+                                    break;
+                                case "face_shave":
+                                    // Face shaving - map to existing feature if possible
+                                    txBeautyManager.setFaceSlimLevel(value);
+                                    break;
+                                case "eye_alat":
+                                    // Eye alat - map to existing feature if possible
+                                    txBeautyManager.setEyeAngleLevel(value);
+                                    break;
+                            }
+                        }
+                        
+                        // Save beauty values to server when they change
+                        SimpleDataManager.getInstance().saveBeautyValue();
                     }
                 }
             }
@@ -236,6 +384,11 @@ public class LivePushTxViewHolder extends AbsLivePushViewHolder implements TxLin
                             }
                         }
                     }
+                    // Save beauty values to server when filter changes
+                    SimpleDataManager.getInstance().saveBeautyValue();
+                } else {
+                    // Save beauty values to server when filter changes
+                    MhDataManager.getInstance().saveBeautyValue();
                 }
             }
 
@@ -481,7 +634,7 @@ public class LivePushTxViewHolder extends AbsLivePushViewHolder implements TxLin
             if (mMhBeautyEnable) {
                 MhDataManager.getInstance().release();
             } else {
-                SimpleDataManager.getInstance().release();
+                SimpleDataManager.getInstance().saveBeautyValue();
             }
         }
         mLivePusher = null;

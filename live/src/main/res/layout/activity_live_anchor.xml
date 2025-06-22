@@ -35,6 +35,48 @@
     </FrameLayout>
 
     <LinearLayout
+        android:layout_marginTop="300dp"
+        android:id="@+id/musicControls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/joinBtn">
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:outlineAmbientShadowColor="@color/material_dynamic_tertiary40"
+            android:progressBackgroundTint="@color/material_dynamic_neutral100"
+            />
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/startBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Play" />
+
+            <Button
+                android:id="@+id/stopBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stop" />
+            <Button
+                android:id="@+id/pauseBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pause" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/group_pk_follow"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
@@ -97,11 +139,5 @@
         android:id="@+id/page_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        test kjghdsfkjh lkhsdfklhj
-    </TextView>
-
 
 </FrameLayout>

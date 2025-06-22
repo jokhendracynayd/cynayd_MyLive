@@ -27,12 +27,12 @@
     <string name="beauty_mh_yanjiao">Eye corners</string>
     <string name="beauty_mh_shoulian">Face slimming</string>
     <string name="beauty_mh_zuixing">Mouth shape</string>
-    <string name="beauty_mh_shoubi">Shoubi</string>
+    <string name="beauty_mh_shoubi">Nose lift</string>
     <string name="beauty_mh_xiaba">Chin</string>
     <string name="beauty_mh_etou">Forehead</string>
     <string name="beauty_mh_changbi">Long nose</string>
     <string name="beauty_mh_xuelian">Face-shaping</string>
-    <string name="beauty_mh_kaiyanjiao">Open your eyes</string>
+    <string name="beauty_mh_kaiyanjiao">Eye alat</string>
     <string name="beauty_mh_biaozhun">Standard</string>
     <string name="beauty_mh_youya">Elegance</string>
     <string name="beauty_mh_jingzhi">Exquisite</string>
@@ -107,6 +107,15 @@
     <string name="beauty_mh_texiao_action_eye_tip">Please blink</string>
     <string name="beauty_mh_texiao_action_downloading">Stickers are being downloaded, please wait</string>
     <string name="t1">big eyes</string>
-
+    
+    <!-- New Beauty Features -->
+    <string name="beauty_mh_brightness">Brightness</string>
+    <string name="beauty_mh_sharpness">Sharpness</string>
+    <string name="beauty_mh_advanced">Advanced</string>
+    <string name="beauty_mh_face_slim">Face Slim</string>
+    <string name="beauty_mh_big_eye">Big Eyes</string>
+    <string name="beauty_mh_jaw">Jawline</string>
+    <string name="beauty_mh_eye_distance">Eye Distance</string>
+    <string name="beauty_mh_face_shape">Face Shape</string>
 
 </resources>

@@ -308,7 +308,8 @@ public class MhDataManager {
 
     public void saveBeautyValue() {
         if (mMeiYanValue != null) {
-            CommonHttpUtil.setBeautyValue(JSON.toJSONString(mMeiYanValue));
+            // Save beauty values to server
+            com.livestreaming.common.http.CommonHttpUtil.setBeautyValue(com.alibaba.fastjson.JSON.toJSONString(mMeiYanValue));
         }
     }
 
@@ -785,5 +786,65 @@ public class MhDataManager {
         return MHSDK.isTieZhiDownloaded(name);
     }
 
+    /**
+     * Load beauty values from the server
+     * 
+     * @param fromUid The user ID to load beauty values from (for audience viewing an anchor)
+     */
+    public void loadBeautyValue(String fromUid) {
+        com.livestreaming.common.http.CommonHttpUtil.getBeautyValue(new com.livestreaming.common.http.HttpCallback() {
+            @Override
+            public void onSuccess(int code, String msg, String[] info) {
+                if (code == 0 && info.length > 0) {
+                    try {
+                        MeiYanValueBean valueBean = com.alibaba.fastjson.JSON.parseObject(info[0], MeiYanValueBean.class);
+                        
+                        // Update the beauty values
+                        setMeiYanValue(valueBean);
+                        
+                        // Apply the beauty effects
+                        useMeiYan();
+                        
+                        // Notify changes
+                        notifyMeiYanChanged();
+                        notifyLiangDuChanged();
+                        
+                    } catch (Exception e) {
+                        com.livestreaming.common.utils.L.e("MhDataManager", "Error parsing beauty values: " + e.getMessage());
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Load beauty values from the server for audience
+     * This method is called when an audience member joins a live stream
+     */
+    public void loadBeautyValueForAudience() {
+        com.livestreaming.common.http.CommonHttpUtil.getBeautyValue(new com.livestreaming.common.http.HttpCallback() {
+            @Override
+            public void onSuccess(int code, String msg, String[] info) {
+                if (code == 0 && info.length > 0) {
+                    try {
+                        MeiYanValueBean valueBean = com.alibaba.fastjson.JSON.parseObject(info[0], MeiYanValueBean.class);
+                        
+                        // Update the beauty values
+                        setMeiYanValue(valueBean);
+                        
+                        // Apply the beauty effects
+                        useMeiYan();
+                        
+                        // Notify changes
+                        notifyMeiYanChanged();
+                        notifyLiangDuChanged();
+                        
+                    } catch (Exception e) {
+                        com.livestreaming.common.utils.L.e("MhDataManager", "Error parsing beauty values: " + e.getMessage());
+                    }
+                }
+            }
+        });
+    }
 
 }

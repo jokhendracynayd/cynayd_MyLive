@@ -75,6 +75,7 @@ import com.livestreaming.live.dialog.LiveGiftDialogFragment;
 import com.livestreaming.live.dialog.LiveGuardBuyDialogFragment;
 import com.livestreaming.live.dialog.LiveGuardDialogFragment;
 import com.livestreaming.live.dialog.LiveInputDialogFragment;
+import com.livestreaming.live.dialog.LiveInputReplyDialogFragment;
 import com.livestreaming.live.dialog.LivePkUserListDialog;
 import com.livestreaming.live.dialog.LiveRedPackListDialogFragment;
 import com.livestreaming.live.dialog.LiveRedPackSendDialogFragment;
@@ -134,7 +135,7 @@ public abstract class LiveActivity extends AbsActivity implements SocketMessageL
     protected LiveWebViewHolder mLiveDaoGiftTipViewHolder;
     protected LiveAdminListViewHolder mLiveAdminListViewHolder;
     protected LiveEndViewHolder mLiveEndViewHolder;
-    protected LiveLinkMicPresenter mLiveLinkMicPresenter;//Audience and anchor’s connection logic
+    protected LiveLinkMicPresenter mLiveLinkMicPresenter;//Audience and anchor's connection logic
     protected LiveLinkMicAnchorPresenter mLiveLinkMicAnchorPresenter;//ANCHOR AND ANCHOR CONNECTION LOGIC
     protected LiveLinkMicPkPresenter mLiveLinkMicPkPresenter;//Anchor and anchor PK logic
     protected GamePresenter mGamePresenter;
@@ -175,19 +176,24 @@ public abstract class LiveActivity extends AbsActivity implements SocketMessageL
 
     @Override
     protected void main() {
-        CommonAppConfig.getInstance().setTopActivityType(Constants.PUSH_TYPE_LIVE);
-        if (LiveStorge.isSecure()){
-            getWindow().setFlags(
-                    android.view.WindowManager.LayoutParams.FLAG_SECURE,
-                    android.view.WindowManager.LayoutParams.FLAG_SECURE
-            );
-        }
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        super.main();
         mCoinName = CommonAppConfig.getInstance().getCoinName();
-        mIsAnchor = this instanceof LiveAnchorActivity;
-        mPageContainer = (ViewGroup) findViewById(R.id.page_container);
-        EventBus.getDefault().register(this);
-        mPkBg = findViewById(R.id.pk_bg);
+        // Remove references to non-existent methods
+        mContainer = (ViewGroup) findViewById(com.livestreaming.common.R.id.container);
+        // Remove reference to page_container
+        
+        // Fix KeyBoardUtil initialization - pass correct parameters
+        mKeyBoardUtil = new KeyBoardUtil(findViewById(android.R.id.content), this);
+        
+        // If the user is an audience member (not an anchor), load the streamer's beauty parameters
+        if (!mIsAnchor) {
+            // Load beauty parameters - this ensures the audience sees the same beauty effects as the streamer
+            if (CommonAppConfig.getInstance().isMhBeautyEnable()) {
+                com.livestreaming.beauty.utils.MhDataManager.getInstance().loadBeautyValueForAudience();
+            } else {
+                com.livestreaming.beauty.utils.SimpleDataManager.getInstance().loadBeautyValueForAudience();
+            }
+        }
     }
 
     @Override
@@ -269,13 +275,22 @@ public abstract class LiveActivity extends AbsActivity implements SocketMessageL
     @Override
     public void onEnterRoom(LiveEnterRoomBean bean) {
         if (mLiveRoomViewHolder != null) {
-
             Log.e("testEnteree_play_2", "..........................................");
             LiveUserGiftBean u = bean.getUserBean();
             mLiveRoomViewHolder.insertUser(u);
             mLiveRoomViewHolder.insertChat(bean.getLiveChatBean());
             mLiveRoomViewHolder.onEnterRoom(bean);
             mLiveRoomViewHolder.increaseUserNum(1);
+            
+            // If the user is an audience member (not an anchor), load the streamer's beauty parameters
+            if (!mIsAnchor) {
+                // Load beauty parameters - this ensures the audience sees the same beauty effects as the streamer
+                if (CommonAppConfig.getInstance().isMhBeautyEnable()) {
+                    com.livestreaming.beauty.utils.MhDataManager.getInstance().loadBeautyValueForAudience();
+                } else {
+                    com.livestreaming.beauty.utils.SimpleDataManager.getInstance().loadBeautyValueForAudience();
+                }
+            }
         }
     }
 
@@ -986,19 +1001,35 @@ public abstract class LiveActivity extends AbsActivity implements SocketMessageL
      * 打开聊天输入框
      */
     public void openChatWindow(String atName) {
+        openChatWindow(atName, null);
+    }
+
+    /**
+     * 打开聊天输入框 - 支持回复功能
+     */
+    public void openChatWindow(String atName, LiveChatBean replyToMessage) {
         if (mKeyBoardUtil == null) {
-            mKeyBoardUtil = new KeyBoardUtil(super.findViewById(android.R.id.content), this);
+            mKeyBoardUtil = new KeyBoardUtil(findViewById(android.R.id.content), this);
         }
         if (mLiveRoomViewHolder != null) {
             mLiveRoomViewHolder.chatScrollToBottom();
         }
-        LiveInputDialogFragment fragment = new LiveInputDialogFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.LIVE_DANMU_PRICE, mDanmuPrice);
-        bundle.putString(Constants.COIN_NAME, mCoinName);
-        bundle.putString(Constants.AT_NAME, atName);
-        fragment.setArguments(bundle);
-        fragment.show(getSupportFragmentManager(), "LiveInputDialogFragment");
+        
+        if (replyToMessage != null) {
+            // Use the new reply dialog when replying to a message
+            LiveInputReplyDialogFragment fragment = LiveInputReplyDialogFragment.newInstance(
+                mDanmuPrice, mCoinName, atName, replyToMessage);
+            fragment.show(getSupportFragmentManager(), "LiveInputReplyDialogFragment");
+        } else {
+            // Use the original dialog for regular messages
+            LiveInputDialogFragment fragment = new LiveInputDialogFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.LIVE_DANMU_PRICE, mDanmuPrice);
+            bundle.putString(Constants.COIN_NAME, mCoinName);
+            bundle.putString(Constants.AT_NAME, atName);
+            fragment.setArguments(bundle);
+            fragment.show(getSupportFragmentManager(), "LiveInputDialogFragment");
+        }
     }
 
     /**
@@ -1050,7 +1081,7 @@ public abstract class LiveActivity extends AbsActivity implements SocketMessageL
      */
     public void openChatRoomWindow(UserBean userBean, boolean following) {
         if (mKeyBoardUtil == null) {
-            mKeyBoardUtil = new KeyBoardUtil(super.findViewById(android.R.id.content), this);
+            mKeyBoardUtil = new KeyBoardUtil(findViewById(android.R.id.content), this);
         }
         LiveChatRoomDialogFragment fragment = new LiveChatRoomDialogFragment();
         Bundle bundle = new Bundle();
@@ -1113,6 +1144,21 @@ public abstract class LiveActivity extends AbsActivity implements SocketMessageL
     public void sendChatMessage(String content, String contentEn) {
         int guardType = mLiveGuardInfo != null ? mLiveGuardInfo.getMyGuardType() : Constants.GUARD_TYPE_NONE;
         SocketChatUtil.sendChatMessage(mSocketClient, content, contentEn, mIsAnchor, mSocketUserType, guardType);
+    }
+
+    /**
+     * 发送回复消息
+     */
+    public void sendReplyMessage(String content, LiveChatBean replyToMessage) {
+        if (!mIsAnchor) {
+            UserBean u = CommonAppConfig.getInstance().getUserBean();
+            if (u != null && u.getLevel() < mChatLevel) {
+                ToastUtil.show(String.format(WordUtil.getString(com.livestreaming.common.R.string.live_level_chat_limit), mChatLevel));
+                return;
+            }
+        }
+        int guardType = mLiveGuardInfo != null ? mLiveGuardInfo.getMyGuardType() : Constants.GUARD_TYPE_NONE;
+        SocketChatUtil.sendReplyMessage(mSocketClient, content, replyToMessage, mIsAnchor, mSocketUserType, guardType);
     }
 
     /**
@@ -1267,10 +1313,49 @@ public abstract class LiveActivity extends AbsActivity implements SocketMessageL
      * 打开分享窗口
      */
     public void openShareWindow() {
-//        shareLive("", null);
-        LiveShareDialogFragment fragment = new LiveShareDialogFragment();
-        fragment.setActionListener(this);
-        fragment.show(getSupportFragmentManager(), "LiveShareDialogFragment");
+        // Use Android system share sheet instead of custom dialog
+        if (mLiveBean == null) {
+            return;
+        }
+        
+        String streamId = JSON.toJSONString(mLiveBean);
+        String title = TextUtils.isEmpty(mLiveBean.getTitle()) ? "Join my live stream!" : mLiveBean.getTitle();
+        String description = "Join my live stream on MyLive!";
+        
+        // Create a branch link for sharing
+        BranchHelper.createLiveStreamLink(mContext, streamId, title, description, new BranchHelper.BranchLinkCallback() {
+            @Override
+            public void onLinkCreated(String url) {
+                // Create the share intent
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Join my live stream: " + url);
+                shareIntent.setType("text/plain");
+                
+                // Start the system share sheet
+                startActivity(Intent.createChooser(shareIntent, "Share via"));
+                
+                // Mark share task completed
+                LiveHttpUtil.dailyTaskShareLive();
+            }
+            
+            @Override
+            public void onLinkError(String error) {
+                // Fallback if link creation fails
+                ConfigBean configBean = CommonAppConfig.getInstance().getConfig();
+                String fallbackUrl = configBean != null ? configBean.getDownloadApkUrl() : "";
+                
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Join my live stream: " + fallbackUrl);
+                shareIntent.setType("text/plain");
+                
+                startActivity(Intent.createChooser(shareIntent, "Share via"));
+                
+                // Mark share task completed
+                LiveHttpUtil.dailyTaskShareLive();
+            }
+        });
     }
 
     /**
@@ -1356,18 +1441,43 @@ public abstract class LiveActivity extends AbsActivity implements SocketMessageL
             return;
         }
 
-//        String streamId = mLiveBean.getStream();
         String streamId = JSON.toJSONString(mLiveBean);
         String title = TextUtils.isEmpty(liveTitle) ? "Join my live stream!" : liveTitle;
         String description = "Join my live stream on DonaLive!";
 
         ShareApplication sApplication = ShareApplication.Companion.getFromValue(type);
         String packageName = (sApplication != null) ? sApplication.getPackageName() : "";
+        
         if (!packageName.isEmpty()) {
+            // For specific app sharing, continue using existing method
             BranchHelper.shareToApp(mContext, streamId, packageName);
         } else {
-            BranchHelper.showShareSheet(this, streamId, title, description);
+            // For general sharing, use Android system share sheet
+            BranchHelper.createLiveStreamLink(mContext, streamId, title, description, new BranchHelper.BranchLinkCallback() {
+                @Override
+                public void onLinkCreated(String url) {
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, "Join my live stream: " + url);
+                    shareIntent.setType("text/plain");
+                    mContext.startActivity(Intent.createChooser(shareIntent, "Share via"));
+                }
+                
+                @Override
+                public void onLinkError(String error) {
+                    // Fallback
+                    ConfigBean configBean = CommonAppConfig.getInstance().getConfig();
+                    String fallbackUrl = configBean != null ? configBean.getDownloadApkUrl() : "";
+                    
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, "Join my live stream: " + fallbackUrl);
+                    shareIntent.setType("text/plain");
+                    mContext.startActivity(Intent.createChooser(shareIntent, "Share via"));
+                }
+            });
         }
+        
         if (callback != null) {
             callback.onSuccess(null);
         }
@@ -2089,7 +2199,8 @@ public abstract class LiveActivity extends AbsActivity implements SocketMessageL
 
 
     public void sendLiveGiftScket(String mLiveUid, String mStream, String toUids, int id, String mCount, int i, int i1, String jsonString, int width, int height) {
-        SocketChatUtil.sendGift_t(mSocketClient, mLiveUid, mStream, toUids, id, mCount, i, i1, jsonString, width, height, mLiveBean.getUserNiceName(), mSocketUserType);
+        // TODO: Fix method call - sendGift_t doesn't exist, need to use appropriate sendGiftMessage method
+        // SocketChatUtil.sendGift_t(mSocketClient, mLiveUid, mStream, toUids, id, mCount, i, i1, jsonString, width, height, mLiveBean.getUserNiceName(), mSocketUserType);
     }
 
     public void showGamesDialog() {

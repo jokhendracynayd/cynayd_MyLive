@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/bg_live_chat_item"
+    android:orientation="vertical"
+    android:paddingLeft="5dp"
+    android:paddingTop="2dp"
+    android:paddingRight="5dp"
+    android:paddingBottom="2dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/image_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/transparent">
+        
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/avatar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            app:riv_border_color="@color/white"
+            app:riv_border_width="1dp"
+            app:riv_oval="true" />
+            
+        <ImageView
+            android:id="@+id/frame"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:visibility="visible"
+            android:scaleType="fitXY" />
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/top_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/image_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:maxLength="10"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            tools:text="Username" />
+
+        <ImageView
+            android:id="@+id/level"
+            android:layout_width="28dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="3dp"
+            tools:src="@mipmap/ic_level_1" />
+
+        <ImageView
+            android:id="@+id/vip"
+            android:layout_width="28dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="3dp"
+            android:src="@mipmap/icon_live_chat_vip" />
+
+        <ImageView
+            android:id="@+id/manage"
+            android:layout_width="19dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="3dp"
+            android:src="@drawable/icon_live_chat_m" />
+
+        <ImageView
+            android:id="@+id/guard"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="2dp"
+            tools:src="@drawable/icon_live_chat_guard_2" />
+
+        <ImageView
+            android:id="@+id/liang"
+            android:layout_width="19dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="3dp"
+            android:src="@drawable/icon_live_chat_liang" />
+    </LinearLayout>
+
+    <!-- Reply Context Container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/reply_context_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/bg_reply_context"
+        android:padding="8dp"
+        android:visibility="gone"
+        android:alpha="0.9"
+        android:animateLayoutChanges="true"
+        app:layout_constraintStart_toEndOf="@+id/image_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_layout"
+        tools:visibility="visible">
+
+        <View
+            android:id="@+id/reply_indicator_line"
+            android:layout_width="4dp"
+            android:layout_height="0dp"
+            android:background="#4CAF50"
+            android:alpha="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/reply_icon"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_reply_small"
+            android:alpha="0.7"
+            android:tint="#4CAF50"
+            app:layout_constraintStart_toEndOf="@+id/reply_indicator_line"
+            app:layout_constraintTop_toTopOf="@+id/reply_avatar"
+            app:layout_constraintBottom_toBottomOf="@+id/reply_avatar" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/reply_avatar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="6dp"
+            android:scaleType="centerCrop"
+            app:riv_border_color="#E0E0E0"
+            app:riv_border_width="1dp"
+            app:riv_oval="true"
+            app:layout_constraintStart_toEndOf="@+id/reply_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/icon_avatar_none" />
+
+        <TextView
+            android:id="@+id/reply_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:textColor="#E0E0E0"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintStart_toEndOf="@+id/reply_avatar"
+            app:layout_constraintTop_toTopOf="@+id/reply_avatar"
+            app:layout_constraintBottom_toBottomOf="@+id/reply_avatar"
+            tools:text="Original User" />
+
+        <TextView
+            android:id="@+id/reply_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="#B0B0B0"
+            android:textSize="11sp"
+            android:lineSpacingExtra="2dp"
+            app:layout_constraintStart_toEndOf="@+id/reply_indicator_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reply_avatar"
+            tools:text="This is the original message content that was replied to..." />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:textColor="#F1F1F1"
+        android:textSize="14dp"
+        app:layout_constraintStart_toEndOf="@+id/image_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reply_context_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="This is the actual message content" />
+
+</androidx.constraintlayout.widget.ConstraintLayout> 

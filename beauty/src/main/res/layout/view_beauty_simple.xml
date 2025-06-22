@@ -18,104 +18,423 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="200dp">
 
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fadeScrollbars="false"
+                android:scrollbarThumbVertical="@android:color/white">
+                
+                <LinearLayout
+                    android:id="@+id/group_beauty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+    
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+    
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_meibai"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+    
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_mopi"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+    
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_hongrun"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_brightness"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_sharpness"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_face_slim"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+    
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_big_eye"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+    
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_jaw"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_eye_distance"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_face_shape"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <!-- New beauty parameters -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_meimao"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_yanjiao"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_zuixing"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_shoubi"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_changbi"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/beauty_mh_kaiyanjiao"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+    
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+    
+                        <SeekBar
+                            android:id="@+id/seek_bar_meibai"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+    
+                        <SeekBar
+                            android:id="@+id/seek_bar_mopi"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+    
+                        <SeekBar
+                            android:id="@+id/seek_bar_hongrun"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+                            
+                        <SeekBar
+                            android:id="@+id/seek_bar_brightness"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+                            
+                        <SeekBar
+                            android:id="@+id/seek_bar_sharpness"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+                            
+                        <SeekBar
+                            android:id="@+id/seek_bar_face_slim"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+    
+                        <SeekBar
+                            android:id="@+id/seek_bar_big_eye"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+    
+                        <SeekBar
+                            android:id="@+id/seek_bar_jaw"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+                            
+                        <SeekBar
+                            android:id="@+id/seek_bar_eye_distance"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+                            
+                        <SeekBar
+                            android:id="@+id/seek_bar_face_shape"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+                            
+                        <!-- New beauty parameter seekbars -->
+                        <SeekBar
+                            android:id="@+id/seek_bar_eye_brow"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+                            
+                        <SeekBar
+                            android:id="@+id/seek_bar_eye_corner"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+                            
+                        <SeekBar
+                            android:id="@+id/seek_bar_mouse_lift"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+                            
+                        <SeekBar
+                            android:id="@+id/seek_bar_nose_lift"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+                            
+                        <SeekBar
+                            android:id="@+id/seek_bar_lengthen_nose"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+                            
+                        <SeekBar
+                            android:id="@+id/seek_bar_eye_alat"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:max="9" />
+                    </LinearLayout>
+    
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+    
+                        <TextView
+                            android:id="@+id/text_meibai"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+    
+                        <TextView
+                            android:id="@+id/text_mopi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+    
+                        <TextView
+                            android:id="@+id/text_hongrun"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:id="@+id/text_brightness"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:id="@+id/text_sharpness"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:id="@+id/text_face_slim"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+    
+                        <TextView
+                            android:id="@+id/text_big_eye"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+    
+                        <TextView
+                            android:id="@+id/text_jaw"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:id="@+id/text_eye_distance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:id="@+id/text_face_shape"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <!-- New beauty parameter value texts -->
+                        <TextView
+                            android:id="@+id/text_eye_brow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:id="@+id/text_eye_corner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:id="@+id/text_mouse_lift"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:id="@+id/text_nose_lift"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:id="@+id/text_lengthen_nose"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                            
+                        <TextView
+                            android:id="@+id/text_eye_alat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:gravity="center"
+                            android:minWidth="25dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- Keep these for compatibility but hide them -->
             <LinearLayout
-                android:id="@+id/group_beauty"
+                android:id="@+id/group_advanced"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/beauty_mh_meibai"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/beauty_mh_mopi"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/beauty_mh_hongrun"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <SeekBar
-                        android:id="@+id/seek_bar_meibai"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:max="9" />
-
-                    <SeekBar
-                        android:id="@+id/seek_bar_mopi"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:max="9" />
-
-                    <SeekBar
-                        android:id="@+id/seek_bar_hongrun"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:max="9" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/text_meibai"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:gravity="center"
-                        android:minWidth="30dp"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/text_mopi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:gravity="center"
-                        android:minWidth="30dp"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/text_hongrun"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:gravity="center"
-                        android:minWidth="30dp"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-                </LinearLayout>
+                android:paddingRight="15dp"
+                android:visibility="gone">
             </LinearLayout>
 
             <FrameLayout
@@ -129,8 +448,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </FrameLayout>
-
-
         </FrameLayout>
 
         <RadioGroup
@@ -157,6 +474,26 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:background="@color/gray1"
+                android:visibility="gone" />
+
+            <RadioButton
+                android:id="@+id/btn_advanced"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/beauty_mh_advanced"
+                android:textColor="@color/fg_btn_beauty_simple"
+                android:textSize="14sp"
+                android:visibility="gone" />
+                
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@color/gray1" />
 
             <RadioButton
@@ -173,6 +510,5 @@
         </RadioGroup>
 
     </LinearLayout>
-
 
 </LinearLayout>

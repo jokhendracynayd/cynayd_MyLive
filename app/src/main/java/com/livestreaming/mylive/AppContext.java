@@ -67,8 +67,8 @@ public class AppContext extends CommonAppContext {
         // Enable Branch logging in debug mode
         if (BuildConfig.DEBUG) {
             Branch.enableLogging();
-            Branch.enableTestMode();
-            Log.d("Branch", "Branch test mode enabled");
+            // Branch.enableTestMode(); // Commented out to use production links even in debug mode
+            Log.d("Branch", "Branch production mode enabled");
         }
 
         // Initialize Branch.io SDK

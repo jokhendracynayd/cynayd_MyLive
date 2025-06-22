@@ -152,8 +152,14 @@ public class LivePushAgoraViewHolder extends AbsLivePushViewHolder {
     private String mApplyStream;
     private MyCountdown pkBounsCountDown3;
 
-    public LivePushAgoraViewHolder(Context context, ViewGroup parentView, boolean isScreenRecord) {
+    Select select;
+    public interface Select{
+        void initRTC(RtcEngineEx mEngine);
+    }
+
+    public LivePushAgoraViewHolder(Context context, ViewGroup parentView, boolean isScreenRecord,Select select) {
         super(context, parentView, isScreenRecord);
+        this.select = select;
     }
 
     @Override
@@ -224,6 +230,7 @@ public class LivePushAgoraViewHolder extends AbsLivePushViewHolder {
             @Override
             public void run() {
                 if (mEngine != null) {
+
                     mEngine.setClientRole(CLIENT_ROLE_BROADCASTER);
                     mEngine.enableVideo();
                     VideoEncoderConfiguration encoderConfiguration = new VideoEncoderConfiguration(
@@ -415,6 +422,7 @@ public class LivePushAgoraViewHolder extends AbsLivePushViewHolder {
                     if (mHandler != null) {
                         mHandler.post(onSuccess);
                     }
+                    select.initRTC(mEngine);
                 } catch (Exception e) {
                     mEngine = null;
                 }
@@ -699,11 +707,16 @@ public class LivePushAgoraViewHolder extends AbsLivePushViewHolder {
                             });
                         }
                     } else {
-                        SimpleDataManager.getInstance().create().setMeiYanChangedListener(getMeiYanChangedListener());
+                        SimpleDataManager.getInstance().setMeiYanChangedListener(getMeiYanChangedListener());
                         int meiBai = obj.getIntValue("skin_whiting");
                         int moPi = obj.getIntValue("skin_smooth");
                         int hongRun = obj.getIntValue("skin_tenderness");
-                        SimpleDataManager.getInstance().setData(meiBai, moPi, hongRun);
+                        
+                        // Set individual beauty parameters
+                        SimpleDataManager instance = SimpleDataManager.getInstance();
+                        instance.setMeiBai(meiBai);
+                        instance.setMoPi(moPi);
+                        instance.setHongRun(hongRun);
                     }
                 }
             }
@@ -724,6 +737,105 @@ public class LivePushAgoraViewHolder extends AbsLivePushViewHolder {
                         mBeautyOptions.smoothnessLevel = moPi / 10f;
                         mBeautyOptions.rednessLevel = hongRun / 10f;
                         mEngine.setBeautyEffectOptions(true, mBeautyOptions);
+                    }
+                }
+            }
+
+            @Override
+            public void onAdvancedBeautyChanged(String key, int value) {
+                if (mEngine != null) {
+                    // Check if MH beauty is enabled
+                    if (CommonAppConfig.getInstance().isMhBeautyEnable()) {
+                        // Use MhDataManager for advanced beauty features
+                        switch (key) {
+                            case "brightness":
+                                MhDataManager.getInstance().setLiangDu(value);
+                                break;
+                            case "sharpness":
+                                MhDataManager.getInstance().setMoPi(value);
+                                break;
+                            case "face_slim":
+                                MhDataManager.getInstance().setShouLian(value);
+                                break;
+                            case "big_eye":
+                                MhDataManager.getInstance().setDaYan(value);
+                                break;
+                            case "jaw":
+                                MhDataManager.getInstance().setXiaBa(value);
+                                break;
+                            case "eye_distance":
+                                MhDataManager.getInstance().setYanJu(value);
+                                break;
+                            case "face_shape":
+                                MhDataManager.getInstance().setETou(value);
+                                break;
+                            case "eye_brow":
+                                MhDataManager.getInstance().setMeiMao(value);
+                                break;
+                            case "eye_corner":
+                                MhDataManager.getInstance().setYanJiao(value);
+                                break;
+                            case "mouse_lift":
+                                MhDataManager.getInstance().setZuiXing(value);
+                                break;
+                            case "nose_lift":
+                                MhDataManager.getInstance().setShouBi(value);
+                                break;
+                            case "lengthen_noseLift":
+                                MhDataManager.getInstance().setChangBi(value);
+                                break;
+                            case "face_shave":
+                                MhDataManager.getInstance().setXueLian(value);
+                                break;
+                            case "eye_alat":
+                                MhDataManager.getInstance().setKaiYanJiao(value);
+                                break;
+                        }
+                        
+                        // Save beauty values to server when they change
+                        MhDataManager.getInstance().saveBeautyValue();
+                    } else {
+                        // Use Agora's built-in beauty options for the few parameters it supports
+                        if (mBeautyOptions == null) {
+                            mBeautyOptions = new BeautyOptions();
+                        }
+                        
+                        // Map the advanced beauty parameters to available Agora beauty options
+                        float normalizedValue = value / 10f; // Convert to 0-1 range for Agora SDK
+                        
+                        switch (key) {
+                            case "brightness":
+                                // For brightness, use lightening level in Agora
+                                mBeautyOptions.lighteningLevel = normalizedValue;
+                                break;
+                            case "sharpness":
+                                // For sharpness, could use smoothness as approximation
+                                mBeautyOptions.smoothnessLevel = normalizedValue;
+                                break;
+                            // Agora's basic beauty options don't have these advanced features
+                            // but we still need to handle them to avoid errors
+                            case "face_slim":
+                            case "big_eye":
+                            case "jaw":
+                            case "eye_distance":
+                            case "face_shape":
+                            case "eye_brow":
+                            case "eye_corner":
+                            case "mouse_lift":
+                            case "nose_lift":
+                            case "lengthen_noseLift":
+                            case "face_shave":
+                            case "eye_alat":
+                                // These parameters are not supported by Agora's built-in beauty
+                                // We'll just save them but not apply them
+                                break;
+                        }
+                        
+                        // Apply the beauty effect options
+                        mEngine.setBeautyEffectOptions(true, mBeautyOptions);
+                        
+                        // Save beauty values to server when they change
+                        SimpleDataManager.getInstance().saveBeautyValue();
                     }
                 }
             }
@@ -1034,7 +1146,7 @@ public class LivePushAgoraViewHolder extends AbsLivePushViewHolder {
             if (mMhBeautyEnable) {
                 MhDataManager.getInstance().release();
             } else {
-                SimpleDataManager.getInstance().release();
+                SimpleDataManager.getInstance().saveBeautyValue();
             }
         }
        /* mEngine = null;

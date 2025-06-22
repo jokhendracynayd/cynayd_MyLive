@@ -1,23 +1,37 @@
 package com.livestreaming.live.activity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.livestreaming.beauty.interfaces.IBeautyViewHolder;
 import com.livestreaming.beauty.views.BeautyViewHolder;
 import com.livestreaming.beauty.views.SimpleBeautyViewHolder;
@@ -44,6 +58,7 @@ import com.livestreaming.im.event.ImUnReadCountEvent;
 import com.livestreaming.im.utils.ImMessageUtil;
 import com.livestreaming.im.utils.ImUnReadCount;
 import com.livestreaming.live.R;
+import com.livestreaming.live.adapter.Mp3Adapter;
 import com.livestreaming.live.bean.ChangeRoomBackBean;
 import com.livestreaming.live.bean.LiveBean;
 import com.livestreaming.live.bean.LiveConfigBean;
@@ -103,11 +118,14 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+import io.agora.rtc2.RtcEngineEx;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
@@ -121,6 +139,11 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
     private LiveGoodsAddViewHolder mLiveGoodsAddViewHolder;
     private LivePlatGoodsAddViewHolder mLivePlatGoodsAddViewHolder;
     private int isMicOpen = 1;
+    private static final int REQUEST_CODE = 100;
+    private boolean isShowBottomSheetRequested = false;
+    ArrayList<HashMap<String, String>> mp3List;
+    private String filePah = "";
+    private String id = "";
 
     public static void forward(Context context, int liveSdk, LiveConfigBean bean, int haveStore, boolean isVoiceChatRoom, String forbidLiveTip, boolean isScreenRecord) {
         Intent intent = new Intent(context, LiveAnchorActivity.class);
@@ -159,6 +182,15 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
     private LiveLinkMicListDialogFragment mLiveLinkMicListDialogFragment;
     private AbsLiveChatRoomPushViewHolder mLiveChatRoomPushViewHolder;
     private boolean mIsScreenRecord;
+    private Button pauseBtn,startBtn,stopBtn;
+    private SeekBar seekBar;
+    private RtcEngineEx mRtcEngine;
+
+    private View waveformView;
+    private View musicControls;
+    private boolean isPaused = false;
+    private int durationMs = 0;
+    private android.os.Handler handler = new android.os.Handler();
 
     @Override
     protected int getLayoutId() {
@@ -174,6 +206,8 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
                     android.view.WindowManager.LayoutParams.FLAG_SECURE
             );
         }
+        mp3List = new ArrayList<>();
+
 
         Intent intent = getIntent();
         mLiveSDK = intent.getIntExtra(Constants.LIVE_SDK, Constants.LIVE_SDK_TX);
@@ -195,6 +229,20 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
         mLiveBean.setLevelAnchor(u.getLevelAnchor());
         mLiveBean.setGoodNum(u.getGoodName());
         mLiveBean.setCity(u.getCity());
+
+        seekBar = findViewById(R.id.seekBar);
+        pauseBtn = findViewById(R.id.pauseBtn);
+        startBtn = findViewById(R.id.startBtn);
+        stopBtn = findViewById(R.id.stopBtn);
+        musicControls = findViewById(R.id.musicControls);
+        if (!Objects.equals(getFilePah(), "")){
+            musicControls.setVisibility(View.VISIBLE);
+
+        }
+
+        pauseBtn.setOnClickListener(v -> togglePauseResume());
+        startBtn.setOnClickListener(v -> playAudio());
+        stopBtn.setOnClickListener(v -> stopAudio());
 
         if (isChatRoom()) {
 
@@ -225,7 +273,14 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
                     mLivePushViewHolder = new LivePushTxViewHolder(mContext, (ViewGroup) findViewById(R.id.preview_container), mLiveConfigBean);
                 }
             } else {
-                mLivePushViewHolder = new LivePushAgoraViewHolder(mContext, (ViewGroup) findViewById(R.id.preview_container), mIsScreenRecord);
+                mLivePushViewHolder = new LivePushAgoraViewHolder(mContext, (ViewGroup) findViewById(R.id.preview_container), mIsScreenRecord, new LivePushAgoraViewHolder.Select() {
+                    @Override
+                    public void initRTC(RtcEngineEx mEngine1) {
+                        Log.e(TAG, "initRTC: " );
+                        mRtcEngine=mEngine1;
+
+                    }
+                });
             }
         }
 
@@ -361,7 +416,8 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
     public void onClick(int functionID) {
         switch (functionID) {
             case Constants.LIVE_MP3_PLAYER:
-                Log.i("54564654", "onClick: kjsdkjfksdjfsdfsdf");
+                isShowBottomSheetRequested = true;
+                checkAndRequestPermissions();
                 break;
             case Constants.LIVE_FUNC_BEAUTY://美颜
                 beauty();
@@ -408,6 +464,142 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
                 }
                 break;
         }
+    }
+
+    private void checkAndRequestPermissions() {
+        Toast.makeText(mContext, "okkk working", Toast.LENGTH_SHORT).show();
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(LiveAnchorActivity.this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(LiveAnchorActivity.this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, REQUEST_CODE);
+            } else {
+                fetchAllMp3FilesAndShowIfRequested();
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(LiveAnchorActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(LiveAnchorActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE);
+            } else {
+                fetchAllMp3FilesAndShowIfRequested();
+            }
+        } else {
+            fetchAllMp3FilesAndShowIfRequested();
+        }
+    }
+
+    private void fetchAllMp3FilesAndShowIfRequested() {
+        mp3List.clear();
+        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String[] projection = {
+                MediaStore.Audio.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.DATA,
+                MediaStore.Audio.Media._ID
+        };
+
+        String selection = MediaStore.Audio.Media.IS_MUSIC + "!= 0";
+        Cursor cursor = getContentResolver().query(uri, projection, selection, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME));
+                String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
+                String id = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
+
+                if (path != null && path.endsWith(".mp3")) {
+                    HashMap<String, String> item = new HashMap<>();
+                    item.put("id", id);
+                    item.put("name", name);
+                    item.put("path", path);
+                    mp3List.add(item);
+                }
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        if (isShowBottomSheetRequested) {
+            showBottomSheet();
+            isShowBottomSheetRequested = false;
+        }
+    }
+
+    private void showBottomSheet() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(mContext);
+        View view = getLayoutInflater().inflate(R.layout.bottom_sheet_layout, null);
+        RecyclerView recyclerView = view.findViewById(R.id.mp3RecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        Mp3Adapter adapter = new Mp3Adapter(mp3List, (path, id) -> {
+            setFilePah(path);
+            setId(id);
+            musicControls.setVisibility(View.VISIBLE);
+            bottomSheetDialog.dismiss();
+        });
+        recyclerView.setAdapter(adapter);
+        bottomSheetDialog.setContentView(view);
+        bottomSheetDialog.show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE && grantResults.length > 0 &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            fetchAllMp3FilesAndShowIfRequested();
+        }
+//        else if (requestCode == INITIAL_PERMISSIONS_CODE) {
+//            initAgoraEngine();
+//        }
+    }
+
+    public void playAudio() {
+        if (!Objects.equals(getFilePah(), "") && mRtcEngine!=null) {
+            try {
+                mRtcEngine.startAudioMixing(getFilePah(), false, 1, 0);
+                mRtcEngine.adjustAudioMixingVolume(20);        // Local speaker volume
+                mRtcEngine.adjustAudioMixingPublishVolume(20); // Remote volume
+
+                musicControls.setVisibility(View.VISIBLE);
+
+                handler.postDelayed(() -> {
+                    durationMs = mRtcEngine.getAudioMixingDuration();
+                    if (durationMs > 0) {
+                        seekBar.setMax(durationMs);
+                        startUpdatingSeekBar();
+                    }
+                }, 500);
+            }catch (Exception e){
+                Log.e(TAG, "playAudio: ",e );
+            }
+        }
+    }
+    private void startUpdatingSeekBar() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!isPaused && mRtcEngine != null) {
+                    int currentPos = mRtcEngine.getAudioMixingCurrentPosition();
+                    seekBar.setProgress(currentPos);
+                }
+                handler.postDelayed(this, 500);
+            }
+        }, 500);
+    }
+
+    private void togglePauseResume() {
+        if (isPaused) {
+            mRtcEngine.resumeAudioMixing();
+            pauseBtn.setText("Pause");
+        } else {
+            mRtcEngine.pauseAudioMixing();
+            pauseBtn.setText("Resume");
+        }
+        isPaused = !isPaused;
+    }
+
+    public void stopAudio() {
+        mRtcEngine.stopAudioMixing();
+        handler.removeCallbacksAndMessages(null);
+        seekBar.setProgress(0);
+        musicControls.setVisibility(View.GONE);
     }
 
     private void openChangeRoomBackgroundDialog() {
@@ -661,6 +853,14 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
         L.e("createRoom----播放地址--->" + playUrl);
         mLiveBean.setPull(playUrl);
         mTxAppId = obj.getString("tx_appid");
+        
+        // Save beauty parameters when starting a live stream so audiences can see them
+        if (CommonAppConfig.getInstance().isMhBeautyEnable()) {
+            com.livestreaming.beauty.utils.MhDataManager.getInstance().saveBeautyValue();
+        } else {
+            com.livestreaming.beauty.utils.SimpleDataManager.getInstance().saveBeautyValue();
+        }
+        
         //移除开播前的设置控件，添加直播间控件
         if (mLiveReadyViewHolder != null) {
             mLiveReadyViewHolder.removeFromParent();
@@ -1027,6 +1227,8 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
         LiveHttpUtil.cancel(LiveHttpConsts.ANCHOR_CHECK_LIVE);
         LiveHttpUtil.cancel(LiveHttpConsts.GET_LIVE_BAN_INFO);
         super.onDestroy();
+        RtcEngineEx.destroy();
+        mRtcEngine = null;
         L.e("LiveAnchorActivity-------onDestroy------->");
     }
 
@@ -1960,5 +2162,20 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
             }
         });
 
+    }
+    public String getFilePah() {
+        return filePah;
+    }
+
+    public void setFilePah(String filePah) {
+        this.filePah = filePah;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

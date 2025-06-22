@@ -24,7 +24,7 @@ import io.branch.referral.util.ShareSheetStyle;
 public class BranchHelper {
     
     private static final String TAG = "BranchHelper";
-    private static final String DOMAIN = "donalive.app.link";
+    private static final String DOMAIN = "myliveapp.app.link";
     
     public interface BranchLinkCallback {
         void onLinkCreated(String url);
@@ -50,7 +50,7 @@ public class BranchHelper {
         BranchUniversalObject branchUniversalObject = new BranchUniversalObject()
                 .setCanonicalIdentifier(streamId)
                 .setTitle(TextUtils.isEmpty(title) ? "Join my live stream!" : title)
-                .setContentDescription(TextUtils.isEmpty(description) ? "Check out this live stream on DonaLive!" : description)
+                .setContentDescription(TextUtils.isEmpty(description) ? "Check out this live stream on MyLive!" : description)
                 .setContentMetadata(
                         new ContentMetadata().addCustomMetadata("stream_id", streamId)
                 );
@@ -94,7 +94,7 @@ public class BranchHelper {
         BranchUniversalObject branchUniversalObject = new BranchUniversalObject()
                 .setCanonicalIdentifier(streamId)
                 .setTitle(TextUtils.isEmpty(title) ? "Join my live stream!" : title)
-                .setContentDescription("Check out this live stream on DonaLive!");
+                .setContentDescription("Check out this live stream on MyLive!");
         
         // Create link properties
         LinkProperties linkProperties = new LinkProperties()
@@ -139,7 +139,7 @@ public class BranchHelper {
         BranchUniversalObject branchUniversalObject = new BranchUniversalObject()
                 .setCanonicalIdentifier(streamId)
                 .setTitle(TextUtils.isEmpty(title) ? "Join my live stream!" : title)
-                .setContentDescription(TextUtils.isEmpty(description) ? "Check out this live stream on DonaLive!" : description);
+                .setContentDescription(TextUtils.isEmpty(description) ? "Check out this live stream on MyLive!" : description);
         
         // Create link properties
         LinkProperties linkProperties = new LinkProperties()
@@ -150,7 +150,7 @@ public class BranchHelper {
         // Show share sheet
         ShareSheetStyle shareSheetStyle = new ShareSheetStyle(activity, 
                 "Share this live stream", 
-                "Join my live stream on DonaLive!")
+                "Join my live stream on MyLive!")
                 .setCopyUrlStyle(activity.getResources().getDrawable(android.R.drawable.ic_menu_send), "Copy link", "Link copied")
                 .setMoreOptionStyle(activity.getResources().getDrawable(android.R.drawable.ic_menu_more), "More options");
         
@@ -189,7 +189,7 @@ public class BranchHelper {
                 // Fallback to regular sharing
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, "Join my live stream on DonaLive: " + 
+                intent.putExtra(Intent.EXTRA_TEXT, "Join my live stream on MyLive: " + 
                                 DOMAIN + "?stream=" + streamId);
                 context.startActivity(Intent.createChooser(intent, "Share via"));
             }
@@ -250,17 +250,32 @@ public class BranchHelper {
     }
 
     public static void processBranchIoDeepLink(Activity activity, Intent intent, boolean newIntent, Uri uri, Branch.BranchReferralInitListener listener) {
-//        if (newIntent) {
+        try {
+            // Always force a new session for deep links to ensure proper handling
             intent.putExtra("branch_force_new_session", true);
-//        }
-        Branch.sessionBuilder(activity)
-                .withCallback(listener)
-                .withData(intent.getData()).init();
-        /*if (newIntent) {
-            builder.reInit();
-        } else {
-            builder.init();
-        }*/
+            
+            // Get the URI from the intent if available
+            Uri deepLinkUri = intent.getData();
+            
+            // Build the Branch session with proper method chaining
+            if (newIntent) {
+                Branch.sessionBuilder(activity)
+                    .withCallback(listener)
+                    .withData(deepLinkUri)
+                    .reInit();
+            } else {
+                Branch.sessionBuilder(activity)
+                    .withCallback(listener)
+                    .withData(deepLinkUri)
+                    .init();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error in processBranchIoDeepLink: " + e.getMessage());
+            // Ensure callback is always called even if there's an error
+            if (listener != null) {
+                listener.onInitFinished(null, new BranchError("Error processing deep link", BranchError.ERR_BRANCH_NO_CONNECTIVITY));
+            }
+        }
     }
     /**
      * Extract stream ID from Branch data

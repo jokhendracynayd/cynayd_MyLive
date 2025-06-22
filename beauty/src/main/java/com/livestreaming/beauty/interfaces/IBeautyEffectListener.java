@@ -6,6 +6,8 @@ public interface IBeautyEffectListener {
 
     void onFilterChanged(int filterName);
 
+    void onAdvancedBeautyChanged(String key, int value);
+
     boolean isUseMhFilter();
 
     boolean isTieZhiEnable();

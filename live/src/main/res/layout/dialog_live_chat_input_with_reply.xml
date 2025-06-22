@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- Reply Context Container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/reply_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F5F5F5"
+        android:padding="12dp"
+        android:visibility="gone"
+        android:animateLayoutChanges="true"
+        android:elevation="2dp">
+
+        <View
+            android:id="@+id/reply_indicator_line"
+            android:layout_width="4dp"
+            android:layout_height="0dp"
+            android:background="#4CAF50"
+            android:alpha="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/reply_icon_dialog"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_reply_small"
+            android:tint="#4CAF50"
+            android:alpha="0.8"
+            app:layout_constraintStart_toEndOf="@+id/reply_indicator_line"
+            app:layout_constraintTop_toTopOf="@+id/reply_avatar"
+            app:layout_constraintBottom_toBottomOf="@+id/reply_avatar" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/reply_avatar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:scaleType="centerCrop"
+            app:riv_border_color="#4CAF50"
+            app:riv_border_width="1dp"
+            app:riv_oval="true"
+            app:layout_constraintStart_toEndOf="@+id/reply_icon_dialog"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/reply_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Replying to"
+            android:textColor="#666666"
+            android:textSize="10sp"
+            android:textStyle="normal"
+            app:layout_constraintStart_toEndOf="@+id/reply_avatar"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/reply_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Username"
+            android:textColor="#333333"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintStart_toEndOf="@+id/reply_avatar"
+            app:layout_constraintEnd_toStartOf="@+id/reply_close"
+            app:layout_constraintTop_toBottomOf="@+id/reply_label" />
+
+        <ImageView
+            android:id="@+id/reply_close"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:padding="6dp"
+            android:src="@drawable/ic_close"
+            android:alpha="0.7"
+            android:contentDescription="Close reply"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/reply_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Reply content here..."
+            android:textColor="#666666"
+            android:textSize="11sp"
+            android:lineSpacingExtra="2dp"
+            app:layout_constraintStart_toEndOf="@+id/reply_indicator_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reply_username" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Quick Reply Suggestions -->
+    <HorizontalScrollView
+        android:id="@+id/quick_reply_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FAFAFA"
+        android:padding="8dp"
+        android:visibility="gone"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/quick_reply_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/quick_reply_1"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_quick_reply_chip"
+                android:gravity="center"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="👍"
+                android:textColor="#4CAF50"
+                android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/quick_reply_2"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_quick_reply_chip"
+                android:gravity="center"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="❤️"
+                android:textColor="#4CAF50"
+                android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/quick_reply_3"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_quick_reply_chip"
+                android:gravity="center"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="Nice!"
+                android:textColor="#4CAF50"
+                android:textSize="12sp"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/quick_reply_4"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_quick_reply_chip"
+                android:gravity="center"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="Agree"
+                android:textColor="#4CAF50"
+                android:textSize="12sp"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/quick_reply_5"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_quick_reply_chip"
+                android:gravity="center"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="Thanks!"
+                android:textColor="#4CAF50"
+                android:textSize="12sp"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <!-- Input Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#e6ffffff"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp">
+
+        <CheckBox
+            android:id="@+id/danmu"
+            android:layout_width="52dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/bg_input_danmu_switch"
+            android:button="@null" />
+
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_live_input"
+            android:gravity="center_vertical"
+            android:hint="@string/live_say_something"
+            android:imeActionLabel="@string/send"
+            android:imeOptions="actionSend"
+            android:maxLength="350"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:textColor="@color/textColor"
+            android:textColorHint="@color/gray3"
+            android:textSize="14sp" />
+
+        <com.livestreaming.common.custom.MyRadioButton
+            android:id="@+id/btn_send"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/bg_live_input_btn"
+            android:button="@null"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+</LinearLayout> 

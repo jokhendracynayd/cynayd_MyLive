@@ -11,6 +11,7 @@ import com.livestreaming.common.utils.StringUtil;
 import com.livestreaming.common.utils.WordFilterUtil;
 import com.livestreaming.common.utils.WordUtil;
 import com.livestreaming.live.R;
+import com.livestreaming.live.bean.LiveChatBean;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,49 @@ public class SocketChatUtil {
         if (!TextUtils.isEmpty(contentEn)) {
             socketSendBean.param("ct_en", contentEn);
         }
+        client.send(socketSendBean);
+    }
+
+    /**
+     * 发送回复消息
+     */
+    public static void sendReplyMessage(SocketClient client, String content, LiveChatBean replyToMessage, boolean isAnchor, int userType, int guardType) {
+        if (client == null || replyToMessage == null) {
+            return;
+        }
+        UserBean u = CommonAppConfig.getInstance().getUserBean();
+        if (u == null) {
+            return;
+        }
+        content = WordFilterUtil.getInstance().filter(content);
+        
+        // Generate unique message ID
+        String messageId = System.currentTimeMillis() + "_" + u.getId();
+        
+        SocketSendBean socketSendBean = new SocketSendBean()
+                .param("_method_", Constants.SOCKET_SEND_MSG)
+                .param("action", 0)
+                .param("msgtype", 2)
+                .param("usertype", userType)
+                .param("isAnchor", isAnchor ? 1 : 0)
+                .param("level", u.getLevel())
+                .param("uname", u.getUserNiceName())
+                .param("uhead", u.getAvatar())
+                .param("uframe", u.getFrame())
+                .param("uid", u.getId())
+                .param("liangname", u.getGoodName())
+                .param("vip_type", u.getVip().getType())
+                .param("guard_type", guardType)
+                .param("ct", content)
+                .param("message_id", messageId)
+                .param("timestamp", String.valueOf(System.currentTimeMillis()))
+                // Reply specific parameters
+                .param("reply_to_id", replyToMessage.getMessageId())
+                .param("reply_to_user_id", replyToMessage.getId())
+                .param("reply_to_user_name", replyToMessage.getUserNiceName())
+                .param("reply_to_content", replyToMessage.getContent())
+                .param("reply_to_avatar", replyToMessage.avatar);
+                
         client.send(socketSendBean);
     }
 
@@ -133,40 +177,9 @@ public class SocketChatUtil {
      * 发送礼物消息
      */
     public static void sendGiftMessage(SocketClient client, int giftType, String giftToken, String liveUid, String liveName) {
-        if (client == null) {
-            return;
-        }
-        UserBean u = CommonAppConfig.getInstance().getUserBean();
-        if (u == null) {
-            return;
-        }
-        if (u != null) {
-            client.send(new SocketSendBean()
-                    .param("_method_", Constants.SOCKET_SEND_GIFT)
-                    .param("action", 0)
-                    .param("msgtype", 1)
-                    .param("level", u.getLevel())
-                    .param("uname", u.getUserNiceName())
-                    .param("uid", u.getId())
-                    .param("uhead", u.getAvatar())
-                    .param("uframe", u.getFrame())
-                    .param("evensend", giftType)
-                    .param("liangname", u.getGoodName())
-                    .param("vip_type", u.getVip() != null ? u.getVip().getType() : 0)
-                    .param("ct", giftToken)
-                    .param("roomnum", liveUid)
-                    .param("livename", liveName)
-                    .paramJsonArray("paintedPath", "[]")
-                    .param("paintedWidth", "0")
-                    .param("paintedHeight", "0")
-            );
-        }
+        sendGiftMessage(client, giftType, giftToken, liveUid, liveName, "", 0, 0);
     }
 
-
-    /**
-     * 发送礼物消息
-     */
     public static void sendGiftMessage(SocketClient client, int giftType, String giftToken, String liveUid, String liveName, String paintedPath, int paintedWidth, int paintedHeight) {
         if (client == null) {
             return;
@@ -196,7 +209,7 @@ public class SocketChatUtil {
         );
     }
 
-    public static void sendGift_t(SocketClient client, String liveUid, String stream, String touids, int giftId, String giftCount, int ispack, int is_sticker, String paintedPath, int paintedWidth, int paintedHeight,String liveName,int user_type) {
+    public static void sendGiftMessage(SocketClient client, int giftType, String giftToken, String liveUid, String liveName, ArrayList<GoodsBean> goodsBeanList) {
         if (client == null) {
             return;
         }
@@ -204,58 +217,24 @@ public class SocketChatUtil {
         if (u == null) {
             return;
         }
-        ArrayList<String> testList = new ArrayList<String>();
-        testList.add("action :" + 1);
-        testList.add("msgtype " + 1);
-        testList.add("liveUid " + liveUid);
-        testList.add("stream " + stream);
-        testList.add("touids " + touids);
-        testList.add("giftId " + giftId);
-        testList.add("giftCount " + giftCount);
-        testList.add("ispack " + ispack);
-        testList.add("is_sticker " + is_sticker);
-        testList.add(("paintedPath " + paintedPath));
-        testList.add("paintedWidth " + paintedWidth);
-        testList.add("paintedHeight " + paintedHeight);
-        Log.e("test_send_gift", "send :\n"+testList.toString());
         client.send(new SocketSendBean()
-                .param("_method_", Constants.SENDGIFT_LIVE)
-                .param("action", 1)
+                .param("_method_", Constants.SOCKET_SEND_GIFT)
+                .param("action", 0)
                 .param("msgtype", 1)
-                .param("liveUid", liveUid)
-                .param("stream", stream)
-                .param("touids", touids)
-                .param("giftId", giftId)
-                .param("giftCount", giftCount)
-                .param("ispack", ispack)
-                .param("is_sticker", is_sticker)
-                .paramJsonArray("paintedPath", paintedPath)
-                .param("paintedWidth", paintedWidth)
-                .param("paintedHeight", paintedHeight)
-                .param("livename", liveName)
                 .param("level", u.getLevel())
                 .param("uname", u.getUserNiceName())
+                .param("uid", u.getId())
                 .param("uhead", u.getAvatar())
                 .param("uframe", u.getFrame())
-                .param("uid", u.getId())
+                .param("evensend", giftType)
                 .param("liangname", u.getGoodName())
                 .param("vip_type", u.getVip().getType())
-                .param("usertype", user_type)
-
+                .param("ct", giftToken)
+                .param("roomnum", liveUid)
+                .param("livename", liveName)
+                .paramJsonArray("goods_list", new com.google.gson.Gson().toJson(goodsBeanList))
         );
     }
-
-    public static void sendCountLights(SocketClient client, int ifpk, int total1, int total2, String m,String pkuid) {
-        client.send(new SocketSendBean()
-                .param("_method_", Constants.SOCKET_LINK_MIC)
-                .param("action", 20)
-                .param("ifpk", ifpk)
-                .param("pktotal1", total1)
-                .param("roomnum", m)
-                .param("pk_roomnum", pkuid)
-                .param("pktotal2", total2));
-    }
-
 
     /**
      * 主播或管理员 踢人
@@ -456,6 +435,30 @@ public class SocketChatUtil {
 
     }
 
+
+    /**
+     * 直播间购物飘屏
+     */
+    public static void sendBuyMessage(SocketClient client, ArrayList<GoodsBean> goodsBeanList) {
+        if (client == null) {
+            return;
+        }
+        UserBean u = CommonAppConfig.getInstance().getUserBean();
+        if (u == null) {
+            return;
+        }
+        client.send(new SocketSendBean()
+                .param("_method_", Constants.SOCKET_LIVE_GOODS_FLOAT)
+                .param("action", 0)
+                .param("msgtype", 0)
+                .param("uid", u.getId())
+                .param("uname", u.getUserNiceName())
+                .param("uhead", u.getAvatar())
+                .param("uframe", u.getFrame())
+                .paramJsonArray("goods_list", new com.google.gson.Gson().toJson(goodsBeanList))
+        );
+
+    }
 
     /**
      * 直播间购物飘屏

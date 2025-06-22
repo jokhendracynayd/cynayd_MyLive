@@ -1,6 +1,8 @@
 package com.livestreaming.main.views;
 
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -322,6 +324,7 @@ public class UserHomeViewHolder extends AbsLivePageViewHolder implements LiveSha
         findViewById(R.id.btn_back).setOnClickListener(this);
         findViewById(R.id.btn_share).setOnClickListener(this);
         findViewById(R.id.btn_black).setOnClickListener(this);
+        findViewById(R.id.btn_copy_id).setOnClickListener(this);
         if (CommonAppConfig.getInstance().isPrivateMsgSwitchOpen()) {
             findViewById(R.id.btn_pri_msg).setOnClickListener(this);
         } else {
@@ -589,6 +592,8 @@ public class UserHomeViewHolder extends AbsLivePageViewHolder implements LiveSha
             }
         } else if (i == R.id.avatar) {
             showAvatarDialog();
+        } else if (i == R.id.btn_copy_id) {
+            copyId();
         }
     }
 
@@ -903,5 +908,51 @@ public class UserHomeViewHolder extends AbsLivePageViewHolder implements LiveSha
         dialog.show(((AbsActivity) mContext).getSupportFragmentManager(), "UserAvatarPreviewDialog");
     }
 
+    private void copyId() {
+        if (mID == null || TextUtils.isEmpty(mID.getText())) {
+            return;
+        }
+        
+        String idText = mID.getText().toString();
+        String actualId = extractIdFromText(idText);
+        
+        if (TextUtils.isEmpty(actualId)) {
+            return;
+        }
+        
+        ClipboardManager clipboardManager = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboardManager != null) {
+            ClipData clipData = ClipData.newPlainText("User ID", actualId);
+            clipboardManager.setPrimaryClip(clipData);
+            ToastUtil.show(com.livestreaming.common.R.string.copy_success);
+        }
+    }
+    
+    /**
+     * Extract actual ID from text like "ID:147382" or "靓号:147382"
+     * @param text The full text displayed
+     * @return The actual ID number
+     */
+    private String extractIdFromText(String text) {
+        if (TextUtils.isEmpty(text)) {
+            return "";
+        }
+        
+        // Handle "ID:147382" format
+        if (text.startsWith("ID:")) {
+            return text.substring(3);
+        }
+        
+        // Handle "靓号:147382" format
+        if (text.contains(":")) {
+            String[] parts = text.split(":");
+            if (parts.length > 1) {
+                return parts[1];
+            }
+        }
+        
+        // If no prefix found, return the whole text (fallback)
+        return text;
+    }
 
 }

@@ -2,6 +2,9 @@ package com.livestreaming.live.dialog;
 
 import static com.livestreaming.common.glide.ImgLoader.loadSvga;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -98,6 +101,12 @@ public class LiveUserDialogFragment extends AbsDialogFragment implements View.On
     private TextView mVotes;//收入
     private TextView mConsumeTip;
     private TextView mVotesTip;
+    
+    // Agency Info Views
+    private LinearLayout mAgencyInfoContainer;
+    private ImageView mAgencyProfilePic;
+    private TextView mAgencyName;
+    
     private String mLiveUid;
     private boolean isFromAudience = false;
 
@@ -184,6 +193,18 @@ public class LiveUserDialogFragment extends AbsDialogFragment implements View.On
         mConsumeTip = (TextView) mRootView.findViewById(R.id.consume_tip);
         mVotesTip = (TextView) mRootView.findViewById(R.id.votes_tip);
         // mRootView.findViewById(R.id.btn_close).setOnClickListener(this);
+        
+        // Initialize agency info views
+        mAgencyInfoContainer = (LinearLayout) mRootView.findViewById(R.id.agency_info_container);
+        mAgencyProfilePic = (ImageView) mRootView.findViewById(R.id.agency_profile_pic);
+        mAgencyName = (TextView) mRootView.findViewById(R.id.agency_name);
+        
+        // Setup copy ID button
+        View btnCopyId = mRootView.findViewById(R.id.btn_copy_id);
+        if (btnCopyId != null) {
+            btnCopyId.setOnClickListener(this);
+        }
+        
         getType();
         if (mType == TYPE_AUD_ANC || mType == TYPE_ANC_SELF) {
             if (mImpressGroup.getVisibility() != View.VISIBLE) {
@@ -382,6 +403,9 @@ public class LiveUserDialogFragment extends AbsDialogFragment implements View.On
             btnSetting.setVisibility(View.VISIBLE);
             btnSetting.setOnClickListener(this);
         }
+        
+        // Display agency info if available
+        showAgencyInfo(obj);
     }
 
     private void showImpress(String impressJson) {
@@ -456,6 +480,8 @@ public class LiveUserDialogFragment extends AbsDialogFragment implements View.On
                 ((LiveActivity) mContext).openChatWindow(mToName);
             }
 
+        } else if (i == R.id.btn_copy_id) {
+            copyId();
         }
     }
 
@@ -754,5 +780,85 @@ public class LiveUserDialogFragment extends AbsDialogFragment implements View.On
 
     public interface WhenUserpClick {
         public void onClick(String uid);
+    }
+
+    private void copyId() {
+        if (mID == null || TextUtils.isEmpty(mID.getText())) {
+            return;
+        }
+        
+        String idText = mID.getText().toString();
+        String actualId = extractIdFromText(idText);
+        
+        if (TextUtils.isEmpty(actualId)) {
+            return;
+        }
+        
+        ClipboardManager clipboardManager = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboardManager != null) {
+            ClipData clipData = ClipData.newPlainText("User ID", actualId);
+            clipboardManager.setPrimaryClip(clipData);
+            ToastUtil.show(com.livestreaming.common.R.string.copy_success);
+        }
+    }
+    
+    /**
+     * Extract actual ID from text like "ID:147382" or "靓号:147382"
+     * @param text The full text displayed
+     * @return The actual ID number
+     */
+    private String extractIdFromText(String text) {
+        if (TextUtils.isEmpty(text)) {
+            return "";
+        }
+        
+        // Handle "ID:147382" format
+        if (text.startsWith("ID:")) {
+            return text.substring(3);
+        }
+        
+        // Handle "靓号:147382" format
+        if (text.contains(":")) {
+            String[] parts = text.split(":");
+            if (parts.length > 1) {
+                return parts[1];
+            }
+        }
+        
+        // If no prefix found, return the whole text (fallback)
+        return text;
+    }
+
+    /**
+     * Display agency information if available
+     */
+    private void showAgencyInfo(JSONObject obj) {
+        JSONObject agencyInfo = obj.getJSONObject("agency_info");
+        if (agencyInfo != null && mAgencyInfoContainer != null) {
+            String agencyName = agencyInfo.getString("special_approval_name");
+            String agencyProfilePic = agencyInfo.getString("user_profile_pic");
+            
+            // Check if agency data is valid (not null and not "nothing")
+            if (!TextUtils.isEmpty(agencyName) && !agencyName.equals("nothing") && 
+                !TextUtils.isEmpty(agencyProfilePic)) {
+                
+                // Set agency name
+                mAgencyName.setText(agencyName);
+                
+                // Load agency profile picture
+                ImgLoader.display(mContext, agencyProfilePic, mAgencyProfilePic);
+                
+                // Show the container
+                mAgencyInfoContainer.setVisibility(View.VISIBLE);
+            } else {
+                // Hide the container if no valid agency info
+                mAgencyInfoContainer.setVisibility(View.GONE);
+            }
+        } else {
+            // Hide the container if no agency info
+            if (mAgencyInfoContainer != null) {
+                mAgencyInfoContainer.setVisibility(View.GONE);
+            }
+        }
     }
 }

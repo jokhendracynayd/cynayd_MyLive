@@ -15,17 +15,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+
 public class Mp3Adapter extends RecyclerView.Adapter<Mp3Adapter.Mp3ViewHolder> {
-    private final ArrayList<HashMap<String, String>> mp3List;
+    private final ArrayList<HashMap<String, String>> originalList;
+    private final ArrayList<HashMap<String, String>> filteredList;
+    private final Select select;
 
-    Select select;
-
-    public interface Select{
-        void onReturnPath(String path,String id);
+    public interface Select {
+        void onReturnPath(String path, String id);
     }
 
-    public Mp3Adapter(ArrayList<HashMap<String, String>> mp3List,Select select) {
-        this.mp3List = mp3List;
+    public Mp3Adapter(ArrayList<HashMap<String, String>> mp3List, Select select) {
+        this.originalList = new ArrayList<>(mp3List);
+        this.filteredList = new ArrayList<>(mp3List);
         this.select = select;
     }
 
@@ -39,21 +41,32 @@ public class Mp3Adapter extends RecyclerView.Adapter<Mp3Adapter.Mp3ViewHolder> {
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull Mp3ViewHolder holder, int position) {
-        HashMap<String, String> item = mp3List.get(position);
+        HashMap<String, String> item = filteredList.get(position);
         holder.title.setText(item.get("name"));
-        holder.path.setText(item.get("path"));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                select.onReturnPath(item.get("path"), item.get("id"));
-            }
+//        holder.path.setText(item.get("duration"));
+        holder.itemView.setOnClickListener(v -> {
+            select.onReturnPath(item.get("path"), item.get("id"));
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return mp3List.size();
+        return filteredList.size();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void filter(String query) {
+        filteredList.clear();
+        if (query.isEmpty()) {
+            filteredList.addAll(originalList);
+        } else {
+            for (HashMap<String, String> item : originalList) {
+                if (Objects.requireNonNull(item.get("name")).toLowerCase().contains(query.toLowerCase())) {
+                    filteredList.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     static class Mp3ViewHolder extends RecyclerView.ViewHolder {

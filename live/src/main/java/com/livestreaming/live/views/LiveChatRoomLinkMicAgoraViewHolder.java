@@ -88,6 +88,7 @@ public class LiveChatRoomLinkMicAgoraViewHolder extends AbsLiveChatRoomLinkMicVi
     private int mPosition = 0;
     private boolean lastRoomType = false;
 
+
     public LiveChatRoomLinkMicAgoraViewHolder(Context context, ViewGroup parentView) {
         super(context, parentView);
     }

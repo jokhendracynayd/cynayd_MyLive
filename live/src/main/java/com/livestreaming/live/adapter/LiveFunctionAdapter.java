@@ -45,7 +45,7 @@ public class LiveFunctionAdapter extends RecyclerView.Adapter<LiveFunctionAdapte
 //                if(CommonAppConfig.getInstance().getUserBean().getVip().getType()!=0) {
 //                  }
                 //amit123
-//                mList.add(new LiveFunctionBean(Constants.LIVE_MP3_PLAYER, R.mipmap.icon_live_func_music, com.livestreaming.common.R.string.music));
+                mList.add(new LiveFunctionBean(Constants.LIVE_MP3_PLAYER, R.mipmap.icon_live_func_music, com.livestreaming.common.R.string.music));
 
                 mList.add(new LiveFunctionBean(Constants.LIVE_FUNC_RED_PACK, R.mipmap.icon_live_func_rp, com.livestreaming.common.R.string.live_red_pack));
 

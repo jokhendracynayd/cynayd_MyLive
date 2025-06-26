@@ -1,27 +1,42 @@
 package com.livestreaming.live.activity;
 
 import android.Manifest;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
@@ -118,6 +133,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -141,7 +157,25 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
     private int isMicOpen = 1;
     private static final int REQUEST_CODE = 100;
     private boolean isShowBottomSheetRequested = false;
-    ArrayList<HashMap<String, String>> mp3List;
+    private ArrayList<HashMap<String, String>> mp3List;
+    private ArrayList<HashMap<String, String>> queueList = new ArrayList<>();
+    private int currentPlayingIndex = -1;
+
+
+    private Button joinBtn, bass, beautify,leaveRoom;
+    // Change View to ConstraintLayout to match XML change
+    private ConstraintLayout mediaControls;
+    float dX, dY;
+    int lastAction;
+
+    private FrameLayout floating_media_wrapper;
+    private ImageView discImage;
+    private boolean isMediaWrapperVisible = true;
+
+
+
+    private SeekBar seekBar;
+    private ImageButton pauseBtn,btn_volume,next_SongsPlay;
     private String filePah = "";
     private String id = "";
 
@@ -182,12 +216,9 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
     private LiveLinkMicListDialogFragment mLiveLinkMicListDialogFragment;
     private AbsLiveChatRoomPushViewHolder mLiveChatRoomPushViewHolder;
     private boolean mIsScreenRecord;
-    private Button pauseBtn,startBtn,stopBtn;
-    private SeekBar seekBar;
+    private Button startBtn,stopBtn;
     private RtcEngineEx mRtcEngine;
 
-    private View waveformView;
-    private View musicControls;
     private boolean isPaused = false;
     private int durationMs = 0;
     private android.os.Handler handler = new android.os.Handler();
@@ -197,6 +228,7 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
         return R.layout.activity_live_anchor;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void main() {
         super.main();
@@ -230,30 +262,115 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
         mLiveBean.setGoodNum(u.getGoodName());
         mLiveBean.setCity(u.getCity());
 
-        seekBar = findViewById(R.id.seekBar);
-        pauseBtn = findViewById(R.id.pauseBtn);
-        startBtn = findViewById(R.id.startBtn);
-        stopBtn = findViewById(R.id.stopBtn);
-        musicControls = findViewById(R.id.musicControls);
-        if (!Objects.equals(getFilePah(), "")){
-            musicControls.setVisibility(View.VISIBLE);
 
-        }
+        btn_volume = findViewById(R.id.btn_volume);
+
+        seekBar = findViewById(R.id.seekBar);
+        seekBar.setProgress(0);
+        pauseBtn = findViewById(R.id.btn_play_pause);
 
         pauseBtn.setOnClickListener(v -> togglePauseResume());
-        startBtn.setOnClickListener(v -> playAudio());
-        stopBtn.setOnClickListener(v -> stopAudio());
+        findViewById(R.id.btn_next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playNext();
+            }
+        });
+        findViewById(R.id.btn_previous).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playPrevious();
+            }
+        });
+        btn_volume.setOnClickListener(v -> muteMicrophone(v));
+
+        discImage = findViewById(R.id.discImage);
+        ObjectAnimator rotate = ObjectAnimator.ofFloat(discImage, "rotation", 0f, 360f);
+        rotate.setDuration(3000); // 3 seconds
+        rotate.setRepeatCount(ValueAnimator.INFINITE);
+        rotate.setInterpolator(new LinearInterpolator());
+        rotate.start();
+
+        floating_media_wrapper = findViewById(R.id.floating_media_wrapper);
+        mediaControls = findViewById(R.id.floating_media); // This is now a ConstraintLayout
+
+        // Set the OnTouchListener directly on discImage for dragging
+        discImage.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                // Ensure the discImage itself can be dragged, not just its parent (mediaControls)
+                // We'll update the position of the parent (mediaControls) based on discImage's touch
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        dX = mediaControls.getX() - event.getRawX();
+                        dY = mediaControls.getY() - event.getRawY();
+                        lastAction = MotionEvent.ACTION_DOWN;
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        mediaControls.animate() // Animate the parent layout
+                                .x(event.getRawX() + dX)
+                                .y(event.getRawY() + dY)
+                                .setDuration(0)
+                                .start();
+                        lastAction = MotionEvent.ACTION_MOVE;
+                        return true;
+
+                    case MotionEvent.ACTION_UP:
+                        if (lastAction == MotionEvent.ACTION_DOWN) {
+                            view.performClick(); // For the discImage's click listener
+                        }
+                        return true;
+
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        // Set the OnClickListener for discImage to toggle visibility
+        discImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                floating_media_wrapper.setElevation(50f);
+                if (isMediaWrapperVisible) {
+//                    floating_media_wrapper.animate()
+//                            .translationX(floating_media_wrapper.getWidth()) // move right
+//                            .alpha(0f)
+//                            .setDuration(150)
+//                            .withEndAction(() -> {
+                                floating_media_wrapper.setVisibility(View.INVISIBLE); // Change to GONE
+//                            })
+//                            .start();
+                } else {
+                    floating_media_wrapper.setVisibility(View.VISIBLE);
+//                    floating_media_wrapper.setAlpha(0f);
+//                    floating_media_wrapper.setTranslationX(floating_media_wrapper.getWidth());
+//                    floating_media_wrapper.animate()
+//                            .translationX(0)
+//                            .alpha(0.3f)
+//                            .setDuration(150)
+//                            .start();
+                }
+                isMediaWrapperVisible = !isMediaWrapperVisible;
+            }
+        });
 
         if (isChatRoom()) {
 
             Constants.CURRENT_IsNormalLive = false;
             if (isTxSdK()) {
+                Log.i("1213213", "main: 6546546545645640000");
+
                 mLiveChatRoomPushViewHolder = new LiveChatRoomPushTxViewHolder(mContext, (ViewGroup) findViewById(R.id.preview_container));
                 mLiveChatRoomLinkMicViewHolder = new LiveChatRoomLinkMicTxViewHolder(mContext, mLiveChatRoomPushViewHolder.getContainer());
                 mLiveChatRoomLinkMicViewHolder.addToParent();
                 mLiveChatRoomLinkMicViewHolder.subscribeActivityLifeCycle();
                 mLivePushViewHolder = mLiveChatRoomPushViewHolder;
             } else {
+                Log.i("1213213", "main: 65465465456456411111");
+
                 LiveChatRoomPushAgoraViewHolder liveChatRoomPushAgoraVh = new LiveChatRoomPushAgoraViewHolder(mContext, (ViewGroup) findViewById(R.id.preview_container));
                 LiveChatRoomLinkMicAgoraViewHolder liveChatRoomLinkMicAgoraVh = getLiveChatRoomLinkMicAgoraViewHolder(liveChatRoomPushAgoraVh);
                 liveChatRoomPushAgoraVh.setLiveChatRoomLinkMicAgoraVh(liveChatRoomLinkMicAgoraVh);
@@ -262,17 +379,23 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
                 mLiveChatRoomPushViewHolder = liveChatRoomPushAgoraVh;
                 mLiveChatRoomLinkMicViewHolder = liveChatRoomLinkMicAgoraVh;
                 mLivePushViewHolder = liveChatRoomPushAgoraVh;
+                mRtcEngine = liveChatRoomLinkMicAgoraVh.mEngine;
             }
         } else {
             Constants.CURRENT_IsNormalLive = true;
             if (isTxSdK()) {
                 //添加推流预览控件
                 if (mIsScreenRecord) {
+                    Log.i("1213213", "main: 654654654564564222");
                     mLivePushViewHolder = new LivePushScreenTxViewHolder(mContext, (ViewGroup) findViewById(R.id.preview_container));
                 } else {
+                    Log.i("1213213", "main: 65465465456456433");
+
                     mLivePushViewHolder = new LivePushTxViewHolder(mContext, (ViewGroup) findViewById(R.id.preview_container), mLiveConfigBean);
                 }
             } else {
+                Log.i("1213213", "main: 654654654564564444");
+
                 mLivePushViewHolder = new LivePushAgoraViewHolder(mContext, (ViewGroup) findViewById(R.id.preview_container), mIsScreenRecord, new LivePushAgoraViewHolder.Select() {
                     @Override
                     public void initRTC(RtcEngineEx mEngine1) {
@@ -322,6 +445,60 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
             mLiveLinkMicAnchorPresenter = new LiveLinkMicAnchorPresenter(mContext, mLivePushViewHolder, true, mLiveSDK, mRoot);
             mLiveLinkMicPkPresenter = new LiveLinkMicPkPresenter(mContext, mLivePushViewHolder, true, mContainer);
         }
+    }
+
+    private void playNext() {
+        if (queueList.isEmpty() || currentPlayingIndex == -1) return;
+        currentPlayingIndex = (currentPlayingIndex + 1) % queueList.size();
+        playFromQueueIndex(currentPlayingIndex);
+    }
+
+    private void playPrevious() {
+        if (queueList.isEmpty() || currentPlayingIndex == -1) return;
+        currentPlayingIndex = (currentPlayingIndex - 1 + queueList.size()) % queueList.size();
+        playFromQueueIndex(currentPlayingIndex);
+    }
+    private void playFromQueueIndex(int index) {
+        HashMap<String, String> song = queueList.get(index);
+        stopAudio();
+        playFromQueue(song.get("path"), song.get("id"));
+    }
+    public void playFromQueue(String filePath,String id) {
+        if (!Objects.equals(filePath, "")) {
+            mRtcEngine.startAudioMixing(filePath, false, 1, 0);
+
+            mRtcEngine.adjustAudioMixingVolume(40);        // Local speaker volume
+            mRtcEngine.adjustAudioMixingPublishVolume(40); // Remote volume
+
+            mediaControls.setVisibility(View.VISIBLE);
+
+            handler.postDelayed(() -> {
+                durationMs = mRtcEngine.getAudioMixingDuration();
+                if (durationMs > 0) {
+                    seekBar.setMax(durationMs);
+                    startUpdatingSeekBar();
+                }
+            }, 500);
+
+
+        }
+    }
+
+    public void muteMicrophone(View view) {
+        ImageView btn = (ImageView) view;
+        boolean isMuted = !btn.isSelected(); // toggle state
+
+        btn.setSelected(isMuted);
+        btn.setImageResource(isMuted ? R.drawable.volume_mute : R.drawable.ic_volume);
+        mRtcEngine.adjustAudioMixingVolume(isMuted ? 0 : 30);
+
+    }
+
+    public void stopAudio(View v) {
+        mRtcEngine.stopAudioMixing();
+        handler.removeCallbacksAndMessages(null);
+        seekBar.setProgress(0);
+        mediaControls.setVisibility(View.GONE);
     }
 
     private void showpkInvestRow(String pkObjString) {
@@ -504,12 +681,40 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
                 String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
                 String id = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
 
+
+//                String formattedDuration = "00:00";
+//                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+//
+//                try {
+//                    retriever.setDataSource(path); // This can throw IllegalArgumentException or IOException
+//                    String durationStr = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+//                    long durationMs = durationStr != null ? Long.parseLong(durationStr) : 0;
+//                    formattedDuration = formatDuration(durationMs);
+//                } catch (Exception e) {
+//                    e.printStackTrace(); // Optional: log error
+//                } finally {
+//                    try {
+//                        retriever.release(); // This can still throw, so wrap it
+//                    } catch (RuntimeException | IOException releaseException) {
+//                        releaseException.printStackTrace(); // Optional: handle or log release error
+//                    }
+//                }
                 if (path != null && path.endsWith(".mp3")) {
-                    HashMap<String, String> item = new HashMap<>();
-                    item.put("id", id);
-                    item.put("name", name);
-                    item.put("path", path);
-                    mp3List.add(item);
+                    // Normalize path for case-insensitive check
+                    String lowerPath = path.toLowerCase();
+
+                    if (path.endsWith(".mp3")) {
+                        if (path.contains("/emulated/0/music/") || path.contains("/emulated/0/Music/") ||
+                                path.contains("/emulated/0/download/") || path.contains("/emulated/0/Download/")) {
+
+                            HashMap<String, String> item = new HashMap<>();
+                            item.put("id", id);
+                            item.put("name", name);
+                            item.put("path", path);
+//                            item.put("duration", formattedDuration);
+                            mp3List.add(item);
+                        }
+                    }
                 }
             } while (cursor.moveToNext());
             cursor.close();
@@ -521,20 +726,105 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
         }
     }
 
+    @SuppressLint("DefaultLocale")
+    private String formatDuration(long durationMs) {
+        long minutes = (durationMs / 1000) / 60;
+        long seconds = (durationMs / 1000) % 60;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+
     private void showBottomSheet() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(mContext);
         View view = getLayoutInflater().inflate(R.layout.bottom_sheet_layout, null);
+
         RecyclerView recyclerView = view.findViewById(R.id.mp3RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+
+        LinearLayout searchBarLayout = view.findViewById(R.id.searchBarLayout);
+        EditText searchInput = view.findViewById(R.id.searchInput);
+        ImageView clearIcon = view.findViewById(R.id.clearIcon);
+        ImageView ivClose = view.findViewById(R.id.ivClose);
+        ImageView searchIcon = view.findViewById(R.id.searchIcon);
+        TextView tvTitle = view.findViewById(R.id.tvTitle);
+        TextView emptyView = view.findViewById(R.id.emptyView);
+
         Mp3Adapter adapter = new Mp3Adapter(mp3List, (path, id) -> {
+
+            seekBar.setProgress(0);
             setFilePah(path);
             setId(id);
-            musicControls.setVisibility(View.VISIBLE);
+            queueList.clear();
+            queueList.addAll(mp3List);
+            currentPlayingIndex = getMp3IndexById(id);
+
+            mediaControls.setVisibility(View.VISIBLE);
+            playAudio(path);
             bottomSheetDialog.dismiss();
+
         });
         recyclerView.setAdapter(adapter);
+        ivClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchBarLayout.setVisibility(View.GONE);
+                tvTitle.setVisibility(View.VISIBLE);
+                bottomSheetDialog.hide();
+            }
+        });
+
+        searchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (searchBarLayout.getVisibility() == View.VISIBLE) {
+                    // Hide search bar, show title
+                    searchInput.setText("");
+                    searchBarLayout.setVisibility(View.GONE);
+                    tvTitle.setVisibility(View.VISIBLE);
+                } else {
+                    // Show search bar, hide title
+                    searchInput.setText("");
+                    searchBarLayout.setVisibility(View.VISIBLE);
+                    tvTitle.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        // Live Search
+        searchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+                // Show or hide empty view based on result
+                if (adapter.getItemCount() == 0) {
+                    emptyView.setVisibility(View.VISIBLE);
+                } else {
+                    emptyView.setVisibility(View.GONE);
+                }
+                clearIcon.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Clear input
+        clearIcon.setOnClickListener(v -> {
+            searchInput.setText("");
+        });
         bottomSheetDialog.setContentView(view);
         bottomSheetDialog.show();
+    }
+
+    private int getMp3IndexById(String id) {
+        for (int i = 0; i < mp3List.size(); i++) {
+            if (mp3List.get(i).get("id").equals(id)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -550,26 +840,22 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
 //        }
     }
 
-    public void playAudio() {
-        if (!Objects.equals(getFilePah(), "") && mRtcEngine!=null) {
-            try {
-                mRtcEngine.startAudioMixing(getFilePah(), false, 1, 0);
-                mRtcEngine.adjustAudioMixingVolume(20);        // Local speaker volume
-                mRtcEngine.adjustAudioMixingPublishVolume(20); // Remote volume
+    public void playAudio(String path) {
+            mRtcEngine.startAudioMixing(getFilePah(), false, 1, 0);
+            mRtcEngine.adjustAudioMixingVolume(40);        // Local speaker volume
+            mRtcEngine.adjustAudioMixingPublishVolume(40); // Remote volume
 
-                musicControls.setVisibility(View.VISIBLE);
+            mediaControls.setVisibility(View.VISIBLE);
+            handler.postDelayed(() -> {
+                durationMs = mRtcEngine.getAudioMixingDuration();
+                if (durationMs > 0) {
+                    seekBar.setMax(durationMs);
+                    startUpdatingSeekBar();
+                }
+            }, 500);
 
-                handler.postDelayed(() -> {
-                    durationMs = mRtcEngine.getAudioMixingDuration();
-                    if (durationMs > 0) {
-                        seekBar.setMax(durationMs);
-                        startUpdatingSeekBar();
-                    }
-                }, 500);
-            }catch (Exception e){
-                Log.e(TAG, "playAudio: ",e );
-            }
-        }
+
+
     }
     private void startUpdatingSeekBar() {
         handler.postDelayed(new Runnable() {
@@ -587,10 +873,10 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
     private void togglePauseResume() {
         if (isPaused) {
             mRtcEngine.resumeAudioMixing();
-            pauseBtn.setText("Pause");
+            pauseBtn.setImageResource(R.drawable.ic_pause);
         } else {
             mRtcEngine.pauseAudioMixing();
-            pauseBtn.setText("Resume");
+            pauseBtn.setImageResource(R.drawable.play);
         }
         isPaused = !isPaused;
     }
@@ -599,7 +885,7 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
         mRtcEngine.stopAudioMixing();
         handler.removeCallbacksAndMessages(null);
         seekBar.setProgress(0);
-        musicControls.setVisibility(View.GONE);
+        mediaControls.setVisibility(View.GONE);
     }
 
     private void openChangeRoomBackgroundDialog() {

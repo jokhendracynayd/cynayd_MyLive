@@ -291,8 +291,8 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
         rotate.setInterpolator(new LinearInterpolator());
         rotate.start();
 
-        floating_media_wrapper = findViewById(R.id.floating_media_wrapper);
         mediaControls = findViewById(R.id.floating_media); // This is now a ConstraintLayout
+        floating_media_wrapper = findViewById(R.id.floating_media_wrapper);
 
         // Set the OnTouchListener directly on discImage for dragging
         discImage.setOnTouchListener(new View.OnTouchListener() {
@@ -644,8 +644,6 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
     }
 
     private void checkAndRequestPermissions() {
-        Toast.makeText(mContext, "okkk working", Toast.LENGTH_SHORT).show();
-        
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(LiveAnchorActivity.this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(LiveAnchorActivity.this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, REQUEST_CODE);
@@ -681,31 +679,13 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
                 String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
                 String id = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
 
-
-//                String formattedDuration = "00:00";
-//                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-//
-//                try {
-//                    retriever.setDataSource(path); // This can throw IllegalArgumentException or IOException
-//                    String durationStr = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-//                    long durationMs = durationStr != null ? Long.parseLong(durationStr) : 0;
-//                    formattedDuration = formatDuration(durationMs);
-//                } catch (Exception e) {
-//                    e.printStackTrace(); // Optional: log error
-//                } finally {
-//                    try {
-//                        retriever.release(); // This can still throw, so wrap it
-//                    } catch (RuntimeException | IOException releaseException) {
-//                        releaseException.printStackTrace(); // Optional: handle or log release error
-//                    }
-//                }
                 if (path != null && path.endsWith(".mp3")) {
                     // Normalize path for case-insensitive check
                     String lowerPath = path.toLowerCase();
 
                     if (path.endsWith(".mp3")) {
-                        if (path.contains("/emulated/0/music/") || path.contains("/emulated/0/Music/") ||
-                                path.contains("/emulated/0/download/") || path.contains("/emulated/0/Download/")) {
+//                        if (path.contains("/emulated/0/music/") || path.contains("/emulated/0/Music/") ||
+//                                path.contains("/emulated/0/download/") || path.contains("/emulated/0/Download/")) {
 
                             HashMap<String, String> item = new HashMap<>();
                             item.put("id", id);
@@ -714,7 +694,7 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
 //                            item.put("duration", formattedDuration);
                             mp3List.add(item);
                         }
-                    }
+//                    }
                 }
             } while (cursor.moveToNext());
             cursor.close();
@@ -1378,6 +1358,7 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
                         mLiveEndViewHolder.subscribeActivityLifeCycle();
                         mLiveEndViewHolder.addToParent();
                         mLiveEndViewHolder.showData(mLiveBean, mStream);
+                        stopAudio();
                     }
                     release();
                     mStartLive = false;

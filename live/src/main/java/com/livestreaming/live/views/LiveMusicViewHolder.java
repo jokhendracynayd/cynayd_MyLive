@@ -238,6 +238,5 @@ public class LiveMusicViewHolder extends AbsViewHolder implements View.OnClickLi
         }
         mILivePushViewHolder = null;
     }
-
-
+    
 }

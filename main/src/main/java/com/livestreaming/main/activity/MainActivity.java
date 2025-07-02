@@ -160,17 +160,12 @@ public class MainActivity extends AbsVideoPlayActivity implements MainAppBarLayo
         return R.layout.activity_main;
     }
 
+
+
     @Override
     protected void main() {
         super.main();
         Intent intent = getIntent();
-//        String retrievedJson = PrefsManager.getNotificationObject();
-//        Log.i("36545634", "main: "+retrievedJson);
-//        if (retrievedJson != null) {
-//            handleNotificationS(retrievedJson);
-//        }
-
-// Convert back from JSON to object (optional)
         if (intent != null) {
             Bundle extras = intent.getExtras();
             if (extras != null) {
@@ -348,7 +343,8 @@ public class MainActivity extends AbsVideoPlayActivity implements MainAppBarLayo
                     startActivity(intent);
                 } else if (object.getString("type").equals("1")) {
                     watchLive(new Gson().fromJson(object.getString("room"), LiveBean.class), "", 0);
-                } else if (object.getString("type").equals("11")) {
+                }
+                else if (object.getString("type").equals("11")) {
                     watchLive(new Gson().fromJson(object.getString("room"), LiveBean.class), "", 0);
                 }
             }
@@ -1029,6 +1025,8 @@ public class MainActivity extends AbsVideoPlayActivity implements MainAppBarLayo
                 mBonusViewHolder = null;
             }
         }
+
+
     }
 
     /**

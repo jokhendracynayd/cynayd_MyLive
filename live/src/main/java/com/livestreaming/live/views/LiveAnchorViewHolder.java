@@ -3,14 +3,17 @@ package com.livestreaming.live.views;
 import android.app.Dialog;
 import android.content.Context;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.livestreaming.common.activity.AbsActivity;
 import com.livestreaming.common.http.HttpCallback;
 import com.livestreaming.common.utils.DialogUitl;
 import com.livestreaming.common.utils.ToastUtil;
 import com.livestreaming.live.R;
+import com.livestreaming.live.activity.LiveActivity;
 import com.livestreaming.live.activity.LiveAnchorActivity;
 import com.livestreaming.live.http.LiveHttpUtil;
 
@@ -35,6 +38,8 @@ public class LiveAnchorViewHolder extends AbsLiveViewHolder {
     private boolean mLinkMicEnable;
     private View mBtnShop;
     private View btn_start_pk;
+    protected boolean mIsAnchor;//是否是主播
+
 
 
     public LiveAnchorViewHolder(Context context, ViewGroup parentView) {
@@ -49,6 +54,8 @@ public class LiveAnchorViewHolder extends AbsLiveViewHolder {
     @Override
     public void init() {
         super.init();
+//        mIsAnchor = this instanceof LiveAnchorActivity;
+
 //        mDrawable0 = ContextCompat.getDrawable(mContext, R.mipmap.icon_live_func_0);
 //        mDrawable1 = ContextCompat.getDrawable(mContext, R.mipmap.icon_live_func_1);
         mBtnFunction = (ImageView) findViewById(R.id.btn_function);
@@ -61,9 +68,14 @@ public class LiveAnchorViewHolder extends AbsLiveViewHolder {
         mBtnGameClose = findViewById(R.id.btn_close_game);
         mBtnGameClose.setOnClickListener(this);
 //        findViewById(R.id.btn_close).setOnClickListener(this);
+        ImageView btnGift = findViewById(R.id.btn_gift);
+//        mIsAnchor = this instanceof LiveAnchorActivity;
         btn_cancel_pk = findViewById(R.id.btn_cancel_pk);
+
+//        if (mIsAnchor)
         btn_start_pk = findViewById(R.id.btn_start_pk);
 
+        btnGift.setOnClickListener(this);
         btn_cancel_pk.setOnClickListener(this);
         btn_start_pk.setOnClickListener(this);
 //        mDrawableLinkMic0 = ContextCompat.getDrawable(mContext, R.mipmap.icon_live_link_mic);
@@ -86,7 +98,14 @@ public class LiveAnchorViewHolder extends AbsLiveViewHolder {
         if (i == R.id.btn_close) {
             close();
 
-        } else if (i == R.id.btn_function) {
+        }
+        else if (i == R.id.btn_gift) {
+            if (!((AbsActivity) mContext).checkLogin()) {
+                return;
+            }
+            ((LiveActivity) mContext).openGiftWindow();
+        }
+        else if (i == R.id.btn_function) {
             showFunctionDialog();
 
         } else if (i == R.id.btn_close_game) {

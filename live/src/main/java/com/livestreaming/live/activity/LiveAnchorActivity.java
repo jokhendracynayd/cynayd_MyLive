@@ -1108,17 +1108,47 @@ public class LiveAnchorActivity extends LiveActivity implements LiveFunctionClic
         }
         mLiveType = liveType;
         mLiveTypeVal = liveTypeVal;
-        if (mLiveBean != null) {
-            mLiveBean.setTitle(title);
-        }
+        
         //处理createRoom返回的数据
         JSONObject obj = JSON.parseObject(data);
         mStream = obj.getString("stream");
         mDanmuPrice = obj.getString("barrage_fee");
         String playUrl = obj.getString("pull");
         L.e("createRoom----播放地址--->" + playUrl);
-        mLiveBean.setPull(playUrl);
         mTxAppId = obj.getString("tx_appid");
+        
+        // ✅ FIX: Properly populate LiveBean with complete stream information for host sharing
+        if (mLiveBean != null) {
+            mLiveBean.setTitle(title);
+            mLiveBean.setStream(mStream);  // ✅ Critical: Set the stream identifier
+            mLiveBean.setPull(playUrl);
+            
+            // Set additional metadata from createRoom response
+            if (obj.containsKey("thumb") && !TextUtils.isEmpty(obj.getString("thumb"))) {
+                mLiveBean.setThumb(obj.getString("thumb"));
+            }
+            
+            // Set live type information for proper link generation
+            mLiveBean.setType(liveType);
+            mLiveBean.setTypeVal(String.valueOf(liveTypeVal));
+            
+            // Ensure we have all user information populated
+            UserBean currentUser = CommonAppConfig.getInstance().getUserBean();
+            if (currentUser != null) {
+                // Make sure all user fields are properly set
+                if (TextUtils.isEmpty(mLiveBean.getUserNiceName())) {
+                    mLiveBean.setUserNiceName(currentUser.getUserNiceName());
+                }
+                if (TextUtils.isEmpty(mLiveBean.getAvatar())) {
+                    mLiveBean.setAvatar(currentUser.getAvatar());
+                }
+                if (TextUtils.isEmpty(mLiveBean.getAvatarThumb())) {
+                    mLiveBean.setAvatarThumb(currentUser.getAvatarThumb());
+                }
+                // Set the live room number/ID
+                mLiveBean.setGoodNum(currentUser.getGoodName());
+            }
+        }
         
         // Save beauty parameters when starting a live stream so audiences can see them
         if (CommonAppConfig.getInstance().isMhBeautyEnable()) {

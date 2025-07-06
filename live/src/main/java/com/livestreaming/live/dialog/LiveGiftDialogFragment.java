@@ -600,13 +600,83 @@ public class LiveGiftDialogFragment extends AbsDialogFragment implements View.On
                             mLiveGiftBean.isSticker() ? 1 : 0, JSON.toJSONString(pointList), mDrawGiftView.getWidth(), mDrawGiftView.getHeight());
                 }
             } else {
-                ((LiveActivity) mContext).sendLiveGiftScket(mLiveUid,
+//                ((LiveActivity) mContext).sendLiveGiftScket(mLiveUid,
+//                        mStream,
+//                        toUids,
+//                        mLiveGiftBean.getId(),
+//                        mCount,
+//                        mLiveGiftBean instanceof BackPackGiftBean ? 1 : 0,
+//                        mLiveGiftBean.isSticker() ? 1 : 0, null, 0, 0);
+
+                LiveHttpUtil.sendGift(mLiveUid,
                         mStream,
                         toUids,
                         mLiveGiftBean.getId(),
                         mCount,
                         mLiveGiftBean instanceof BackPackGiftBean ? 1 : 0,
-                        mLiveGiftBean.isSticker() ? 1 : 0, null, 0, 0);
+                        mLiveGiftBean.isSticker() ? 1 : 0,
+                        new HttpCallback() {
+                            @Override
+                            public void onSuccess(int code, String msg, String[] info) {
+                                if (code == 0) {
+                                    if (info.length > 0) {
+                                        JSONObject obj = JSON.parseObject(info[0]);
+//                                    String obj3 = obj.getString("pk_double");
+//
+//                                    Log.e("targettttttttttttttttttttttttttttttt", "stepUpdateFromSENDGIFT   " + obj3);
+//                                    if (obj3 != null) {
+//                                        JSONObject arrPkBouns = JSONObject.parseObject(obj3);
+//                                        int value = arrPkBouns.getIntValue("value");
+//                                        int uid = arrPkBouns.getIntValue("uid");
+//                                        int completed = arrPkBouns.getIntValue("completed");
+//
+//                                        Log.e("targettttttttttttttttttttttttttttttt", "stepUpdateFromSENDGIFT   value" + value + " , uid : " + uid + " , completed : " + completed);
+//                                        ((LiveActivity) mContext).updatePkBounss(value, uid, completed);
+//                                    }
+                                        String coin = obj.getString("coin");
+                                        UserBean u = CommonAppConfig.getInstance().getUserBean();
+                                        if (u != null) {
+                                            u.setLevel(obj.getIntValue("level"));
+                                            u.setCoin(coin);
+                                        }
+                                        if (mLiveGiftGiftViewHolder != null) {
+                                            mLiveGiftGiftViewHolder.setCoinString(coin);
+                                        }
+                                        if (mLiveGiftDaoViewHolder != null) {
+                                            mLiveGiftDaoViewHolder.setCoinString(coin);
+                                        }
+                                        ((LiveActivity) mContext).onCoinChanged(coin);
+                                        if (mContext != null && mLiveGiftBean != null) {
+
+                                            if (mLiveGiftBean.getType() == LiveGiftBean.TYPE_DRAW) {
+                                                if (mDrawGiftView != null) {
+                                                    List<PointF> pointList = mDrawGiftView.getPointList();
+                                                    ((LiveActivity) mContext).sendGiftMessage(mLiveGiftBean, obj.getString("gifttoken"), JSON.toJSONString(pointList), mDrawGiftView.getWidth(), mDrawGiftView.getHeight());
+                                                }
+                                                dismiss();
+                                            } else {
+                                                ((LiveActivity) mContext).sendGiftMessage(mLiveGiftBean, obj.getString("gifttoken"), null, 0, 0);
+                                                if (mLiveGiftBean.isSticker()) {
+                                                    String tip = String.format("发送了%1$s道具礼物", mLiveGiftBean.getName());
+                                                    String tipEn = String.format("Sent %1$s prop gift", mLiveGiftBean.getNameEn());
+                                                    ((LiveActivity) mContext).sendChatMessage(tip, tipEn);
+                                                }
+                                                if (mLiveGiftBean.getType() == LiveGiftBean.TYPE_NORMAL) {
+                                                    showLianBtn();
+                                                }
+                                                if (mLiveGiftBean instanceof BackPackGiftBean && mLiveGiftPackageViewHolder != null) {
+                                                    mLiveGiftPackageViewHolder.reducePackageCount(mLiveGiftBean.getId(), Integer.parseInt(mCount) * finalUserCount);
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                } else {
+                                    hideLianBtn();
+                                    ToastUtil.show(msg);
+                                }
+                            }
+                        });
             }
         } else {
 

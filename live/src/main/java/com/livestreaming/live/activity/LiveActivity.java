@@ -177,14 +177,23 @@ public abstract class LiveActivity extends AbsActivity implements SocketMessageL
     @Override
     protected void main() {
         super.main();
+        CommonAppConfig.getInstance().setTopActivityType(Constants.PUSH_TYPE_LIVE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mCoinName = CommonAppConfig.getInstance().getCoinName();
         // Remove references to non-existent methods
         mContainer = (ViewGroup) findViewById(com.livestreaming.common.R.id.container);
         // Remove reference to page_container
-        
+
         // Fix KeyBoardUtil initialization - pass correct parameters
         mKeyBoardUtil = new KeyBoardUtil(findViewById(android.R.id.content), this);
-        
+//
+//        CommonAppConfig.getInstance().setTopActivityType(Constants.PUSH_TYPE_LIVE);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//        mCoinName = CommonAppConfig.getInstance().getCoinName();
+        mIsAnchor = this instanceof LiveAnchorActivity;
+//        mPageContainer = (ViewGroup) findViewById(R.id.page_container);
+//        EventBus.getDefault().register(this);
+//        mPkBg = findViewById(R.id.pk_bg);
         // If the user is an audience member (not an anchor), load the streamer's beauty parameters
         if (!mIsAnchor) {
             // Load beauty parameters - this ensures the audience sees the same beauty effects as the streamer
